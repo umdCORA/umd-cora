@@ -28,6 +28,16 @@
   color: #61dafb;
 }
 
+.navbar-nav .nav-link {
+  color: white;
+  padding-top: 10px;
+}
+
+#cora_logo {
+  height: 45px;
+  padding-right: 10px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
