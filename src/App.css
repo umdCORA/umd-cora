@@ -46,3 +46,12 @@
     transform: rotate(360deg);
   }
 }
+
+.signed-in-content {
+  display: flex;
+}
+
+.collapse .navbar-text {
+  margin-right: 10px;
+  color: white;
+}
