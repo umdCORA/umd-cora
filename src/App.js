@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Home from './components/Home/Home';
+import About_Us from './components/About_Us/About_Us';
 import { Navbar, Image } from 'react-bootstrap';
 import cora_logo from './assests/cora_logo.png'
 
@@ -72,6 +73,7 @@ class App extends React.Component {
               <Nav.Link href="/general-info">General Opioid Information and Statistics</Nav.Link>
               <Nav.Link href="/donate">Donate and Join CORA</Nav.Link>
               <Nav.Link href="/research">Research Portion</Nav.Link>
+              <Nav.Link href="/about_us">About Us</Nav.Link>
             </Nav>
             {!userLoggedIn && <Button variant="outline-light" onClick={() => this.setState({showSignInModal: true})}>Sign In</Button>}
             {userLoggedIn && 
@@ -94,6 +96,9 @@ class App extends React.Component {
             </Route>
             <Route path="/research">
               <div>research</div>
+            </Route>
+            <Route path="/about_us">
+              <About_Us></About_Us>
             </Route>
             <Route path="/">
               <Home/>

@@ -1,0 +1,18 @@
+div.team_card_holder {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+div.col-4 {
+    padding-left: 0px;
+}
+
+div.jumbotron {
+    padding-top: 32px;
+    padding-bottom: 0px;
+    background: #FFFFFF;
+}
+
+div.card-body {
+    text-align: left;
+}
