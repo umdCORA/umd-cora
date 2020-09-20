@@ -20,7 +20,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       showSignInModal: false,
+      showCreateAccountModal: false,
       userLoggedIn: false,
+      userName: '',
     }
   }
 
@@ -33,39 +35,76 @@ class App extends React.Component {
     });
   }
 
+  renderSignInModal = () => {
+    const { showSignInModal } = this.state;
+    return (
+      <Modal
+        show={showSignInModal}
+        onHide={() => this.setState({showSignInModal: false})}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Sign In</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <Form onSubmit={this.handleLogin}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="email" placeholder="Enter email" />
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" />
+          </Form.Group>
+          <Button variant="primary" type="submit">Login</Button>
+        </Form>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
+  renderCreateAccountModal = () => {
+    const { showCreateAccountModal } = this.state;
+    return (
+      <Modal
+        show={showCreateAccountModal}
+        onHide={() => this.setState({showCreateAccountModal: false})}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Create an Account</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <Form onSubmit={this.handleCreateAccount}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="email" placeholder="Enter email" />
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" />
+          </Form.Group>
+          <Button variant="primary" type="submit">Create Account</Button>
+        </Form>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
   render(){
     const {
-      showSignInModal,
       userLoggedIn,
     } = this.state;
 
     return (
-      <div className="App">
-        <Router>
-          <Modal
-            show={showSignInModal}
-            onHide={() => this.setState({showSignInModal: false})}
-            backdrop="static"
-            keyboard={false}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Sign In</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-            <Form onSubmit={this.handleLogin}>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
-              </Form.Group>
-
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
-              </Form.Group>
-              <Button variant="primary" type="submit">Login</Button>
-            </Form>
-            </Modal.Body>
-          </Modal>
+      <Router>
+        <div className="App">
+          {this.renderSignInModal()}
+          {this.renderCreateAccountModal()}
           <Navbar bg="primary" variant="primary">
             <Navbar.Brand href="/"><Image id="cora_logo" src={cora_logo}></Image></Navbar.Brand>
             <Nav className="mr-auto">
@@ -75,16 +114,19 @@ class App extends React.Component {
               <Nav.Link href="/research">Research Portion</Nav.Link>
               <Nav.Link href="/about_us">About Us</Nav.Link>
             </Nav>
-            {!userLoggedIn && <Button variant="outline-light" onClick={() => this.setState({showSignInModal: true})}>Sign In</Button>}
+            {!userLoggedIn && 
+              <div className="signed-out-content">
+                <Button variant="outline-light" style={{marginRight: 10}} onClick={() => this.setState({showSignInModal: true})}>Sign In</Button>
+                <Button variant="outline-light" onClick={() => this.setState({showCreateAccountModal: true})}>Create Account</Button>
+              </div>
+            }
             {userLoggedIn && 
-                <div className="signed-in-content">
-                 <Navbar.Collapse className="justify-content-end">
-                    <Navbar.Text>
-                      Signed in as: Dummy Name 
-                    </Navbar.Text>
-                  </Navbar.Collapse> 
-                  <Button variant="outline-light" onClick={() => this.setState({userLoggedIn: false})}>Sign Out</Button>
-                </div>
+              <div className="signed-in-content">
+                <Navbar.Collapse className="justify-content-end">
+                  <Navbar.Text>Signed in as: Dummy Name</Navbar.Text>
+                </Navbar.Collapse> 
+                <Button variant="outline-light" onClick={() => this.setState({userLoggedIn: false})}>Sign Out</Button>
+              </div>
             }
           </Navbar>
           <Switch>
@@ -104,8 +146,8 @@ class App extends React.Component {
               <Home/>
             </Route>
           </Switch>
-        </Router>
-      </div>
+        </div>
+      </Router>
     );
   }
 }
