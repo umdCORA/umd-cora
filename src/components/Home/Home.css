@@ -7,11 +7,51 @@
   margin-bottom: 20px;
 }
 
-#card-container {
+#card-search-container {
+  background-color: #8D9DF9;
+  padding-bottom: 20%;
+}
+
+#card-home-blurb-container {
+  background-color: #F9F8F8;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  margin-top: -100px;
+}
+
+.home-main-text {
+  color: white;
+}
+
+.card-main-text {
+  margin-bottom: 10px;
+}
+
+.card-note-text {
+  color: #8D9DF9;
+  margin-bottom: 30px;
+}
+
+#learn-cora-button {
   background-color: #8D9DF9;
 }
 
+.autocomplete-bar{
+  width: 80%;
+}
+
 .location-search-input {
-  width: 100%;
+  width: 80%;
   height: 50px;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.suggestion-item {
+  width: 80%;
+}
+
+.suggestion-item--active {
+  width: 80%;
 }
