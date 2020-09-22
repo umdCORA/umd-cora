@@ -1,0 +1,43 @@
+div.research_study {
+    background: #8D9DF9;
+}
+
+div.research_title {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    font-size: 24px;
+    line-height: 35px;
+    color: #FFFFFF;
+}
+
+div.research_card {
+    background: #F9F8F8;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+}
+
+div.research_card_title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 45px;
+    text-decoration-line: underline;
+    color: #000000;
+}
+
+div.research_card_text {
+    padding-bottom: 25px;
+}
+
+button.join-study-button {
+    background-color: #8D9DF9;
+    border-color: #8D9DF9;
+}
+
+div.research_container {
+    padding-bottom: 100px;
+}
+
+div.research_modal {
+    justify-content: left;
+}

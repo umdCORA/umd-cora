@@ -10,6 +10,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Home from './components/Home/Home';
 import About_Us from './components/About_Us/About_Us';
+import Research_Study from './components/Research_Study/Research_Study';
 import { Navbar, Image } from 'react-bootstrap';
 import cora_logo from './assests/cora_logo.png'
 
@@ -137,7 +138,7 @@ class App extends React.Component {
               <div>donate</div>
             </Route>
             <Route path="/research">
-              <div>research</div>
+              <Research_Study></Research_Study>
             </Route>
             <Route path="/about_us">
               <About_Us></About_Us>
