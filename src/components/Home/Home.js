@@ -3,6 +3,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -37,7 +38,7 @@ class Home extends React.Component {
         onSelect={this.handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div>
+          <div className="autocomplete-bar offset-md-2">
             <input
               {...getInputProps({
                 placeholder: 'Search Places ...',
@@ -76,13 +77,26 @@ class Home extends React.Component {
   render(){
     return (
       <div className="Home">
-        <Card className="container" id="card-container">
-          <Card.Body>
-            <h3>Millions of Americans Have an Opiod-Use Disorder and Even More Misuse Them. <br/> Help is available.</h3>
+        <Card id="card-search-container">
+          <Card.Body className="offset-md-2">
+            <h3 className="home-main-text">Millions of Americans Have an Opiod-Use Disorder and Even More Misuse Them. <br/> Help is available.</h3>
           </Card.Body>
           <Form id="searchForm">
             {this.renderAutoCompleteSearch()}
           </Form>
+        </Card>
+        <Card className="container" id="card-home-blurb-container">
+          <Card.Body>
+            <div className="card-main-text">
+              Welcome to CORAbase, a confidential and anonymous source of information and resources for persons seeking opioid-related resources in the United States or U.S. Territories. We are the nation’s most comprehensive database of resources for opioid-use/addiction treatment, prevention, overdose response, and <b>resources in rural areas.</b>
+            </div>
+            <div className="card-note-text">
+              PLEASE NOTE: Your personal information and the search criteria you enter into the Locator is secure and anonymous. CORA does not collect or maintain any information you provide.
+            </div>
+            <Link to="/general-info">
+              <Button id="learn-cora-button"><b>Learn More About Corabase</b></Button>
+            </Link>
+          </Card.Body>
         </Card>
       </div>
     )
