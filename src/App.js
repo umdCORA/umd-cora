@@ -106,27 +106,27 @@ class App extends React.Component {
         <div className="App">
           {this.renderSignInModal()}
           {this.renderCreateAccountModal()}
-          <Navbar bg="primary" variant="primary">
+          <Navbar id="main-navbar">
             <Navbar.Brand href="/"><Image id="cora_logo" src={cora_logo}></Image></Navbar.Brand>
-            <Nav className="mr-auto">
+            <Nav variant="pills" defaultActiveKey="/" activeKey={window.location.pathname} className="mr-auto">
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/general-info">General Opioid Information and Statistics</Nav.Link>
               <Nav.Link href="/donate">Donate and Join CORA</Nav.Link>
               <Nav.Link href="/research">Research Portion</Nav.Link>
               <Nav.Link href="/about_us">About Us</Nav.Link>
             </Nav>
-            {!userLoggedIn && 
+            {!userLoggedIn &&
               <div className="signed-out-content">
-                <Button variant="outline-light" style={{marginRight: 10}} onClick={() => this.setState({showSignInModal: true})}>Sign In</Button>
-                <Button variant="outline-light" onClick={() => this.setState({showCreateAccountModal: true})}>Create Account</Button>
+                <Button variant="outline-dark" style={{marginRight: 10}} onClick={() => this.setState({showSignInModal: true})}>Sign In</Button>
+                <Button variant="outline-dark" onClick={() => this.setState({showCreateAccountModal: true})}>Create Account</Button>
               </div>
             }
-            {userLoggedIn && 
+            {userLoggedIn &&
               <div className="signed-in-content">
                 <Navbar.Collapse className="justify-content-end">
                   <Navbar.Text>Signed in as: Dummy Name</Navbar.Text>
-                </Navbar.Collapse> 
-                <Button variant="outline-light" onClick={() => this.setState({userLoggedIn: false})}>Sign Out</Button>
+                </Navbar.Collapse>
+                <Button variant="outline-dark" onClick={() => this.setState({userLoggedIn: false})}>Sign Out</Button>
               </div>
             }
           </Navbar>
