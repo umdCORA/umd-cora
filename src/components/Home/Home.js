@@ -5,7 +5,10 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
 import './Home.css';
@@ -15,12 +18,19 @@ class Home extends React.Component {
     super(props);
     this.state = {
       address: '',
+      showNarrowSearch: false,
+      narrowSearchOptions: {
+        resourceTypeSelection: [],
+        distanceInMilesSelection: 5,
+        transportationSelection: [],
+        demographicSelection: [],
+      }
     }
   }
 
   handleSearchChange = address => {
     this.setState({ address });
-  };
+  }; 
 
   handleSelect = address => {
     this.setState({ address });
@@ -38,7 +48,7 @@ class Home extends React.Component {
         onSelect={this.handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div className="autocomplete-bar offset-md-2">
+          <div>
             <input
               {...getInputProps({
                 placeholder: 'Search Places ...',
@@ -74,17 +84,184 @@ class Home extends React.Component {
     );
   }
 
+  renderResourceTypeButton = (text) => {
+    const { narrowSearchOptions } = this.state;
+    const {resourceTypeSelection } = narrowSearchOptions;
+
+    const buttonStyle = {
+      'backgroundColor': resourceTypeSelection.includes(text.toLowerCase()) ? '#8D9DF9' : '#DEDEDE',
+      'color': resourceTypeSelection.includes(text.toLowerCase()) ? 'white' : 'black'
+    }
+
+    const handleResourceTypeButtonClick = () => {
+      const { narrowSearchOptions } = this.state;
+      const { resourceTypeSelection } = narrowSearchOptions;
+
+      const updatedResourceTypes = resourceTypeSelection.includes(text.toLowerCase()) ? narrowSearchOptions.resourceTypeSelection.filter(type => type !== text.toLowerCase()) : narrowSearchOptions.resourceTypeSelection.concat(text.toLowerCase())
+
+      this.setState({
+        narrowSearchOptions: {
+          ...narrowSearchOptions,
+          resourceTypeSelection: updatedResourceTypes
+        }
+      });
+    }
+
+    return (
+      <Button className="shadow-none" id="pill-button" onClick={handleResourceTypeButtonClick} style={buttonStyle}>{text}</Button>
+    );
+  }
+
+  renderTransportationButton = (text) => {
+    const { narrowSearchOptions } = this.state;
+    const { transportationSelection } = narrowSearchOptions;
+
+    const buttonStyle = {
+      'backgroundColor': transportationSelection.includes(text.toLowerCase()) ? '#8D9DF9' : '#DEDEDE',
+      'color': transportationSelection.includes(text.toLowerCase()) ? 'white' : 'black'
+    }
+
+    const handleTransportationButtonClick = () => {
+      const updatedTransportationSelection = transportationSelection.includes(text.toLowerCase()) ? transportationSelection.filter(type => type !== text.toLowerCase()) : transportationSelection.concat(text.toLowerCase())
+      this.setState({
+        narrowSearchOptions: {
+          ...narrowSearchOptions,
+          transportationSelection: updatedTransportationSelection
+        }
+      });
+    }
+
+    return (
+      <Button className="shadow-none" id="pill-button" onClick={handleTransportationButtonClick} style={buttonStyle}>{text}</Button>
+    );
+  }
+
+  renderDemographicButton = (text) => {
+    const { narrowSearchOptions } = this.state;
+    const { demographicSelection } = narrowSearchOptions;
+
+    const buttonStyle = {
+      'backgroundColor': demographicSelection.includes(text.toLowerCase()) ? '#8D9DF9' : '#DEDEDE',
+      'color': narrowSearchOptions.demographicSelection.includes(text.toLowerCase()) ? 'white' : 'black'
+    }
+
+    const handleDemographicButtonClick = () => {
+      const updatedDemographicSelection = demographicSelection.includes(text.toLowerCase()) ? demographicSelection.filter(type => type !== text.toLowerCase()) : demographicSelection.concat(text.toLowerCase())
+      this.setState({
+        narrowSearchOptions: {
+          ...narrowSearchOptions,
+          demographicSelection: updatedDemographicSelection
+        }
+      });
+    }
+
+    return (
+      <Button className="shadow-none" id="pill-button" onClick={handleDemographicButtonClick} style={buttonStyle}>{text}</Button>
+    );
+  }
+  
+  handleMileDropdownChange = event => {
+    const { narrowSearchOptions } = this.state;
+
+    this.setState({
+      narrowSearchOptions: {
+        ...narrowSearchOptions,
+        distanceInMiles: parseInt(event.target.value)
+      }
+    });
+  }
+
+  renderNarrowSearch = () => {
+    const { narrowSearchOptions } = this.state;
+    const { distanceInMiles } = narrowSearchOptions;
+    return (
+      <Card className="narrow-search-card">
+        <Card.Body className="narrow-search-field-card" style={{'marginTop': '10px'}}>
+          <div className="narrow-search-field-title"> Resource Type:(select multiple bubbles)</div>
+          <div>
+            <div style={{'marginBottom': '20px'}}>
+              {this.renderResourceTypeButton('Prevention')}
+              {this.renderResourceTypeButton('Awareness')}
+              {this.renderResourceTypeButton('Advocacy')}
+            </div>
+            <div style={{'marginBottom': '20px'}}>
+              {this.renderResourceTypeButton('Harm Reduction')}
+              {this.renderResourceTypeButton('Naloxone Distributor')}
+              {this.renderResourceTypeButton('Overdose Response Center')}
+            </div>
+            <div>
+              {this.renderResourceTypeButton('Recovery')}
+              {this.renderResourceTypeButton('Support Groups')}
+              {this.renderResourceTypeButton('Grief/Loss')}
+            </div>
+          </div>
+        </Card.Body>
+        <Card.Body className="narrow-search-field-card">
+          <div style={{'flexDirection': 'column'}}>
+            <div style={{'display': 'flex'}}>
+              <div className="narrow-search-field-title">Distance in Miles</div>
+              <Form>
+                <Form.Group controlId="exampleForm.SelectCustom">
+                  <Form.Control as="select" value={distanceInMiles} onChange={this.handleMileDropdownChange} custom>
+                    <option>5</option>
+                    <option>10</option>
+                    <option>25</option>
+                    <option>50</option>
+                  </Form.Control>
+                </Form.Group>
+              </Form>
+            </div>
+            <div style={{'display': 'flex'}}>
+              <div className="narrow-search-field-title">Transportation</div>
+              <div>
+                {this.renderTransportationButton('Bus')}
+                {this.renderTransportationButton('Metro')}
+                {this.renderTransportationButton('Center-Provided')}
+              </div>
+            </div>
+          </div>
+        </Card.Body>
+        <Card.Body className="narrow-search-field-card">
+          <div className="narrow-search-field-title">Demographic:</div>
+          <div>
+            {this.renderDemographicButton('Male')}
+            {this.renderDemographicButton('Female')}
+            {this.renderDemographicButton('Teen')}
+            {this.renderDemographicButton('Homeless')}
+            {this.renderDemographicButton('LGBTQ')}
+            {this.renderDemographicButton('Veteran')}
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  }
+
   render(){
+    const { showNarrowSearch } = this.state;
     return (
       <div className="Home">
-        <Card id="card-search-container">
-          <Card.Body className="offset-md-2">
-            <h3 className="home-main-text">Millions of Americans Have an Opiod-Use Disorder and Even More Misuse Them. <br/> Help is available.</h3>
-          </Card.Body>
-          <Form id="searchForm">
-            {this.renderAutoCompleteSearch()}
-          </Form>
-        </Card>
+        <Container fluid className="top-container">
+          <Row className="justify-content-md-center">
+            <Col className="col-8">
+              <h3 className="home-main-text">Millions of Americans Have an Opiod-Use Disorder and Even More Misuse Them. <br/> Help is available.</h3>
+            </Col>
+          </Row>
+          <Row className="justify-content-md-center">
+            <Col className="col-8">
+              {this.renderAutoCompleteSearch()}
+            </Col>
+          </Row>
+          <Row className="justify-content-md-center">
+            <Col className="col-8 narrow-search-button-col">
+              <Button className="justify-content-md-start shadow-none" id="narrow-search-button" onClick={() => this.setState({showNarrowSearch: !this.state.showNarrowSearch})}>Narrow Search >></Button>
+            </Col>
+          </Row>
+          <Row className="justify-content-md-center">
+            <Col className="col-8">
+              {showNarrowSearch && this.renderNarrowSearch()}
+            </Col>
+          </Row>
+        </Container>
         <Card className="container" id="card-home-blurb-container">
           <Card.Body>
             <div className="card-main-text">
