@@ -25,7 +25,7 @@ class Home extends React.Component {
         resourceTypes: [],
         distanceInMiles: 5,
         transporation: '',
-        Demographic: '',
+        demographic: '',
       }
     }
   }
@@ -140,15 +140,15 @@ class Home extends React.Component {
     const { narrowSearchOptions } = this.state;
 
     const buttonStyle = {
-      'backgroundColor': narrowSearchOptions.transportation === text.toLowerCase() ? '#8D9DF9' : '#DEDEDE',
-      'color': narrowSearchOptions.transportation === text.toLowerCase() ? 'white' : 'black'
+      'backgroundColor': narrowSearchOptions.demographic === text.toLowerCase() ? '#8D9DF9' : '#DEDEDE',
+      'color': narrowSearchOptions.demographic === text.toLowerCase() ? 'white' : 'black'
     }
 
     const handleDemographicButtonClick = () => {
       this.setState({
         narrowSearchOptions: {
           ...narrowSearchOptions,
-          transportation: text.toLowerCase()
+          demographic: text.toLowerCase()
         }
       });
     }
