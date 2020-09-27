@@ -19,13 +19,11 @@ class Home extends React.Component {
     this.state = {
       address: '',
       showNarrowSearch: false,
-      narrowSearchItemButtonBackgroundColor: '#DEDEDE',
-      narrowSearchItemButtonTextColor: 'black',
       narrowSearchOptions: {
-        resourceTypes: [],
-        distanceInMiles: 5,
-        transporation: '',
-        demographic: '',
+        resourceTypeSelection: [],
+        distanceInMilesSelection: 5,
+        transportationSelection: [],
+        demographicSelection: [],
       }
     }
   }
@@ -88,23 +86,23 @@ class Home extends React.Component {
 
   renderResourceTypeButton = (text) => {
     const { narrowSearchOptions } = this.state;
-    const {resourceTypes } = narrowSearchOptions;
+    const {resourceTypeSelection } = narrowSearchOptions;
 
     const buttonStyle = {
-      'backgroundColor': resourceTypes.includes(text.toLowerCase()) ? '#8D9DF9' : '#DEDEDE',
-      'color': resourceTypes.includes(text.toLowerCase()) ? 'white' : 'black'
+      'backgroundColor': resourceTypeSelection.includes(text.toLowerCase()) ? '#8D9DF9' : '#DEDEDE',
+      'color': resourceTypeSelection.includes(text.toLowerCase()) ? 'white' : 'black'
     }
 
     const handleResourceTypeButtonClick = () => {
       const { narrowSearchOptions } = this.state;
-      const { resourceTypes } = narrowSearchOptions;
+      const { resourceTypeSelection } = narrowSearchOptions;
 
-      const updatedResourceTypes = resourceTypes.includes(text.toLowerCase()) ? narrowSearchOptions.resourceTypes.filter(type => type !== text.toLowerCase()) : narrowSearchOptions.resourceTypes.concat(text.toLowerCase())
+      const updatedResourceTypes = resourceTypeSelection.includes(text.toLowerCase()) ? narrowSearchOptions.resourceTypeSelection.filter(type => type !== text.toLowerCase()) : narrowSearchOptions.resourceTypeSelection.concat(text.toLowerCase())
 
       this.setState({
         narrowSearchOptions: {
           ...narrowSearchOptions,
-          resourceTypes: updatedResourceTypes
+          resourceTypeSelection: updatedResourceTypes
         }
       });
     }
@@ -116,17 +114,19 @@ class Home extends React.Component {
 
   renderTransportationButton = (text) => {
     const { narrowSearchOptions } = this.state;
+    const { transportationSelection } = narrowSearchOptions;
 
     const buttonStyle = {
-      'backgroundColor': narrowSearchOptions.transportation === text.toLowerCase() ? '#8D9DF9' : '#DEDEDE',
-      'color': narrowSearchOptions.transportation === text.toLowerCase() ? 'white' : 'black'
+      'backgroundColor': transportationSelection.includes(text.toLowerCase()) ? '#8D9DF9' : '#DEDEDE',
+      'color': transportationSelection.includes(text.toLowerCase()) ? 'white' : 'black'
     }
 
     const handleTransportationButtonClick = () => {
+      const updatedTransportationSelection = transportationSelection.includes(text.toLowerCase()) ? transportationSelection.filter(type => type !== text.toLowerCase()) : transportationSelection.concat(text.toLowerCase())
       this.setState({
         narrowSearchOptions: {
           ...narrowSearchOptions,
-          transportation: text.toLowerCase()
+          transportationSelection: updatedTransportationSelection
         }
       });
     }
@@ -138,20 +138,23 @@ class Home extends React.Component {
 
   renderDemographicButton = (text) => {
     const { narrowSearchOptions } = this.state;
+    const { demographicSelection } = narrowSearchOptions;
 
     const buttonStyle = {
-      'backgroundColor': narrowSearchOptions.demographic === text.toLowerCase() ? '#8D9DF9' : '#DEDEDE',
-      'color': narrowSearchOptions.demographic === text.toLowerCase() ? 'white' : 'black'
+      'backgroundColor': demographicSelection.includes(text.toLowerCase()) ? '#8D9DF9' : '#DEDEDE',
+      'color': narrowSearchOptions.demographicSelection.includes(text.toLowerCase()) ? 'white' : 'black'
     }
 
     const handleDemographicButtonClick = () => {
+      const updatedDemographicSelection = demographicSelection.includes(text.toLowerCase()) ? demographicSelection.filter(type => type !== text.toLowerCase()) : demographicSelection.concat(text.toLowerCase())
       this.setState({
         narrowSearchOptions: {
           ...narrowSearchOptions,
-          demographic: text.toLowerCase()
+          demographicSelection: updatedDemographicSelection
         }
       });
     }
+
     return (
       <Button className="shadow-none" id="pill-button" onClick={handleDemographicButtonClick} style={buttonStyle}>{text}</Button>
     );
