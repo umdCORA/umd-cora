@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -44,6 +47,21 @@
 #main-navbar .nav-pills .nav-link.active {
   color: white;
   background-color: #8d9df9;
+}
+
+#body-wrapper {
+  flex: 1
+}
+
+#footer {
+  width: 100%;
+  background-color: #d2d2d2;
+}
+
+#footer .navbar .navbar-text {
+  color: #7283E1;
+  padding: 0px;
+  align-self: start;
 }
 
 #cora_logo {

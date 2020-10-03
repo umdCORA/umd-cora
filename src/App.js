@@ -130,23 +130,33 @@ class App extends React.Component {
               </div>
             }
           </Navbar>
-          <Switch>
-            <Route path="/general-info">
-              <div>info</div>
-            </Route>
-            <Route path="/donate">
-              <div>donate</div>
-            </Route>
-            <Route path="/research">
-              <Research_Study></Research_Study>
-            </Route>
-            <Route path="/about_us">
-              <About_Us></About_Us>
-            </Route>
-            <Route path="/">
-              <Home/>
-            </Route>
-          </Switch>
+          <div id="body-wrapper">
+            <Switch>
+              <Route path="/general-info">
+                <div>info</div>
+              </Route>
+              <Route path="/donate">
+                <div>donate</div>
+              </Route>
+              <Route path="/research">
+                <Research_Study></Research_Study>
+              </Route>
+              <Route path="/about_us">
+                <About_Us></About_Us>
+              </Route>
+              <Route path="/">
+                <Home/>
+              </Route>
+            </Switch>
+          </div>
+          <Navbar id="footer" className="mr-auto">
+            <Navbar.Brand><Image id="cora_logo" src={cora_logo}></Image></Navbar.Brand>
+            <Navbar className="ml-auto flex-column">
+              <Navbar.Text>CORA FAQ |</Navbar.Text>
+              <Navbar.Text>Contact |</Navbar.Text>
+              <Navbar.Text>Joining Us</Navbar.Text>
+            </Navbar>
+          </Navbar>
         </div>
       </Router>
     );
