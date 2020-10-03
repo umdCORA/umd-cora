@@ -3,17 +3,17 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
-import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Nav from 'react-bootstrap/Nav';
 
-import './Home.css';
+import './FindResource.css';
 
-class Home extends React.Component {
+class FindResource extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,12 +51,12 @@ class Home extends React.Component {
           <div>
             <input
               {...getInputProps({
-                placeholder: 'Search Places ...',
+                placeholder: 'Search Places...',
                 className: 'location-search-input',
               })}
             />
             <div className="autocomplete-dropdown-container">
-              {loading && <div>Loading...</div>}
+              {loading && <div style={{'backgroundColor': 'white', 'textAlign': 'left'}}>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
                   ? 'suggestion-item--active'
@@ -177,7 +177,7 @@ class Home extends React.Component {
     return (
       <Card className="narrow-search-card">
         <Card.Body className="narrow-search-field-card" style={{'marginTop': '10px'}}>
-          <div className="narrow-search-field-title"> Resource Type:(select multiple bubbles)</div>
+          <div className="narrow-search-field-title"> Resource Type:<br/>(select multiple bubbles)</div>
           <div>
             <div style={{'marginBottom': '20px'}}>
               {this.renderResourceTypeButton('Prevention')}
@@ -239,7 +239,7 @@ class Home extends React.Component {
   render(){
     const { showNarrowSearch } = this.state;
     return (
-      <div className="Home">
+      <div className="FindResource">
         <Container fluid className="top-container">
           <Row className="justify-content-md-center">
             <Col className="col-8">
@@ -270,9 +270,7 @@ class Home extends React.Component {
             <div className="card-note-text">
               PLEASE NOTE: Your personal information and the search criteria you enter into the Locator is secure and anonymous. CORA does not collect or maintain any information you provide.
             </div>
-            <Link to="/general-info">
-              <Button id="learn-cora-button"><b>Learn More About Corabase</b></Button>
-            </Link>
+              <Nav.Link href="/general-info"><Button id="learn-cora-button"><b>Learn More About Corabase</b></Button></Nav.Link>
           </Card.Body>
         </Card>
       </div>
@@ -280,4 +278,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default FindResource;

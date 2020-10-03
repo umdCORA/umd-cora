@@ -8,10 +8,11 @@ import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import Home from './components/Home/Home';
+import { Navbar, Image } from 'react-bootstrap';
+
+import FindResource from './components/FindResource/FindResource';
 import About_Us from './components/About_Us/About_Us';
 import Research_Study from './components/Research_Study/Research_Study';
-import { Navbar, Image } from 'react-bootstrap';
 import cora_logo from './assests/cora_logo.png'
 
 import './App.css';
@@ -109,7 +110,7 @@ class App extends React.Component {
           <Navbar id="main-navbar">
             <Navbar.Brand href="/"><Image id="cora_logo" src={cora_logo}></Image></Navbar.Brand>
             <Nav variant="pills" defaultActiveKey="/" activeKey={window.location.pathname} className="mr-auto">
-              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/">Find a Resource</Nav.Link>
               <Nav.Link href="/general-info">General Opioid Information and Statistics</Nav.Link>
               <Nav.Link href="/donate">Donate and Join CORA</Nav.Link>
               <Nav.Link href="/research">Research Portion</Nav.Link>
@@ -145,7 +146,7 @@ class App extends React.Component {
                 <About_Us></About_Us>
               </Route>
               <Route path="/">
-                <Home/>
+                <FindResource/>
               </Route>
             </Switch>
           </div>
