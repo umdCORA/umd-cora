@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Card, Container, Row, Col, Modal } from 'react-bootstrap';
-import './Research_Study.css';
+import './ResearchStudy.css';
 
 function ResearchStudyModal(props) {
     return (
@@ -33,14 +33,14 @@ function ResearchStudyModal(props) {
     );
 }
 
-function Research_Study() {
+function ResearchStudy() {
     const [modalShow, setModalShow] = React.useState(false);
 
     return (
-        <div class="research_study">
+        <div className="research_study">
             <Container className="research_container">
               <Row>
-                <div class="research_title">
+                <div className="research_title">
                   CORA conducts opioid-related research that public services can use to improve their services. Data from CORA’s research is published and made publically available. Participants of our studies are compensated or have a chance at being compensated.
                 </div>
               </Row>
@@ -49,37 +49,33 @@ function Research_Study() {
                   <Card className="research_card">
                     <Card.Body className="mb-1">
                       <Card.Title className="mb-3 research_card_title"> Research Title 1 </Card.Title>
-                      <Card.Text>
-                        <div class="research_card_text">
-                          Brief Description:
-                        </div>
-                        <div class="research_card_text">
-                          Purpose:
-                        </div>
-                        <div class="research_card_text">
-                          Compensation:
-                        </div>
-                        <Button className="join-study-button" onClick={() => setModalShow(true)}><b>Join Study</b></Button>
+                      <Card.Text className="research_card_text">
+                        Brief Description:
                       </Card.Text>
+                      <Card.Text className="research_card_text">
+                        Purpose:
+                      </Card.Text>
+                      <Card.Text className="research_card_text">
+                        Compensation:
+                      </Card.Text>
+                      <Button className="join-study-button" onClick={() => setModalShow(true)}><b>Join Study</b></Button>
                     </Card.Body>
                   </Card>
                 </Col>
                 <Col>
-                <Card className="research_card">
+                  <Card className="research_card">
                     <Card.Body className="mb-1">
                       <Card.Title className="mb-3 research_card_title"> Research Title 2 </Card.Title>
-                      <Card.Text>
-                        <div class="research_card_text">
-                          Brief Description:
-                        </div>
-                        <div class="research_card_text">
-                          Purpose:
-                        </div>
-                        <div class="research_card_text">
-                          Compensation:
-                        </div>
-                        <Button className="join-study-button" onClick={() => setModalShow(true)}><b>Join Study</b></Button>
+                      <Card.Text className="research_card_text">
+                        Brief Description:
                       </Card.Text>
+                      <Card.Text className="research_card_text">
+                        Purpose:
+                      </Card.Text>
+                      <Card.Text className="research_card_text">
+                        Compensation:
+                      </Card.Text>
+                      <Button className="join-study-button" onClick={() => setModalShow(true)}><b>Join Study</b></Button>
                     </Card.Body>
                   </Card>
                 </Col>
@@ -89,37 +85,33 @@ function Research_Study() {
                   <Card className="research_card">
                     <Card.Body className="mb-1">
                       <Card.Title className="mb-3 research_card_title"> Research Title 3 </Card.Title>
-                      <Card.Text>
-                        <div class="research_card_text">
-                          Brief Description:
-                        </div>
-                        <div class="research_card_text">
-                          Purpose:
-                        </div>
-                        <div class="research_card_text">
-                          Compensation:
-                        </div>
-                        <Button className="join-study-button" onClick={() => setModalShow(true)}><b>Join Study</b></Button>
+                      <Card.Text className="research_card_text">
+                        Brief Description:
                       </Card.Text>
+                      <Card.Text className="research_card_text">
+                        Purpose:
+                      </Card.Text>
+                      <Card.Text className="research_card_text">
+                        Compensation:
+                      </Card.Text>
+                      <Button className="join-study-button" onClick={() => setModalShow(true)}><b>Join Study</b></Button>
                     </Card.Body>
                   </Card>
                 </Col>
                 <Col>
-                <Card className="research_card">
+                  <Card className="research_card">
                     <Card.Body className="mb-1">
                       <Card.Title className="mb-3 research_card_title"> Research Title 4 </Card.Title>
-                      <Card.Text>
-                        <div class="research_card_text">
-                          Brief Description:
-                        </div>
-                        <div class="research_card_text">
-                          Purpose:
-                        </div>
-                        <div class="research_card_text">
-                          Compensation:
-                        </div>
-                        <Button className="join-study-button" onClick={() => setModalShow(true)}><b>Join Study</b></Button>
+                      <Card.Text className="research_card_text">
+                        Brief Description:
                       </Card.Text>
+                      <Card.Text className="research_card_text">
+                        Purpose:
+                      </Card.Text>
+                      <Card.Text className="research_card_text">
+                        Compensation:
+                      </Card.Text>
+                      <Button className="join-study-button" onClick={() => setModalShow(true)}><b>Join Study</b></Button>
                     </Card.Body>
                   </Card>
                 </Col>
@@ -133,4 +125,4 @@ function Research_Study() {
     )
 }
 
-export default Research_Study;
+export default ResearchStudy;
