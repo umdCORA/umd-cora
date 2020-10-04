@@ -7,9 +7,9 @@ import michael_li_profile_pic from './../../assests/michael_li_profile_pic.jpg';
 import anthony_cortez_profile_pic from './../../assests/anthony_cortez_profile_pic.jpg';
 import jason_lavis_profile_pic from './../../assests/jason_lavis_profile_pic.png';
 
-import './About_Us.css';
+import './AboutUs.css';
 
-function About_Us() {
+function AboutUs() {
     var about_us_input = [
       {
         "name_one": "Kevin Tu",
@@ -45,19 +45,19 @@ function About_Us() {
   
     return (
       <div>
-        <div class="header">
+        <div className="header">
           <Jumbotron>
             <h1 className="text-center">Our Team</h1>
           </Jumbotron>
         </div>
-        <div class="team_card_holder">
-          {about_us_input.map((row) => (
-            <CardDeck className="mb-2">
+        <div className="team_card_holder">
+          {about_us_input.map((row, index) => (
+            <CardDeck key={index} className="mb-2">
               <Card style={{ width: '35rem' }}>
                 <Container>
                   <Row>
                     <Col xs={4}>
-                      <Card.Img src={row.image_one} fluid />
+                      <Card.Img src={row.image_one} fluid="true" />
                     </Col>
                     <Col>
                       <Card.Body className="mb-1">
@@ -96,4 +96,4 @@ function About_Us() {
     )
   }
 
-  export default About_Us;
+  export default AboutUs;

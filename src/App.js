@@ -11,8 +11,9 @@ import Form from 'react-bootstrap/Form';
 import { Navbar, Image } from 'react-bootstrap';
 
 import FindResource from './components/FindResource/FindResource';
-import About_Us from './components/About_Us/About_Us';
-import Research_Study from './components/Research_Study/Research_Study';
+import AboutUs from './components/AboutUs/AboutUs';
+import ResearchStudy from './components/ResearchStudy/ResearchStudy';
+import HowToUseCORABase from './components/HowToUseCORABase/HowToUseCORABase';
 import cora_logo from './assests/cora_logo.png'
 
 import './App.css';
@@ -112,9 +113,9 @@ class App extends React.Component {
             <Nav variant="pills" defaultActiveKey="/" activeKey={window.location.pathname} className="mr-auto">
               <Nav.Link href="/">Find a Resource</Nav.Link>
               <Nav.Link href="/general-info">General Opioid Information and Statistics</Nav.Link>
-              <Nav.Link href="/donate">Donate and Join CORA</Nav.Link>
-              <Nav.Link href="/research">Research Portion</Nav.Link>
-              <Nav.Link href="/about_us">About Us</Nav.Link>
+              <Nav.Link href="/how-to-use-corabase">How to Use CORAbase</Nav.Link>
+              <Nav.Link href="/join-a-research-study">Join a Research Study</Nav.Link>
+              <Nav.Link href="/about-us">About Us</Nav.Link>
             </Nav>
             {!userLoggedIn &&
               <div className="signed-out-content">
@@ -136,14 +137,14 @@ class App extends React.Component {
               <Route path="/general-info">
                 <div>info</div>
               </Route>
-              <Route path="/donate">
-                <div>donate</div>
+              <Route path="/how-to-use-corabase">
+                <HowToUseCORABase></HowToUseCORABase>
               </Route>
-              <Route path="/research">
-                <Research_Study></Research_Study>
+              <Route path="/join-a-research-study">
+                <ResearchStudy></ResearchStudy>
               </Route>
-              <Route path="/about_us">
-                <About_Us></About_Us>
+              <Route path="/about-us">
+                <AboutUs></AboutUs>
               </Route>
               <Route path="/">
                 <FindResource/>

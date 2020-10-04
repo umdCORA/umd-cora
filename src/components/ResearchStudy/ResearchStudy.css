@@ -25,8 +25,8 @@ div.research_card_title {
     color: #000000;
 }
 
-div.research_card_text {
-    padding-bottom: 25px;
+p.research_card_text {
+    margin-bottom: 25px;
 }
 
 button.join-study-button {

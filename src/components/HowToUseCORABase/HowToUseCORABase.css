@@ -1,0 +1,97 @@
+div.faq {
+    background: #8D9DF9;
+    height: 100%;
+}
+
+div.line {
+    border-left: 2px solid #FFFFFF;
+    margin-top: 20px;
+    height: 650px;
+    display: inline-block;
+    position: absolute;
+    left: 48.5px;
+}
+
+span.circle {
+    height: 25px;
+    width: 25px;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    left: -12.5px;
+}
+
+.faqButtons .btn {
+  background: #8D9DF9;
+  border: none;
+  box-shadow: none;
+  text-align: left;
+}
+
+.faqButtons .btn-group-vertical > .btn:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .btn-group:not(:last-child) > .btn {
+  border-radius: 20px;
+}
+
+.faqButtons .btn-group-vertical > .btn:not(:first-child), .btn-group-vertical > .btn-group:not(:first-child) > .btn {
+  border-radius: 20px;
+}
+
+.faqButtons .btn:hover,
+.faqButtons .btn:focus,
+.faqButtons .btn:not(:disabled):not(.disabled):active,
+.faqButtons .btn:not(:disabled):not(.disabled):active:focus {
+  background-color: #FFFFFF;
+  border: none;
+  box-shadow: none;
+  color: #8D9DF9;
+}
+
+button.subButtons {
+  margin-left: 25px;
+}
+
+#advanced-search, #my-account, #print-resources, #research-studies, #what-is-cora {
+  margin-top: 20px;
+}
+
+div.btn-group-vertical {
+  margin-top: 20px;
+  margin-left: 25px;
+}
+
+div.faqCardColumn {
+  background: #FFFFFF;
+  height: 100%;
+  padding-top: 30px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+div.faqCard {
+  height: 600px;
+  background: #F9F8F8;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+}
+
+div.faqTitle {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 45px;
+  text-decoration-line: underline;
+  color: #000000;
+  padding-bottom: 30px;
+}
+
+button.resources-button {
+  background-color: #8D9DF9;
+  border-color: #8D9DF9;
+  border-radius: 20px;
+}
+
+div.faqColumn {
+  max-width: 320px;
+  min-width: 320px;
+}
