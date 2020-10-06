@@ -1,0 +1,12 @@
+.search-criteria {
+  color: white;
+}
+
+.search-criteria .title {
+  font-size: 30px;
+}
+
+.search-criteria .criteria {
+  font-size: 20px;
+  text-align: left;
+}
