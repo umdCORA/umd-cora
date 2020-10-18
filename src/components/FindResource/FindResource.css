@@ -1,5 +1,5 @@
-.btn-default, .btn-default:hover, .btn-default:active, .btn-default:active:focus, 
-.btn-default:visited, .btn-default:focus {     
+.btn-default, .btn-default:hover, .btn-default:active, .btn-default:active:focus,
+.btn-default:visited, .btn-default:focus {
   color: #dcdcdc;     background-color: #232323;        outline: none;
 }
 
@@ -57,6 +57,10 @@
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 16px;
+}
+
+.FindResource {
+  padding-bottom: 20px;
 }
 
 #card-home-blurb-container {
