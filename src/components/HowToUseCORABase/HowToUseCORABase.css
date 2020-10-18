@@ -95,3 +95,12 @@ div.faqColumn {
   max-width: 320px;
   min-width: 320px;
 }
+
+div.how-card {
+  overflow-y: auto;
+}
+
+div.cardContents {
+  padding-left: 10px;
+  padding-right: 10px;
+}
