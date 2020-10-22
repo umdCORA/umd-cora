@@ -50,7 +50,6 @@ span.circle {
 button.subButtons {
   margin-left: 25px;
 }
-
 #advanced-search, #my-account, #print-resources, #research-studies, #what-is-cora {
   margin-top: 20px;
 }
@@ -66,6 +65,7 @@ div.faqCardColumn {
   padding-top: 30px;
   padding-left: 50px;
   padding-right: 50px;
+  padding-bottom: 30px;
 }
 
 div.faqCard {
@@ -94,6 +94,7 @@ button.resources-button {
 div.faqColumn {
   max-width: 320px;
   min-width: 320px;
+  min-height: 680px; /* contain full div.line (650px) with some padding */
 }
 
 div.how-card {
