@@ -257,7 +257,7 @@ function HowToUseCORABase() {
     
     return (
         <div className="faq">
-          <Container fluid className="vh-100 d-flex flex-column">
+          <Container fluid className="h-100 d-flex flex-column">
           <Row className="h-100">
           <Col className="faqColumn">
           <div className="line faqButtons">
