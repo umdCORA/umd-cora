@@ -4,10 +4,10 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
 import { Navbar, Image } from 'react-bootstrap';
 
 import FindResource from './components/FindResource/FindResource';
