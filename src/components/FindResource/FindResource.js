@@ -265,7 +265,7 @@ class FindResource extends React.Component {
               </Col>
             </Row>
             <Row className="justify-content-md-center">
-              <Col className="col-8">
+              <Col xs={12} sm={12} md={6} lg={6}>
                 {showNarrowSearch && this.renderNarrowSearch()}
               </Col>
             </Row>
