@@ -234,12 +234,12 @@ class FindResource extends React.Component {
         {!showSearchResults &&
           <Container fluid className="top-container">
             <Row className="justify-content-md-center">
-              <Col className="col-8">
+              <Col xs={12} sm={12} md={6} lg={6}>
                 <h3 className="home-main-text">Millions of Americans Have an Opiod-Use Disorder and Even More Misuse Them. <br/> Help is available.</h3>
               </Col>
             </Row>
             <Row className="justify-content-md-center">
-              <Col className="col-8" style={{'marginTop': '20px', 'float': 'left'}}>
+              <Col xs={12} sm={12} md={6} lg={6} style={{'marginTop': '20px', 'float': 'left'}}>
                 <Script 
                   url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`}
                   onLoad={this.handleScriptLoad}        
@@ -260,7 +260,7 @@ class FindResource extends React.Component {
               </Col>
             </Row>
             <Row className="justify-content-md-center">
-              <Col className="col-8 narrow-search-button-col">
+              <Col xs={12} sm={12} md={6} lg={6} className="narrow-search-button-col">
                 <Button className="justify-content-md-start shadow-none" id="narrow-search-button" onClick={() => this.setState({showNarrowSearch: !this.state.showNarrowSearch})}>Narrow Search >></Button>
               </Col>
             </Row>
