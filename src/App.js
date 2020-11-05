@@ -44,25 +44,23 @@ class App extends React.Component {
       <Modal
         show={showSignInModal}
         onHide={() => this.setState({showSignInModal: false})}
-        backdrop="static"
-        keyboard={false}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Sign In</Modal.Title>
-        </Modal.Header>
+        <Modal.Header closeButton />
         <Modal.Body>
-        <Form onSubmit={this.handleLogin}>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
-          </Form.Group>
-
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          <Button variant="primary" type="submit">Login</Button>
-        </Form>
+          <Modal.Title>Welcome Back!</Modal.Title>
+          <Form onSubmit={this.handleLogin}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email Address</Form.Label>
+              <Form.Control type="email" />
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" />
+            </Form.Group>
+            <Form.Check label="Remember my sign in" />
+            <Button variant="primary" type="submit">Sign In</Button>
+            <Form.Text className="fake-link">Forgot your password?</Form.Text>
+          </Form>
         </Modal.Body>
       </Modal>
     );
@@ -74,25 +72,31 @@ class App extends React.Component {
       <Modal
         show={showCreateAccountModal}
         onHide={() => this.setState({showCreateAccountModal: false})}
-        backdrop="static"
-        keyboard={false}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Create an Account</Modal.Title>
-        </Modal.Header>
+        <Modal.Header closeButton />
         <Modal.Body>
-        <Form onSubmit={this.handleCreateAccount}>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
-          </Form.Group>
-
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          <Button variant="primary" type="submit">Create Account</Button>
-        </Form>
+          <Modal.Title>Create an Account</Modal.Title>
+          <Form onSubmit={this.handleCreateAccount}>
+            <Form.Group controlId="formBasicFirstName">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control type="text" />
+            </Form.Group>
+            <Form.Group controlId="formBasicLastName">
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control type="text" />
+            </Form.Group>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control type="email" />
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" />
+            </Form.Group>
+            <Form.Check label="Sign up for our newsletter to receive updates from CORA" />
+            <Button variant="primary" type="submit">Sign Up!</Button>
+            <Form.Text className="fake-link" onClick={() => this.setState({showCreateAccountModal:false, showSignInModal: true})}>I already have an account</Form.Text>
+          </Form>
         </Modal.Body>
       </Modal>
     );
