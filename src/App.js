@@ -108,8 +108,10 @@ class App extends React.Component {
         <div className="App">
           {this.renderSignInModal()}
           {this.renderCreateAccountModal()}
-          <Navbar id="main-navbar">
+          <Navbar id="main-navbar" expand="lg">
             <Navbar.Brand href="/"><Image id="cora_logo" src={cora_logo}></Image></Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
             <Nav variant="pills" defaultActiveKey="/" activeKey={window.location.pathname} className="mr-auto">
               <Nav.Link href="/">Find a Resource</Nav.Link>
               <Nav.Link href="/general-info">General Opioid Information and Statistics</Nav.Link>
@@ -131,6 +133,7 @@ class App extends React.Component {
                 <Button variant="outline-dark" onClick={() => this.setState({userLoggedIn: false})}>Sign Out</Button>
               </div>
             }
+            </Navbar.Collapse>
           </Navbar>
           <div id="body-wrapper">
             <Switch>

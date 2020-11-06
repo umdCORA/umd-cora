@@ -28,7 +28,7 @@ function AboutUs() {
         "image_one": anna_feng_profile_pic,
         "name_two": "Michael Li",
         "title_two": "CORA Developer",
-        "bio_two": "Memes Memes Memes",
+        "bio_two": "Cellist by day and coder by night though you'll probably find me taking a nap somewhere",
         "image_two": michael_li_profile_pic
       },
       {
@@ -53,7 +53,7 @@ function AboutUs() {
         <div className="team_card_holder">
           {about_us_input.map((row, index) => (
             <CardDeck key={index} className="mb-2">
-              <Card style={{ width: '35rem' }}>
+              <Card>
                 <Container>
                   <Row>
                     <Col xs={4}>
@@ -71,7 +71,7 @@ function AboutUs() {
                   </Row>
                 </Container>
               </Card>
-              <Card style={{ width: '35rem' }}>
+              <Card>
                 <Container>
                   <Row>
                     <Col xs={4}>

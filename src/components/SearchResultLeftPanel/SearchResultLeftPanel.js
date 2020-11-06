@@ -22,12 +22,21 @@ class SearchResultLeftPanel extends  React.Component {
     
     return(
       <div className="search-criteria">
-        <div className="title"><u>Search Criteria</u></div>
-        <div className="criteria">{`Address:  ${address}`}</div>
-        <div className="criteria">{resourceTypeSelection.length > 0 && `Resource Types: ${resourceTypeSelection.join(", ")}`}</div>
-        <div className="criteria">{`Distance: ${distanceInMilesSelection}`}</div>
-        <div className="criteria">{transportationSelection.length > 0 && `Transportation: ${transportationSelection.join(", ")}`}</div>
-        <div className="criteria">{demographicSelection.length > 0 && `Demographic: ${demographicSelection.join(", ")}`}</div>
+        <div className="criteria">
+          <u>Address:</u>  {address}
+        </div>
+        <div className="criteria">
+          {resourceTypeSelection.length > 0 && (<span><u>Resource Types:</u> {resourceTypeSelection.join(", ")}</span>)}
+        </div>
+        <div className="criteria">
+          <u>Distance:</u> {distanceInMilesSelection}
+        </div>
+        <div className="criteria">
+          {transportationSelection.length > 0 && (<span><u>Transportation:</u> {transportationSelection.join(", ")}</span>)}
+        </div>
+        <div className="criteria">
+          {demographicSelection.length > 0 && (<span><u>Demographic:</u> {demographicSelection.join(", ")}</span>)}
+        </div>
       </div>
     )
   }
