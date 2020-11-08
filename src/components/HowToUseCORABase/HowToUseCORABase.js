@@ -1,16 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './HowToUseCORABase.css';
-import { Button, ButtonGroup, Card, Container, Row, Col } from 'react-bootstrap';
+import { Button, ButtonGroup, Card, Container, Form, Row, Col } from 'react-bootstrap';
 
 function HowToUseCORABase() {
     const [state, setState] = useState({
       yPosition: 25,
-      title: "How to use CORAbase"
+      title: "How to use CORAbase",
+      windoWidth: window.innerWidth,
     });
-    
+    const [width, setWidth] = React.useState(window.innerWidth);
     const styles = { 
       transform: `translateY(${state.yPosition}px)` 
     };
+
+    // when left panel is hidden remove left and right padding on faq card
+    const faqCardStyles = {
+      paddingLeft: '20px',
+      paddingRight: '20px'
+    }
+
+    const updateWidth = () =>  setWidth(window.innerWidth);
+
+    useEffect(() => {
+      window.addEventListener("resize", updateWidth);
+      return () => window.removeEventListener("resize", updateWidth);
+    });
+
+    const handleFAQDropdownChange = event => setState({title: event.target.value})
 
     var cardContents;
     if(state.title === "How to use CORAbase"){
@@ -258,45 +274,67 @@ function HowToUseCORABase() {
     return (
         <div className="faq">
           <Container fluid className="h-100 d-flex flex-column">
-          <Row className="h-100">
-          <Col className="faqColumn">
-          <div className="line faqButtons">
-            <span style={styles} className="circle">
-            </span>
-            <ButtonGroup vertical>
-              <Button className="titleButtons" onClick={() => setState({yPosition: 25, title: "How to use CORAbase"})}>How to use CORAbase</Button>
+            <Row className="h-100">
+              {width >= 1250 &&
+                <Col className="faqColumn" md={3} lg={3}>
+                  <div className="line faqButtons">
+                    <span style={styles} className="circle"/>
+                    <ButtonGroup vertical>
+                      <Button className="titleButtons" onClick={() => setState({yPosition: 25, title: "How to use CORAbase"})}>How to use CORAbase</Button>
 
-              <Button id="advanced-search" className="titleButtons" onClick={() => setState({yPosition: 80, title: "Advanced Search"})}>Advanced Search</Button>
-              <Button className="subButtons" onClick={() => setState({yPosition: 115, title: "Prevention"})}>Prevention</Button>
-              <Button className="subButtons" onClick={() => setState({yPosition: 150, title: "Recovery"})}>Recovery</Button>
-              <Button className="subButtons" onClick={() => setState({yPosition: 185, title: "Mental Health Resources"})}>Mental Health Resources</Button>
-              <Button className="subButtons" onClick={() => setState({yPosition: 220, title: "Harm Reduction"})}>Harm Reduction</Button>
-              <Button className="subButtons" onClick={() => setState({yPosition: 255, title: "Transportation"})}>Transportation</Button>
-              <Button className="subButtons" onClick={() => setState({yPosition: 290, title: "Pregnancy Support"})}>Pregnancy Support</Button>
+                      <Button id="advanced-search" className="titleButtons" onClick={() => setState({yPosition: 80, title: "Advanced Search"})}>Advanced Search</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 115, title: "Prevention"})}>Prevention</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 150, title: "Recovery"})}>Recovery</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 185, title: "Mental Health Resources"})}>Mental Health Resources</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 220, title: "Harm Reduction"})}>Harm Reduction</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 255, title: "Transportation"})}>Transportation</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 290, title: "Pregnancy Support"})}>Pregnancy Support</Button>
 
-              <Button id="my-account" className="titleButtons" onClick={() => setState({yPosition: 350, title: "What is My Account?"})}>What is My Account?</Button>
-              <Button className="subButtons" onClick={() => setState({yPosition: 385, title: "Bookmarks"})}>Bookmarks</Button>
-              <Button className="subButtons" onClick={() => setState({yPosition: 420, title: "Suggest a Resource"})}>Suggest a Resource</Button>
-              <Button className="subButtons" onClick={() => setState({yPosition: 455, title: "Report a Resource"})}>Report a Resource</Button>
+                      <Button id="my-account" className="titleButtons" onClick={() => setState({yPosition: 350, title: "What is My Account?"})}>What is My Account?</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 385, title: "Bookmarks"})}>Bookmarks</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 420, title: "Suggest a Resource"})}>Suggest a Resource</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 455, title: "Report a Resource"})}>Report a Resource</Button>
 
-              <Button id="print-resources" className="titleButtons" onClick={() => setState({yPosition: 510, title: "Printing your Resources"})}>Printing your Resources</Button>
-              <Button id="research-studies" className="titleButtons" onClick={() => setState({yPosition: 565, title: "Research Studies"})}>Research Studies</Button>
-              <Button id="what-is-cora" className="titleButtons" onClick={() => setState({yPosition: 620, title: "What is CORA?"})}>What is CORA?</Button>
-            </ButtonGroup>
-          </div>
-          </Col>
-          <Col className="faqCardColumn">
-            <div>
-              <Card className="faqCard">
-                <Card.Body className="d-flex align-items-start flex-column how-card">
-                  <Card.Title className="p-2 faqTitle">{state.title}</Card.Title>
-                  {cardContents}
-                  <Button className="mt-auto p-2 resources-button">Fun link to more resources</Button>
-                </Card.Body>
-              </Card>
-            </div>
-          </Col>
-          </Row>
+                      <Button id="print-resources" className="titleButtons" onClick={() => setState({yPosition: 510, title: "Printing your Resources"})}>Printing your Resources</Button>
+                      <Button id="research-studies" className="titleButtons" onClick={() => setState({yPosition: 565, title: "Research Studies"})}>Research Studies</Button>
+                      <Button id="what-is-cora" className="titleButtons" onClick={() => setState({yPosition: 620, title: "What is CORA?"})}>What is CORA?</Button>
+                    </ButtonGroup>
+                  </div>
+                </Col>
+              }
+              <Col className="faqCardColumn" style={width < 1250 ? faqCardStyles : {}}>
+                {width < 1250 &&
+                  <Form>
+                    <Form.Group controlId="exampleForm.SelectCustom">
+                      <Form.Control as="select" value={state.title} onChange={handleFAQDropdownChange} custom>
+                        <option>How to use CORAbase</option>
+                        <option>Advanced Search</option>
+                        <option>Prevention</option>
+                        <option>Recovery</option>
+                        <option>Mental Health Resources</option>
+                        <option>Harm Reduction</option>
+                        <option>Transportation</option>
+                        <option>Pregnancy Support</option>
+                        <option>What is My Account?</option>
+                        <option>Bookmarks</option>
+                        <option>Suggest a Resource</option>
+                        <option>Report a Resource</option>
+                        <option>Printing your Resources</option>
+                        <option>Research Studies</option>
+                        <option>What is CORA?</option>
+                      </Form.Control>
+                    </Form.Group>
+                  </Form>
+                }
+                <Card className="faqCard container">
+                  <Card.Body className="d-flex align-items-start flex-column how-card">
+                    <Card.Title className="p-2 faqTitle">{state.title}</Card.Title>
+                    {cardContents}
+                    <Button className="mt-auto p-2 resources-button">Fun link to more resources</Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
           </Container>
         </div>
     )
