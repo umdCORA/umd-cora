@@ -139,6 +139,9 @@
   margin: 25px auto 10px auto;
   display: block;
 }
+.modal-content .modal-body .form-text {
+  color: #7283e1;
+}
 .modal-content .modal-body .fake-link {
   color: #7283e1;
   text-align: center;
