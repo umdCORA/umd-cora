@@ -24,6 +24,7 @@ class App extends React.Component {
     this.state = {
       showSignInModal: false,
       showCreateAccountModal: false,
+      showResetPasswordModal: false,
       userLoggedIn: false,
       userName: '',
     }
@@ -33,9 +34,36 @@ class App extends React.Component {
     event.preventDefault();
     this.setState({
       showSignInModal: false,
+      showResetPasswordModal: false,
       userLoggedIn: true,
       userName: '',
     });
+  }
+
+
+  renderResetPasswordModal = () => {
+    const { showResetPasswordModal } = this.state;
+    return (
+      <Modal
+        show={showResetPasswordModal}
+        onHide={() => this.setState({showResetPasswordModal: false})}
+      >
+        <Modal.Header closeButton />
+        <Modal.Body>
+          <Modal.Title>Reset Password</Modal.Title>
+          <Form onSubmit={this.handleResetPassword}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email Address</Form.Label>
+              <Form.Control type="email" />
+            </Form.Group>
+            <Button variant="primary" type="submit" style={{marginLeft: 0, marginTop: 0}}>Send Request</Button>
+            <Form.Text>You will shortly receive an email to reset your password</Form.Text>
+            <br />
+            <Button variant="primary" onClick={() => this.setState({showResetPasswordModal: false, showSignInModal: true})}>Return to Sign In</Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    );
   }
 
   renderSignInModal = () => {
@@ -59,7 +87,8 @@ class App extends React.Component {
             </Form.Group>
             <Form.Check label="Remember my sign in" />
             <Button variant="primary" type="submit">Sign In</Button>
-            <Form.Text className="fake-link">Forgot your password?</Form.Text>
+            <Form.Text className="fake-link" onClick={() => this.setState({showSignInModal: false, showResetPasswordModal: true})}>Forgot your password?</Form.Text>
+            <Form.Text className="fake-link" onClick={() => this.setState({showSignInModal: false, showCreateAccountModal: true})}>Create an Account</Form.Text>
           </Form>
         </Modal.Body>
       </Modal>
@@ -110,6 +139,7 @@ class App extends React.Component {
     return (
       <Router>
         <div className="App">
+          {this.renderResetPasswordModal()}
           {this.renderSignInModal()}
           {this.renderCreateAccountModal()}
           <Navbar id="main-navbar" expand="lg">
