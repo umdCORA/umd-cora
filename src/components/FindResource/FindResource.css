@@ -82,9 +82,16 @@
   background-color: #8D9DF9;
 }
 
-.results-container {
-  height: 81vh;
+.FindResource {
+  flex: 1;
   display: flex;
+  flex-direction: column;
+}
+
+.results-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
 }
 
 .left-panel {

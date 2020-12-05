@@ -213,35 +213,35 @@ class FindResource extends React.Component {
         <Card.Body className="narrow-search-field-card" style={{'marginTop': '10px'}}>
           <Container>
             <Row>
-              <Col md={4}>Prevention:</Col>
+              <Col lg={6} xl={4}>Prevention:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={preventionOptions} onChange={e => this.handleNarrowSearchChange('Prevention', e)} /></Col>
             </Row>
             <Row>
-              <Col md={4}>Transportation:</Col>
+              <Col lg={6} xl={4}>Transportation:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={transportOptions} onChange={e => this.handleNarrowSearchChange('Transportation', e)} /></Col>
             </Row>
             <Row>
-              <Col md={4}>Recovery:</Col>
+              <Col lg={6} xl={4}>Recovery:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={recoveryOptions} onChange={e => this.handleNarrowSearchChange('Recovery', e)} /></Col>
             </Row>
             <Row>
-              <Col md={4}>Mental Health Resources:</Col>
+              <Col lg={6} xl={4}>Mental Health Resources:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={mentalHealthOptions} onChange={e => this.handleNarrowSearchChange('Mental Health Resources', e)} /></Col>
             </Row>
             <Row>
-              <Col md={4}>Payment:</Col>
+              <Col lg={6} xl={4}>Payment:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={payOptions} onChange={e => this.handleNarrowSearchChange('Payment', e)} /></Col>
             </Row>
             <Row>
-              <Col md={4}>Harm Reduction:</Col>
+              <Col lg={6} xl={4}>Harm Reduction:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={harmReductionOptions} onChange={e => this.handleNarrowSearchChange('Harm Reduction', e)} /></Col>
             </Row>
             <Row>
-              <Col md={4}>Pregnancy Support:</Col>
+              <Col lg={6} xl={4}>Pregnancy Support:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={pregnancyOptions} onChange={e => this.handleNarrowSearchChange('Pregnancy Support', e)} /></Col>
             </Row>
             <Row>
-              <Col md={4}>Demographic:</Col>
+              <Col lg={6} xl={4}>Demographic:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={demographicOptions} onChange={e => this.handleNarrowSearchChange('Demographic', e)} /></Col>
             </Row>
           </Container>
@@ -354,7 +354,7 @@ class FindResource extends React.Component {
             </Row>
             <Row className="justify-content-md-center">
               <Col xs={12} sm={12} md={6} lg={6} className="narrow-search-button-col">
-                <Button className="justify-content-md-start shadow-none" id="narrow-search-button" onClick={() => this.setState({showNarrowSearch: !this.state.showNarrowSearch})}>Narrow Search >></Button>
+                <Button className="justify-content-md-start shadow-none" id="narrow-search-button" onClick={() => this.setState({showNarrowSearch: !this.state.showNarrowSearch})}>Narrow Search &gt;&gt;</Button>
               </Col>
             </Row>
             <Row className="justify-content-md-center">

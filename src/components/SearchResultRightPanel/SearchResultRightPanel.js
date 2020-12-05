@@ -7,7 +7,7 @@ class SearchResultRightPanel extends React.Component {
 
   renderCard = number  => {
     return(
-      <Card className="result-card">
+      <Card id="result-card">
         <Card.Header id="result-card-header">
           <span className="header-title">{`Resource ${number}`}</span>
           <span className="header-mile">5.4 mi</span>
@@ -21,14 +21,14 @@ class SearchResultRightPanel extends React.Component {
             Phone:
           </Card.Text>
           <Card.Text>
-            Services: 
+            Services:
           </Card.Text>
           <Card.Text>
             <b>Click the card for more information</b>
           </Card.Text>
         </Card.Body>
       </Card>
-    );   
+    );
   }
 
   render() {
