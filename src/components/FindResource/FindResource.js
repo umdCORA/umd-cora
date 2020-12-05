@@ -120,7 +120,7 @@ class FindResource extends React.Component {
 
   handleNarrowSearchChange = (category, event) => {
     const { narrowSearchOptions } = this.state;
-    narrowSearchOptions[category] = event.map(x => x.value);
+    narrowSearchOptions[category] = event == null ? [] : event.map(x => x.value);
     this.setState(narrowSearchOptions);
   }
 
@@ -207,48 +207,44 @@ class FindResource extends React.Component {
       { value: 'Young Adults', label: 'Young Adults' },
       { value: 'Homeless', label: 'Homeless' },
     ]
+
     return (
       <Card className="narrow-search-card">
         <Card.Body className="narrow-search-field-card" style={{'marginTop': '10px'}}>
-          <div className="narrow-search-field-title"> New Options:</div>
-          <div style={{'flex': '1', 'marginRight': '5%'}}>
-            Prevention:
-            <Select closeMenuOnSelect={false} isMulti options={preventionOptions} onChange={e => this.handleNarrowSearchChange('Prevention', e)} />
-            Transportation:
-            <Select closeMenuOnSelect={false} isMulti options={transportOptions} onChange={e => this.handleNarrowSearchChange('Transportation', e)} />
-            Recovery:
-            <Select closeMenuOnSelect={false} isMulti options={recoveryOptions} onChange={e => this.handleNarrowSearchChange('Recovery', e)} />
-            Mental Health Resources:
-            <Select closeMenuOnSelect={false} isMulti options={mentalHealthOptions} onChange={e => this.handleNarrowSearchChange('Mental Health Resources', e)} />
-            Payment:
-            <Select closeMenuOnSelect={false} isMulti options={payOptions} onChange={e => this.handleNarrowSearchChange('Payment', e)} />
-            Harm Reduction:
-            <Select closeMenuOnSelect={false} isMulti options={harmReductionOptions} onChange={e => this.handleNarrowSearchChange('Harm Reduction', e)} />
-            Pregnancy Support:
-            <Select closeMenuOnSelect={false} isMulti options={pregnancyOptions} onChange={e => this.handleNarrowSearchChange('Pregnancy Support', e)} />
-            Demographic:
-            <Select closeMenuOnSelect={false} isMulti options={demographicOptions} onChange={e => this.handleNarrowSearchChange('Demographic', e)} />
-          </div>
-        </Card.Body>
-        <Card.Body className="narrow-search-field-card" style={{'marginTop': '10px'}}>
-          <div className="narrow-search-field-title"> Resource Type:<br/>(select multiple bubbles)</div>
-          <div>
-            <div style={{'marginBottom': '20px'}}>
-              {this.renderResourceTypeButton('Prevention')}
-              {this.renderResourceTypeButton('Awareness')}
-              {this.renderResourceTypeButton('Advocacy')}
-            </div>
-            <div style={{'marginBottom': '20px'}}>
-              {this.renderResourceTypeButton('Harm Reduction')}
-              {this.renderResourceTypeButton('Naloxone Distributor')}
-              {this.renderResourceTypeButton('Overdose Response Center')}
-            </div>
-            <div>
-              {this.renderResourceTypeButton('Recovery')}
-              {this.renderResourceTypeButton('Support Groups')}
-              {this.renderResourceTypeButton('Grief/Loss')}
-            </div>
-          </div>
+          <Container>
+            <Row>
+              <Col md={4}>Prevention:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={preventionOptions} onChange={e => this.handleNarrowSearchChange('Prevention', e)} /></Col>
+            </Row>
+            <Row>
+              <Col md={4}>Transportation:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={transportOptions} onChange={e => this.handleNarrowSearchChange('Transportation', e)} /></Col>
+            </Row>
+            <Row>
+              <Col md={4}>Recovery:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={recoveryOptions} onChange={e => this.handleNarrowSearchChange('Recovery', e)} /></Col>
+            </Row>
+            <Row>
+              <Col md={4}>Mental Health Resources:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={mentalHealthOptions} onChange={e => this.handleNarrowSearchChange('Mental Health Resources', e)} /></Col>
+            </Row>
+            <Row>
+              <Col md={4}>Payment:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={payOptions} onChange={e => this.handleNarrowSearchChange('Payment', e)} /></Col>
+            </Row>
+            <Row>
+              <Col md={4}>Harm Reduction:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={harmReductionOptions} onChange={e => this.handleNarrowSearchChange('Harm Reduction', e)} /></Col>
+            </Row>
+            <Row>
+              <Col md={4}>Pregnancy Support:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={pregnancyOptions} onChange={e => this.handleNarrowSearchChange('Pregnancy Support', e)} /></Col>
+            </Row>
+            <Row>
+              <Col md={4}>Demographic:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={demographicOptions} onChange={e => this.handleNarrowSearchChange('Demographic', e)} /></Col>
+            </Row>
+          </Container>
         </Card.Body>
         <Card.Body className="narrow-search-field-card">
           <div style={{'flexDirection': 'column'}}>
@@ -273,17 +269,6 @@ class FindResource extends React.Component {
                 {this.renderTransportationButton('Center-Provided')}
               </div>
             </div>
-          </div>
-        </Card.Body>
-        <Card.Body className="narrow-search-field-card">
-          <div className="narrow-search-field-title">Demographic:</div>
-          <div>
-            {this.renderDemographicButton('Male')}
-            {this.renderDemographicButton('Female')}
-            {this.renderDemographicButton('Teen')}
-            {this.renderDemographicButton('Homeless')}
-            {this.renderDemographicButton('LGBTQ')}
-            {this.renderDemographicButton('Veteran')}
           </div>
         </Card.Body>
       </Card>
