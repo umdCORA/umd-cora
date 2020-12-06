@@ -83,22 +83,27 @@ router.put("/data/resources/:id", (req, res) => {
 router.get("/data/resources", (req, res) => {
   
   var params = {};
-  if(req.query.tags)
-    params.tags= {$in: JSON.parse(req.query.tags)}
-
-  if(req.query.lat && req.query.long && req.query.radius)
-    params.location= {geo: {
-      $geoWithin: {
-        $centerSphere: [[req.query.long, req.query.lat], req.query.radius]
+  if(req.query.tags){
+    params.tags= {$all: JSON.parse(req.query.tags)}
+    
+  }
+  if(req.query.lat && req.query.long && req.query.radius){
+    params = {"location.geo":{
+      $nearSphere: {
+        $geometry: {
+          type: "Point",
+          coordinates: [req.query.long, req.query.lat]
+        },
+        $maxDistance: req.query.radius/.000621371
+       
       }
-    }}
-  
+    }
+    }
+  }
   var filter = ResourceDB.find(params , (err, doc) => {
     errorFun(err, res);
     res.send(doc);
   });
-  console.log(filter.getFilter());
-  
 });
 
 router.post("/data/resources", (req, res) => {
