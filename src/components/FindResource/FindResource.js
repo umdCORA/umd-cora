@@ -31,82 +31,6 @@ class FindResource extends React.Component {
     }
   }
 
-  renderResourceTypeButton = (text) => {
-    const { narrowSearchOptions } = this.state;
-    const {resourceTypeSelection } = narrowSearchOptions;
-
-    const buttonStyle = {
-      'backgroundColor': resourceTypeSelection.includes(text) ? '#8D9DF9' : '#DEDEDE',
-      'color': resourceTypeSelection.includes(text) ? 'white' : 'black'
-    }
-
-    const handleResourceTypeButtonClick = () => {
-      const { narrowSearchOptions } = this.state;
-      const { resourceTypeSelection } = narrowSearchOptions;
-
-      const updatedResourceTypes = resourceTypeSelection.includes(text) ? narrowSearchOptions.resourceTypeSelection.filter(type => type !== text) : narrowSearchOptions.resourceTypeSelection.concat(text)
-
-      this.setState({
-        narrowSearchOptions: {
-          ...narrowSearchOptions,
-          resourceTypeSelection: updatedResourceTypes
-        }
-      });
-    }
-
-    return (
-      <Button className="shadow-none" id="pill-button" onClick={handleResourceTypeButtonClick} style={buttonStyle}>{text}</Button>
-    );
-  }
-
-  renderTransportationButton = (text) => {
-    const { narrowSearchOptions } = this.state;
-    const { transportationSelection } = narrowSearchOptions;
-
-    const buttonStyle = {
-      'backgroundColor': transportationSelection.includes(text) ? '#8D9DF9' : '#DEDEDE',
-      'color': transportationSelection.includes(text) ? 'white' : 'black'
-    }
-
-    const handleTransportationButtonClick = () => {
-      const updatedTransportationSelection = transportationSelection.includes(text) ? transportationSelection.filter(type => type !== text) : transportationSelection.concat(text)
-      this.setState({
-        narrowSearchOptions: {
-          ...narrowSearchOptions,
-          transportationSelection: updatedTransportationSelection
-        }
-      });
-    }
-
-    return (
-      <Button className="shadow-none" id="pill-button" onClick={handleTransportationButtonClick} style={buttonStyle}>{text}</Button>
-    );
-  }
-
-  renderDemographicButton = (text) => {
-    const { narrowSearchOptions } = this.state;
-    const { demographicSelection } = narrowSearchOptions;
-
-    const buttonStyle = {
-      'backgroundColor': demographicSelection.includes(text) ? '#8D9DF9' : '#DEDEDE',
-      'color': narrowSearchOptions.demographicSelection.includes(text) ? 'white' : 'black'
-    }
-
-    const handleDemographicButtonClick = () => {
-      const updatedDemographicSelection = demographicSelection.includes(text) ? demographicSelection.filter(type => type !== text) : demographicSelection.concat(text)
-      this.setState({
-        narrowSearchOptions: {
-          ...narrowSearchOptions,
-          demographicSelection: updatedDemographicSelection
-        }
-      });
-    }
-
-    return (
-      <Button className="shadow-none" id="pill-button" onClick={handleDemographicButtonClick} style={buttonStyle}>{text}</Button>
-    );
-  }
-
   handleMileDropdownChange = event => {
     const { narrowSearchOptions } = this.state;
 
@@ -133,6 +57,9 @@ class FindResource extends React.Component {
       { value: 'Political Advocacy', label: 'Political Advocacy' },
     ]
     const transportOptions = [
+      { value: 'Bus', label: 'Bus' },
+      { value: 'Metro', label: 'Metro' },
+      { value: 'Center-Provided', label: 'Center-Provided' },
       { value: 'Transportation to Services', label: 'Transportation to Services' },
     ]
     const recoveryOptions = [
@@ -244,32 +171,22 @@ class FindResource extends React.Component {
               <Col lg={6} xl={4}>Demographic:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={demographicOptions} onChange={e => this.handleNarrowSearchChange('Demographic', e)} /></Col>
             </Row>
+            <Row style={{'marginTop': '20px'}}>
+              <Col xs xl={4}>Distance in Miles:</Col>
+              <Col xs="auto">
+                <Form>
+                  <Form.Group controlId="exampleForm.SelectCustom">
+                    <Form.Control as="select" value={distanceInMilesSelection} onChange={this.handleMileDropdownChange} custom>
+                      <option>5</option>
+                      <option>10</option>
+                      <option>25</option>
+                      <option>50</option>
+                    </Form.Control>
+                  </Form.Group>
+                </Form>
+              </Col>
+            </Row>
           </Container>
-        </Card.Body>
-        <Card.Body className="narrow-search-field-card">
-          <div style={{'flexDirection': 'column'}}>
-            <div style={{'display': 'flex'}}>
-              <div className="narrow-search-field-title">Distance in Miles</div>
-              <Form>
-                <Form.Group controlId="exampleForm.SelectCustom">
-                  <Form.Control as="select" value={distanceInMilesSelection} onChange={this.handleMileDropdownChange} custom>
-                    <option>5</option>
-                    <option>10</option>
-                    <option>25</option>
-                    <option>50</option>
-                  </Form.Control>
-                </Form.Group>
-              </Form>
-            </div>
-            <div style={{'display': 'flex'}}>
-              <div className="narrow-search-field-title">Transportation</div>
-              <div>
-                {this.renderTransportationButton('Bus')}
-                {this.renderTransportationButton('Metro')}
-                {this.renderTransportationButton('Center-Provided')}
-              </div>
-            </div>
-          </div>
         </Card.Body>
       </Card>
     );
