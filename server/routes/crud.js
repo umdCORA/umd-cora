@@ -21,7 +21,7 @@ router.all("/*", (req, res, next) => {
     next();
   }
 });
-
+/*
 router.get("/data/users/:id", (req, res) => {
   var id = req.params.id;
   UserDB.findById(id, (err, doc) => {
@@ -63,7 +63,7 @@ router.delete("/data/users", (req, res) => {
     res.send(doc);
   });
 });
-
+*/
 router.get("/data/resources/:id", (req, res) => {
   var id = req.params.id;
   ResourceDB.findById(id, (err, doc) => {
@@ -81,13 +81,29 @@ router.put("/data/resources/:id", (req, res) => {
 });
 
 router.get("/data/resources", (req, res) => {
-  var params = req.params;
-  var filter = ResourceDB.find(req.query , (err, doc) => {
+  
+  var params = {};
+  if(req.query.tags){
+    params.tags= {$all: JSON.parse(req.query.tags)}
+    
+  }
+  if(req.query.lat && req.query.long && req.query.radius){
+    params = {"location.geo":{
+      $nearSphere: {
+        $geometry: {
+          type: "Point",
+          coordinates: [req.query.long, req.query.lat]
+        },
+        $maxDistance: req.query.radius/.000621371
+       
+      }
+    }
+    }
+  }
+  var filter = ResourceDB.find(params , (err, doc) => {
     errorFun(err, res);
     res.send(doc);
   });
-  console.log(filter.getFilter());
-  
 });
 
 router.post("/data/resources", (req, res) => {
