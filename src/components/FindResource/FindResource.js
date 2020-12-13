@@ -11,6 +11,7 @@ import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import SearchResultLeftPanel from '../SearchResultLeftPanel/SearchResultLeftPanel';
 import SearchResultRightPanel from '../SearchResultRightPanel/SearchResultRightPanel';
+import Select from 'react-select'
 
 import './FindResource.css';
 
@@ -30,153 +31,162 @@ class FindResource extends React.Component {
     }
   }
 
-  renderResourceTypeButton = (text) => {
-    const { narrowSearchOptions } = this.state;
-    const {resourceTypeSelection } = narrowSearchOptions;
-
-    const buttonStyle = {
-      'backgroundColor': resourceTypeSelection.includes(text) ? '#8D9DF9' : '#DEDEDE',
-      'color': resourceTypeSelection.includes(text) ? 'white' : 'black'
-    }
-
-    const handleResourceTypeButtonClick = () => {
-      const { narrowSearchOptions } = this.state;
-      const { resourceTypeSelection } = narrowSearchOptions;
-
-      const updatedResourceTypes = resourceTypeSelection.includes(text) ? narrowSearchOptions.resourceTypeSelection.filter(type => type !== text) : narrowSearchOptions.resourceTypeSelection.concat(text)
-
-      this.setState({
-        narrowSearchOptions: {
-          ...narrowSearchOptions,
-          resourceTypeSelection: updatedResourceTypes
-        }
-      });
-    }
-
-    return (
-      <Button className="shadow-none" id="pill-button" onClick={handleResourceTypeButtonClick} style={buttonStyle}>{text}</Button>
-    );
-  }
-
-  renderTransportationButton = (text) => {
-    const { narrowSearchOptions } = this.state;
-    const { transportationSelection } = narrowSearchOptions;
-
-    const buttonStyle = {
-      'backgroundColor': transportationSelection.includes(text) ? '#8D9DF9' : '#DEDEDE',
-      'color': transportationSelection.includes(text) ? 'white' : 'black'
-    }
-
-    const handleTransportationButtonClick = () => {
-      const updatedTransportationSelection = transportationSelection.includes(text) ? transportationSelection.filter(type => type !== text) : transportationSelection.concat(text)
-      this.setState({
-        narrowSearchOptions: {
-          ...narrowSearchOptions,
-          transportationSelection: updatedTransportationSelection
-        }
-      });
-    }
-
-    return (
-      <Button className="shadow-none" id="pill-button" onClick={handleTransportationButtonClick} style={buttonStyle}>{text}</Button>
-    );
-  }
-
-  renderDemographicButton = (text) => {
-    const { narrowSearchOptions } = this.state;
-    const { demographicSelection } = narrowSearchOptions;
-
-    const buttonStyle = {
-      'backgroundColor': demographicSelection.includes(text) ? '#8D9DF9' : '#DEDEDE',
-      'color': narrowSearchOptions.demographicSelection.includes(text) ? 'white' : 'black'
-    }
-
-    const handleDemographicButtonClick = () => {
-      const updatedDemographicSelection = demographicSelection.includes(text) ? demographicSelection.filter(type => type !== text) : demographicSelection.concat(text)
-      this.setState({
-        narrowSearchOptions: {
-          ...narrowSearchOptions,
-          demographicSelection: updatedDemographicSelection
-        }
-      });
-    }
-
-    return (
-      <Button className="shadow-none" id="pill-button" onClick={handleDemographicButtonClick} style={buttonStyle}>{text}</Button>
-    );
-  }
-  
   handleMileDropdownChange = event => {
     const { narrowSearchOptions } = this.state;
 
     this.setState({
       narrowSearchOptions: {
         ...narrowSearchOptions,
-        distanceInMiles: parseInt(event.target.value)
+        distanceInMilesSelection: parseInt(event.target.value)
       }
     });
   }
 
+  handleNarrowSearchChange = (category, event) => {
+    const { narrowSearchOptions } = this.state;
+    narrowSearchOptions[category] = event == null ? [] : event.map(x => x.value);
+    this.setState(narrowSearchOptions);
+  }
+
   renderNarrowSearch = () => {
     const { narrowSearchOptions } = this.state;
-    const { distanceInMiles } = narrowSearchOptions;
+    const { distanceInMilesSelection } = narrowSearchOptions;
+    const preventionOptions = [
+      { value: 'Awareness and Education', label: 'Awareness and Education' },
+      { value: 'Physician Education', label: 'Physician Education' },
+      { value: 'Political Advocacy', label: 'Political Advocacy' },
+    ]
+    const transportOptions = [
+      { value: 'Bus', label: 'Bus' },
+      { value: 'Metro', label: 'Metro' },
+      { value: 'Center-Provided', label: 'Center-Provided' },
+      { value: 'Transportation to Services', label: 'Transportation to Services' },
+    ]
+    const recoveryOptions = [
+      { value: 'Medicated Assisted Treatment', label: 'Medicated Assisted Treatment' },
+      { value: 'Nutrition', label: 'Nutrition' },
+      { value: 'Inpatient Rehabilitation', label: 'Inpatient Rehabilitation' },
+      { value: 'Intervention Specialists', label: 'Intervention Specialists' },
+      { value: 'Luxury Treatment', label: 'Luxury Treatment' },
+      { value: 'Faith-based Rehabilitation', label: 'Faith-based Rehabilitation' },
+      { value: 'Support Groups', label: 'Support Groups' },
+      { value: 'Outpatient Rehabilitation', label: 'Outpatient Rehabilitation',
+        options: [
+          { value: 'Day Programs', label: 'Day Programs' },
+          { value: 'Intensive Outpatient Programs', label: 'Intensive Outpatient Programs' },
+          { value: 'Continuing Care', label: 'Continuing Care' },
+        ],
+      },
+      { value: 'Gender-Specific Treatment', label: 'Gender-Specific Treatment',
+        options: [
+          { value: 'Men', label: 'Men' },
+          { value: 'Women', label: 'Women' },
+          { value: 'Non-binary', label: 'Non-binary' },
+        ],
+      },
+      { value: 'Recovery Residences', label: 'Recovery Residences',
+        options: [
+          { value: 'Level 1: Peer Run', label: 'Level 1: Peer Run' },
+          { value: 'Level 2: Monitored', label: 'Level 2: Monitored' },
+          { value: 'Level 3: Supervised', label: 'Level 3: Supervised' },
+          { value: 'Level 4: Service Provider', label: 'Level 4: Service Provider' },
+        ],
+      },
+    ]
+    const mentalHealthOptions = [
+      { value: 'Counseling', label: 'Counseling' },
+      { value: 'Family Therapy', label: 'Family Therapy' },
+      { value: 'Holistic Therapy', label: 'Holistic Therapy' },
+      { value: 'Support Groups', label: 'Support Groups' },
+    ]
+    const payOptions = [
+          { value: 'Sliding Scale', label: 'Sliding Scale' },
+          { value: 'Free', label: 'Free' },
+          { value: 'Paid', label: 'Paid' },
+    ]
+    const harmReductionOptions = [
+      { value: 'Needle Exchange Programs', label: 'Needle Exchange Programs' },
+      { value: 'Needle Injection Sites', label: 'Needle Injection Sites' },
+      { value: 'Overdose Response', label: 'Overdose Response',
+        options: [
+          { value: 'Naloxone Distributor', label: 'Naloxone Distributor' },
+          { value: 'Overdose Response Trainer', label: 'Overdose Response Trainer' },
+        ],
+      },
+      { value: 'Needle-Transmitted Diseases', label: 'Needle-Transmitted Diseases',
+        options: [
+          { value: 'HIV Pre-Exposure Prophylaxis', label: 'HIV Pre-Exposure Prophylaxis' },
+          { value: 'HIV Post-Exposure Prophylaxis', label: 'HIV Post-Exposure Prophylaxis' },
+          { value: 'Vaccine Clinics', label: 'Vaccine Clinics' },
+        ],
+      },
+    ]
+    const pregnancyOptions = [
+      { value: 'Pregnancy Support', label: 'Pregnancy Support' },
+    ]
+    const demographicOptions = [
+      { value: 'Adults', label: 'Adults' },
+      { value: 'LGBTQ+', label: 'LGBTQ+' },
+      { value: 'Veterans', label: 'Veterans' },
+      { value: 'Seniors', label: 'Seniors' },
+      { value: 'Children', label: 'Children' },
+      { value: 'Adolescents', label: 'Adolescents' },
+      { value: 'Young Adults', label: 'Young Adults' },
+      { value: 'Homeless', label: 'Homeless' },
+    ]
+
     return (
       <Card className="narrow-search-card">
         <Card.Body className="narrow-search-field-card" style={{'marginTop': '10px'}}>
-          <div className="narrow-search-field-title"> Resource Type:<br/>(select multiple bubbles)</div>
-          <div>
-            <div style={{'marginBottom': '20px'}}>
-              {this.renderResourceTypeButton('Prevention')}
-              {this.renderResourceTypeButton('Awareness')}
-              {this.renderResourceTypeButton('Advocacy')}
-            </div>
-            <div style={{'marginBottom': '20px'}}>
-              {this.renderResourceTypeButton('Harm Reduction')}
-              {this.renderResourceTypeButton('Naloxone Distributor')}
-              {this.renderResourceTypeButton('Overdose Response Center')}
-            </div>
-            <div>
-              {this.renderResourceTypeButton('Recovery')}
-              {this.renderResourceTypeButton('Support Groups')}
-              {this.renderResourceTypeButton('Grief/Loss')}
-            </div>
-          </div>
-        </Card.Body>
-        <Card.Body className="narrow-search-field-card">
-          <div style={{'flexDirection': 'column'}}>
-            <div style={{'display': 'flex'}}>
-              <div className="narrow-search-field-title">Distance in Miles</div>
-              <Form>
-                <Form.Group controlId="exampleForm.SelectCustom">
-                  <Form.Control as="select" value={distanceInMiles} onChange={this.handleMileDropdownChange} custom>
-                    <option>5</option>
-                    <option>10</option>
-                    <option>25</option>
-                    <option>50</option>
-                  </Form.Control>
-                </Form.Group>
-              </Form>
-            </div>
-            <div style={{'display': 'flex'}}>
-              <div className="narrow-search-field-title">Transportation</div>
-              <div>
-                {this.renderTransportationButton('Bus')}
-                {this.renderTransportationButton('Metro')}
-                {this.renderTransportationButton('Center-Provided')}
-              </div>
-            </div>
-          </div>
-        </Card.Body>
-        <Card.Body className="narrow-search-field-card">
-          <div className="narrow-search-field-title">Demographic:</div>
-          <div>
-            {this.renderDemographicButton('Male')}
-            {this.renderDemographicButton('Female')}
-            {this.renderDemographicButton('Teen')}
-            {this.renderDemographicButton('Homeless')}
-            {this.renderDemographicButton('LGBTQ')}
-            {this.renderDemographicButton('Veteran')}
-          </div>
+          <Container>
+            <Row>
+              <Col lg={6} xl={4}>Prevention:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={preventionOptions} onChange={e => this.handleNarrowSearchChange('Prevention', e)} /></Col>
+            </Row>
+            <Row>
+              <Col lg={6} xl={4}>Transportation:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={transportOptions} onChange={e => this.handleNarrowSearchChange('Transportation', e)} /></Col>
+            </Row>
+            <Row>
+              <Col lg={6} xl={4}>Recovery:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={recoveryOptions} onChange={e => this.handleNarrowSearchChange('Recovery', e)} /></Col>
+            </Row>
+            <Row>
+              <Col lg={6} xl={4}>Mental Health Resources:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={mentalHealthOptions} onChange={e => this.handleNarrowSearchChange('Mental Health Resources', e)} /></Col>
+            </Row>
+            <Row>
+              <Col lg={6} xl={4}>Payment:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={payOptions} onChange={e => this.handleNarrowSearchChange('Payment', e)} /></Col>
+            </Row>
+            <Row>
+              <Col lg={6} xl={4}>Harm Reduction:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={harmReductionOptions} onChange={e => this.handleNarrowSearchChange('Harm Reduction', e)} /></Col>
+            </Row>
+            <Row>
+              <Col lg={6} xl={4}>Pregnancy Support:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={pregnancyOptions} onChange={e => this.handleNarrowSearchChange('Pregnancy Support', e)} /></Col>
+            </Row>
+            <Row>
+              <Col lg={6} xl={4}>Demographic:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={demographicOptions} onChange={e => this.handleNarrowSearchChange('Demographic', e)} /></Col>
+            </Row>
+            <Row style={{'marginTop': '20px'}}>
+              <Col xs xl={4}>Distance in Miles:</Col>
+              <Col xs="auto">
+                <Form>
+                  <Form.Group controlId="exampleForm.SelectCustom">
+                    <Form.Control as="select" value={distanceInMilesSelection} onChange={this.handleMileDropdownChange} custom>
+                      <option>5</option>
+                      <option>10</option>
+                      <option>25</option>
+                      <option>50</option>
+                    </Form.Control>
+                  </Form.Group>
+                </Form>
+              </Col>
+            </Row>
+          </Container>
         </Card.Body>
       </Card>
     );
@@ -240,10 +250,10 @@ class FindResource extends React.Component {
             </Row>
             <Row className="justify-content-md-center">
               <Col xs={12} sm={12} md={6} lg={6} style={{'marginTop': '20px', 'float': 'left'}}>
-                <Script 
+                <Script
                   url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`}
-                  onLoad={this.handleScriptLoad}        
-                />  
+                  onLoad={this.handleScriptLoad}
+                />
                 {
                   // wasn't able to get search icon to work so I'm replacing the close icon as the search icon
                   // onChange reset query since we don't want to query for an invalid location
@@ -261,7 +271,7 @@ class FindResource extends React.Component {
             </Row>
             <Row className="justify-content-md-center">
               <Col xs={12} sm={12} md={6} lg={6} className="narrow-search-button-col">
-                <Button className="justify-content-md-start shadow-none" id="narrow-search-button" onClick={() => this.setState({showNarrowSearch: !this.state.showNarrowSearch})}>Narrow Search >></Button>
+                <Button className="justify-content-md-start shadow-none" id="narrow-search-button" onClick={() => this.setState({showNarrowSearch: !this.state.showNarrowSearch})}>Narrow Search &gt;&gt;</Button>
               </Col>
             </Row>
             <Row className="justify-content-md-center">

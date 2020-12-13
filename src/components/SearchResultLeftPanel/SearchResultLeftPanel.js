@@ -19,7 +19,7 @@ class SearchResultLeftPanel extends  React.Component {
     resourceTypeSelection.sort();
     transportationSelection.sort();
     demographicSelection.sort();
-    
+
     return(
       <div className="search-criteria">
         <div className="criteria">
@@ -31,6 +31,13 @@ class SearchResultLeftPanel extends  React.Component {
         <div className="criteria">
           <u>Distance:</u> {distanceInMilesSelection}
         </div>
+        {
+          Object.keys(narrowSearchOptions).map((key, index) => (
+            <div className="criteria" key={index}>
+              {narrowSearchOptions[key].length > 0 && (<span><u>{key}:</u> {narrowSearchOptions[key].join(", ")}</span>)}
+            </div>
+          ))
+        }
         <div className="criteria">
           {transportationSelection.length > 0 && (<span><u>Transportation:</u> {transportationSelection.join(", ")}</span>)}
         </div>
