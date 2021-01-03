@@ -64,39 +64,14 @@ class FindResource extends React.Component {
     ]
     const recoveryOptions = [
       { value: 'Medicated Assisted Treatment', label: 'Medicated Assisted Treatment' },
-      { value: 'Nutrition', label: 'Nutrition' },
       { value: 'Inpatient Rehabilitation', label: 'Inpatient Rehabilitation' },
+      { value: 'Outpatient Rehabilitation', label: 'Outpatient Rehabilitation' },
+      { value: 'Gender-Specific Treatment', label: 'Gender-Specific Treatment' },
       { value: 'Intervention Specialists', label: 'Intervention Specialists' },
-      { value: 'Luxury Treatment', label: 'Luxury Treatment' },
-      { value: 'Faith-based Rehabilitation', label: 'Faith-based Rehabilitation' },
-      { value: 'Support Groups', label: 'Support Groups' },
-      { value: 'Outpatient Rehabilitation', label: 'Outpatient Rehabilitation',
-        options: [
-          { value: 'Day Programs', label: 'Day Programs' },
-          { value: 'Intensive Outpatient Programs', label: 'Intensive Outpatient Programs' },
-          { value: 'Continuing Care', label: 'Continuing Care' },
-        ],
-      },
-      { value: 'Gender-Specific Treatment', label: 'Gender-Specific Treatment',
-        options: [
-          { value: 'Men', label: 'Men' },
-          { value: 'Women', label: 'Women' },
-          { value: 'Non-binary', label: 'Non-binary' },
-        ],
-      },
-      { value: 'Recovery Residences', label: 'Recovery Residences',
-        options: [
-          { value: 'Level 1: Peer Run', label: 'Level 1: Peer Run' },
-          { value: 'Level 2: Monitored', label: 'Level 2: Monitored' },
-          { value: 'Level 3: Supervised', label: 'Level 3: Supervised' },
-          { value: 'Level 4: Service Provider', label: 'Level 4: Service Provider' },
-        ],
-      },
+      { value: 'Recovery Residences', label: 'Recovery Residences' },
     ]
     const mentalHealthOptions = [
-      { value: 'Counseling', label: 'Counseling' },
-      { value: 'Family Therapy', label: 'Family Therapy' },
-      { value: 'Holistic Therapy', label: 'Holistic Therapy' },
+      { value: 'Counseling/Therapy', label: 'Counseling/Therapy' },
       { value: 'Support Groups', label: 'Support Groups' },
     ]
     const payOptions = [
@@ -105,21 +80,9 @@ class FindResource extends React.Component {
           { value: 'Paid', label: 'Paid' },
     ]
     const harmReductionOptions = [
+      { value: 'Overdose Response', label: 'Overdose Response' },
       { value: 'Needle Exchange Programs', label: 'Needle Exchange Programs' },
-      { value: 'Needle Injection Sites', label: 'Needle Injection Sites' },
-      { value: 'Overdose Response', label: 'Overdose Response',
-        options: [
-          { value: 'Naloxone Distributor', label: 'Naloxone Distributor' },
-          { value: 'Overdose Response Trainer', label: 'Overdose Response Trainer' },
-        ],
-      },
-      { value: 'Needle-Transmitted Diseases', label: 'Needle-Transmitted Diseases',
-        options: [
-          { value: 'HIV Pre-Exposure Prophylaxis', label: 'HIV Pre-Exposure Prophylaxis' },
-          { value: 'HIV Post-Exposure Prophylaxis', label: 'HIV Post-Exposure Prophylaxis' },
-          { value: 'Vaccine Clinics', label: 'Vaccine Clinics' },
-        ],
-      },
+      { value: 'Vaccine and Prophylaxis Clinics', label: 'Vaccine and Prophylaxis Clinics' },
     ]
     const pregnancyOptions = [
       { value: 'Pregnancy Support', label: 'Pregnancy Support' },
