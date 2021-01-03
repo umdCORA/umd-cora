@@ -36,6 +36,17 @@ function HowToUseCORABase() {
           change the distance to show more or fewer locations.
         </div>
       );
+    }else if(state.title === "Advanced Search"){
+      cardContents = (
+        <div className="cardContents">
+          <p>
+            Often, users may require more specific resources for their situation.
+            These users can use the advanced search function to look for resources under specific categories,
+            such as treatment, harm reduction, or mental health resources.
+            Each category is further defined below.
+          </p>
+        </div>
+      );
     }else if(state.title === "Prevention"){
       cardContents = (
         <div className="cardContents">
@@ -167,6 +178,16 @@ function HowToUseCORABase() {
           </ul>
         </div>
       );
+    }else if(state.title === "Mental Health Resources"){
+      cardContents = (
+        <div className="cardContents">
+          <p>
+            At its core, an opioid use disorder is a mental health issue.
+            Here, we provide resources to counseling, therapy, and support groups
+            to help those with OUDs stay safe, continue their recovery and deal with life.
+          </p>
+        </div>
+      );
     }else if(state.title === "Harm Reduction"){
       cardContents = (
         <div className="cardContents">
@@ -209,6 +230,16 @@ function HowToUseCORABase() {
           <p>
             Transportation is available to those for whom transportation is a barrier to treatment, either by the resource itself or a separate organization. 
             Filter by this tag to find treatment centers who offer their own transportation services or resources that focus solely on transporting people to treatment locations.
+          </p>
+        </div>
+      );
+    }else if(state.title === "Pregnancy Support"){
+      cardContents = (
+        <div className="cardContents">
+          <p>
+            Babies who are exposed to opiates during pregnancy are at risk for
+            low birth weight, behavioral problems, developmental delays, learning disabilities, birth defects and stillbirth.
+            Effective treatments and pregnancy support services exist for those with opioid use disorders and can be found with this tag.
           </p>
         </div>
       );
