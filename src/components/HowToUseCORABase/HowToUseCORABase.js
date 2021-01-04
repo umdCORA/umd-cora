@@ -198,15 +198,6 @@ function HowToUseCORABase() {
           </ul>
         </div>
       );
-    }else if(state.title === "Transportation"){
-      cardContents = (
-        <div className="cardContents">
-          <p>
-            Transportation is available to those for whom transportation is a barrier to treatment, either by the resource itself or a separate organization. 
-            Filter by this tag to find treatment centers who offer their own transportation services or resources that focus solely on transporting people to treatment locations.
-          </p>
-        </div>
-      );
     }else if(state.title === "Pregnancy Support"){
       cardContents = (
         <div className="cardContents">
@@ -214,6 +205,15 @@ function HowToUseCORABase() {
             Babies who are exposed to opiates during pregnancy are at risk for
             low birth weight, behavioral problems, developmental delays, learning disabilities, birth defects and stillbirth.
             Effective treatments and pregnancy support services exist for those with opioid use disorders and can be found with this tag.
+          </p>
+        </div>
+      );
+    }else if(state.title === "Transportation"){
+      cardContents = (
+        <div className="cardContents">
+          <p>
+            Transportation is available to those for whom transportation is a barrier to treatment, either by the resource itself or a separate organization.
+            Filter by this tag to find treatment centers who offer their own transportation services or resources that focus solely on transporting people to treatment locations.
           </p>
         </div>
       );
@@ -292,8 +292,8 @@ function HowToUseCORABase() {
                       <Button className="subButtons" onClick={() => setState({yPosition: 150, title: "Recovery"})}>Recovery</Button>
                       <Button className="subButtons" onClick={() => setState({yPosition: 185, title: "Mental Health Resources"})}>Mental Health Resources</Button>
                       <Button className="subButtons" onClick={() => setState({yPosition: 220, title: "Harm Reduction"})}>Harm Reduction</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 255, title: "Transportation"})}>Transportation</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 290, title: "Pregnancy Support"})}>Pregnancy Support</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 255, title: "Pregnancy Support"})}>Pregnancy Support</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 290, title: "Transportation"})}>Transportation</Button>
 
                       <Button id="my-account" className="titleButtons" onClick={() => setState({yPosition: 350, title: "What is My Account?"})}>What is My Account?</Button>
                       <Button className="subButtons" onClick={() => setState({yPosition: 385, title: "Bookmarks"})}>Bookmarks</Button>
@@ -318,8 +318,8 @@ function HowToUseCORABase() {
                         <option>Recovery</option>
                         <option>Mental Health Resources</option>
                         <option>Harm Reduction</option>
-                        <option>Transportation</option>
                         <option>Pregnancy Support</option>
+                        <option>Transportation</option>
                         <option>What is My Account?</option>
                         <option>Bookmarks</option>
                         <option>Suggest a Resource</option>

@@ -56,12 +56,6 @@ class FindResource extends React.Component {
       { value: 'Physician Education', label: 'Physician Education' },
       { value: 'Political Advocacy', label: 'Political Advocacy' },
     ]
-    const transportOptions = [
-      { value: 'Bus', label: 'Bus' },
-      { value: 'Metro', label: 'Metro' },
-      { value: 'Center-Provided', label: 'Center-Provided' },
-      { value: 'Transportation to Services', label: 'Transportation to Services' },
-    ]
     const recoveryOptions = [
       { value: 'Medicated Assisted Treatment', label: 'Medicated Assisted Treatment' },
       { value: 'Inpatient Rehabilitation', label: 'Inpatient Rehabilitation' },
@@ -87,6 +81,9 @@ class FindResource extends React.Component {
     const pregnancyOptions = [
       { value: 'Pregnancy Support', label: 'Pregnancy Support' },
     ]
+    const transportOptions = [
+      { value: 'Transportation', label: 'Transportation' },
+    ]
     const demographicOptions = [
       { value: 'Adults', label: 'Adults' },
       { value: 'LGBTQ+', label: 'LGBTQ+' },
@@ -107,10 +104,6 @@ class FindResource extends React.Component {
               <Col><Select closeMenuOnSelect={false} isMulti options={preventionOptions} onChange={e => this.handleNarrowSearchChange('Prevention', e)} /></Col>
             </Row>
             <Row>
-              <Col lg={6} xl={4}>Transportation:</Col>
-              <Col><Select closeMenuOnSelect={false} isMulti options={transportOptions} onChange={e => this.handleNarrowSearchChange('Transportation', e)} /></Col>
-            </Row>
-            <Row>
               <Col lg={6} xl={4}>Recovery:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={recoveryOptions} onChange={e => this.handleNarrowSearchChange('Recovery', e)} /></Col>
             </Row>
@@ -129,6 +122,10 @@ class FindResource extends React.Component {
             <Row>
               <Col lg={6} xl={4}>Pregnancy Support:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={pregnancyOptions} onChange={e => this.handleNarrowSearchChange('Pregnancy Support', e)} /></Col>
+            </Row>
+            <Row>
+              <Col lg={6} xl={4}>Transportation:</Col>
+              <Col><Select closeMenuOnSelect={false} isMulti options={transportOptions} onChange={e => this.handleNarrowSearchChange('Transportation', e)} /></Col>
             </Row>
             <Row>
               <Col lg={6} xl={4}>Demographic:</Col>
