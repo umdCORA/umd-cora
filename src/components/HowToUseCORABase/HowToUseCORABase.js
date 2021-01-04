@@ -80,6 +80,16 @@ function HowToUseCORABase() {
       cardContents = (
         <div className="cardContents">
           <ul>
+            <li>Medicated Assisted Treatment</li>
+              <ul>
+                <li>
+                  Medication-assisted treatment (MAT) is
+                  the use of medications in combination with counseling and behavioral therapies,
+                  which is effective in the treatment of opioid use disorders (OUD)
+                  and can help some people to sustain recovery.
+                  Filter by this tag to find locations offering MAT services.
+                </li>
+              </ul>
             <li>Inpatient Rehabilitation</li>
               <ul>
                 <li>
@@ -95,27 +105,6 @@ function HowToUseCORABase() {
                   Outpatient rehab is an ideal option for people who are motivated to stop using their substance of choice, but require the 
                   flexibility of a program that will work around their schedules. Filter by this tag to find outpatient rehabilitations centers.
                 </li>
-                <li>Day Programs</li>
-                  <ul>
-                    <li>
-                      Outpatient day programs have the highest level of care and structure provided within an outpatient setting. In a day program, 
-                      clients typically commit to meeting 5-7 days per week at an outpatient facility for multiple hours each day.
-                    </li>
-                  </ul>
-                <li>Intensive Outpatient Programs</li>
-                  <ul>
-                    <li>
-                      Intensive outpatient programs establish a treatment plan with defined, measurable milestones in place to indicate progress. 
-                      As these milestones are met, the time commitment required per week decreases.
-                    </li>
-                  </ul>
-                <li>Continuing Care</li>
-                  <ul>
-                    <li>
-                      Continuing care groups such as Narcotics Anonymous are ongoing support resources to help an individual solidify their commitment 
-                      to sobriety. The groups are typically facilitated by a licensed therapist and meet weekly.
-                    </li>
-                  </ul>
               </ul>
             <li>Gender-Specific Treatment</li>
               <ul>
@@ -125,41 +114,13 @@ function HowToUseCORABase() {
                   women in terms of substance abuse. Gender-specific treatment programs are sensitive to these differences and address the unique needs of 
                   each of the sexes in a comfortable and supportive environment. Filter by this tag to find gender-specific rehabilitations centers.
                 </li>
-                  <ul>
-                    <li>Treatment for Men</li>
-                    <li>Treatment for Women</li>
-                    <li>Treatment for non-binary peoples</li>
-                  </ul>
               </ul>
             <li>Intervention Specialists</li>
-            <li>Nutrition Management</li>
               <ul>
                 <li>
-                  Nutrition management has been shown to significantly improve opioid-use disorder recovery rates. Filter by this tag to find 
-                  treatment centers who offer their own nutrition services or resources that focus on nutrition management.
-                </li>
-              </ul>
-            <li>Luxury Treatment</li>
-              <ul>
-                <li>
-                  Resort-style rehabilitation centers are a luxury treatment option for addiction, where someone can receive a medically supervised detox, 
-                  around the clock care, and an individualized care plan while enjoying top-tier comfort. These luxury drug and alcohol treatment centers 
-                  generally cost much more than a standard treatment center. Filter by this tag to find luxury treatment centers.
-                </li>
-              </ul>
-            <li>Faith-based Rehabilitation</li>
-              <ul>
-                <li>
-                  Faith-based drug recovery centers and programs address a recovering addict's medical and spiritual needs. Filter by this tag 
-                  to find faith-based rehabilitation centers.
-                </li>
-              </ul>
-            <li>Support Groups</li>
-              <ul>
-                <li>
-                  Support groups are offered as a space where individuals can come together to share their stories, experiences, and lives in a way that 
-                  helps reduce isolation and loneliness. Most follow the 12-step recovery process, which you can learn about 
-                  here: <a href="https://www.samhsa.gov/treatment-prevention-recovery/12-step-programs">https://www.samhsa.gov/treatment-prevention-recovery/12-step-programs</a>
+                  This is someone who leads the combined efforts of friends and family to get the person with the substance use disorder into treatment.
+                  This person is someone who is trained, experienced, and educated about detox and recovery from drugs.
+                  For resources in help in staging an intervention, use this tag.
                 </li>
               </ul>
             <li>Recovery Residences</li>
@@ -168,12 +129,6 @@ function HowToUseCORABase() {
                   A “recovery residence” means a service that provides alcohol-free and illicit drug-free housing to individuals with substance-related 
                   disorders or addictive disorders or co-occurring mental health and substance-related disorders or addictive disorders.
                 </li>
-                  <ul>
-                    <li>Level 1: Peer Run</li>
-                    <li>Level 2: Monitored</li>
-                    <li>Level 3: Supervised</li>
-                    <li>Level 4: Service Provider</li>
-                  </ul>
               </ul>
           </ul>
         </div>
@@ -185,6 +140,27 @@ function HowToUseCORABase() {
             At its core, an opioid use disorder is a mental health issue.
             Here, we provide resources to counseling, therapy, and support groups
             to help those with OUDs stay safe, continue their recovery and deal with life.
+            <ul>
+              <li>Counseling/Therapy</li>
+                <ul>
+                  <li>
+                    A Substance Use Disorder is more than a physical dependence on opioids.
+                    Even after detox, there is a high risk for relapse.
+                    Certain psychological and social factors can be powerful triggers that lead to relapse,
+                    such as stress, environmental pressures, and social networks.
+                    Counseling can help escape cravings and manage pressures from everyday life.
+                  </li>
+                </ul>
+              <li>Support Groups</li>
+                <ul>
+                  <li>
+                    Support groups are offered as a space where individuals can come together
+                    to share their stories, experiences, and lives in a way that helps reduce isolation and loneliness.
+                    Most follow the 12-step recovery process, which you can learn about
+                    here: <a href="https://www.samhsa.gov/treatment-prevention-recovery/12-step-programs">https://www.samhsa.gov/treatment-prevention-recovery/12-step-programs</a>
+                  </li>
+                </ul>
+            </ul>
           </p>
         </div>
       );
@@ -202,24 +178,22 @@ function HowToUseCORABase() {
                   Many state-approved programs are able to certify people to administer naloxone, a life-saving drug that reverses the effects of an overdose. Some of these 
                   programs are able to distribute naloxone themselves.
                 </li>
-                  <ul>
-                    <li>Naloxone Distributor</li>
-                    <li>Overdose Response Trainer</li>
-                  </ul>
               </ul>
             <li>Needle Exchange Programs</li>
               <ul>
                 <li>
-                  Needle exchange programs—which are also known as syringe services programs or needle-syringe programs—provide new and sterile syringes to drug users. 
+                  Needle exchange programs&mdash;which are also known as syringe services programs
+                  or needle-syringe programs&mdash;provide new and sterile syringes to drug users. 
                   This is to reduce transmission of blood-borne diseases such as HIV and Hepatitis C.
                 </li>
               </ul>
-            <li>Needle Injection Sites</li>
-            <li>Needle-Transmitted Diseases</li>
+            <li>Vaccine Clinics</li>
               <ul>
-                <li>HIV Pre-Exposure Prophylaxis</li>
-                <li>HIV Post-Exposure Prophylaxis</li>
-                <li>Vaccine Clinics</li>
+                <li>
+                  These clinics are essential to reducing the spread of diseases such as HIV spread by needle sharing.
+                  For example HIV prophylaxis can be used to prevent the transmission of HIV and save lives.
+                  For resources on vaccines and prophylaxis, use this tag.
+                </li>
               </ul>
           </ul>
         </div>
