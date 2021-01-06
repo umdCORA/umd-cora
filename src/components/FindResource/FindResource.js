@@ -1,7 +1,4 @@
 import React from 'react';
-import SearchBar from 'material-ui-search-bar';
-import SearchIcon from '@material-ui/icons/Search';
-import Script from 'react-load-script';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -12,6 +9,7 @@ import Nav from 'react-bootstrap/Nav';
 import SearchResultLeftPanel from '../SearchResultLeftPanel/SearchResultLeftPanel';
 import SearchResultRightPanel from '../SearchResultRightPanel/SearchResultRightPanel';
 import Select from 'react-select'
+import AutocompleteSearchBox from '../AutocompleteSearchBox/AutcompleteSearchBox';
 
 import './FindResource.css';
 
@@ -152,44 +150,16 @@ class FindResource extends React.Component {
     );
   }
 
-  handleScriptLoad = () => {
-    // Declare Options For Autocomplete
-    const options = {
-      types: ['(cities)'],
-      componentRestrictions: { country: 'usa' }
-    };
-
-    // Initialize Google Autocomplete
-    /*global google*/
-    this.autocomplete = new google.maps.places.Autocomplete( document.getElementById('autocomplete'), options );
-
-    // Avoid paying for data that you don't need by restricting the
-    // set of place fields that are returned to just the address
-    // components and formatted address
-    this.autocomplete.setFields(['address_components', 'formatted_address']);
-
-    // Fire Event when a suggested name is selected
-    this.autocomplete.addListener('place_changed', this.handlePlaceSelect);
-  }
-
-  handlePlaceSelect = () => {
-    // Extract City From Address Object
-    const addressObject = this.autocomplete.getPlace();
-    const address = addressObject.address_components;
-
-    // Check if address is valid
-    if (address) {
-      // Set State
-      this.setState({query: addressObject.formatted_address});
+  handlePlaceSelect = (query, lat, lng) => {
+    if (query && lat && lng) {
+      this.setState({
+        query,
+        showSearchResults: true,
+      });
     }
   }
 
-  handleSearch = () => {
-    const { query } = this.state;
-    if(query) {
-      this.setState({ showSearchResults: true });
-    }
-  }
+  handleQueryChange = (query) => this.setState({ query });
 
   render(){
     const {
@@ -210,22 +180,10 @@ class FindResource extends React.Component {
             </Row>
             <Row className="justify-content-md-center">
               <Col xs={12} sm={12} md={6} lg={6} style={{'marginTop': '20px', 'float': 'left'}}>
-                <Script
-                  url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`}
-                  onLoad={this.handleScriptLoad}
-                />
-                {
-                  // wasn't able to get search icon to work so I'm replacing the close icon as the search icon
-                  // onChange reset query since we don't want to query for an invalid location
-                }
-                <SearchBar
-                  id="autocomplete"
-                  placeholder="Find Resources in Prince Frederick, Calvert County, MD 20678, USA"
-                  value={this.state.query}
-                  closeIcon={<SearchIcon style={{ color: 'grey'}} />}
-                  onChange={() => this.setState({query: ''})}
-                  onCancelSearch={this.handleSearch}
-                  style={{ width: '90%' }}
+                <AutocompleteSearchBox
+                  query={query}
+                  onQueryChange={this.handleQueryChange}
+                  onPlaceSelect={this.handlePlaceSelect}
                 />
               </Col>
             </Row>
