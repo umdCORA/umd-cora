@@ -6,7 +6,7 @@ div.faq {
 div.line {
     border-left: 2px solid #FFFFFF;
     margin-top: 20px;
-    height: 650px;
+    height: 580px;
     display: inline-block;
     position: absolute;
     left: 48.5px;
@@ -92,7 +92,7 @@ button.resources-button {
 }
 
 div.faqColumn {
-  min-height: 680px; /* contain full div.line (650px) with some padding */
+  min-height: 610px; /* contain full div.line (580px) with some padding */
 }
 
 div.how-card {

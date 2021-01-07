@@ -47,35 +47,6 @@ function HowToUseCORABase() {
           </p>
         </div>
       );
-    }else if(state.title === "Prevention"){
-      cardContents = (
-        <div className="cardContents">
-          <p>There are 3 subgroups of prevention:</p>
-          <ul>
-            <li>Awareness and Education</li>
-              <ul>
-                <li>
-                  According to CORA’s research, the general public is unable to correctly answer 60% of questions related to opioid use, which 
-                  leads to frequent misuse. Filter by this tag to find programs dedicated to educating the everyday person.
-                </li>
-              </ul>
-            <li>Physician Education</li>
-              <ul>
-                <li>
-                  80% of opioid-use disorder cases originate with prescribed opioids for pain, and chronic pain management has been omitted 
-                  from physician education. Filter by this tag to find educational resources for healthcare professionals.
-                </li>
-              </ul>
-            <li>Political Advocacy</li>
-              <ul>
-                <li>
-                  Developing policy geared towards reducing opioid-use disorders cases and overdose is crucial to curbing the opioid epidemic. 
-                  Filter by this tag to find programs dedicated to advocating for this cause to all levels of government.
-                </li>
-              </ul>
-          </ul>
-        </div>
-      );
     }else if(state.title === "Recovery"){
       cardContents = (
         <div className="cardContents">
@@ -195,17 +166,15 @@ function HowToUseCORABase() {
                   For resources on vaccines and prophylaxis, use this tag.
                 </li>
               </ul>
+            <li>Pregnancy Support</li>
+              <ul>
+                <li>
+                  Babies who are exposed to opiates during pregnancy are at risk for
+                  low birth weight, behavioral problems, developmental delays, learning disabilities, birth defects and stillbirth.
+                  Effective treatments and pregnancy support services exist for those with opioid use disorders and can be found with this tag.
+                </li>
+              </ul>
           </ul>
-        </div>
-      );
-    }else if(state.title === "Pregnancy Support"){
-      cardContents = (
-        <div className="cardContents">
-          <p>
-            Babies who are exposed to opiates during pregnancy are at risk for
-            low birth weight, behavioral problems, developmental delays, learning disabilities, birth defects and stillbirth.
-            Effective treatments and pregnancy support services exist for those with opioid use disorders and can be found with this tag.
-          </p>
         </div>
       );
     }else if(state.title === "Transportation"){
@@ -288,21 +257,19 @@ function HowToUseCORABase() {
                       <Button className="titleButtons" onClick={() => setState({yPosition: 25, title: "How to use CORAbase"})}>How to use CORAbase</Button>
 
                       <Button id="advanced-search" className="titleButtons" onClick={() => setState({yPosition: 80, title: "Advanced Search"})}>Advanced Search</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 115, title: "Prevention"})}>Prevention</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 150, title: "Recovery"})}>Recovery</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 185, title: "Mental Health Resources"})}>Mental Health Resources</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 220, title: "Harm Reduction"})}>Harm Reduction</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 255, title: "Pregnancy Support"})}>Pregnancy Support</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 290, title: "Transportation"})}>Transportation</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 115, title: "Recovery"})}>Recovery</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 150, title: "Mental Health Resources"})}>Mental Health Resources</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 185, title: "Harm Reduction"})}>Harm Reduction</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 220, title: "Transportation"})}>Transportation</Button>
 
-                      <Button id="my-account" className="titleButtons" onClick={() => setState({yPosition: 350, title: "What is My Account?"})}>What is My Account?</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 385, title: "Bookmarks"})}>Bookmarks</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 420, title: "Suggest a Resource"})}>Suggest a Resource</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 455, title: "Report a Resource"})}>Report a Resource</Button>
+                      <Button id="my-account" className="titleButtons" onClick={() => setState({yPosition: 280, title: "What is My Account?"})}>What is My Account?</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 315, title: "Bookmarks"})}>Bookmarks</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 350, title: "Suggest a Resource"})}>Suggest a Resource</Button>
+                      <Button className="subButtons" onClick={() => setState({yPosition: 385, title: "Report a Resource"})}>Report a Resource</Button>
 
-                      <Button id="print-resources" className="titleButtons" onClick={() => setState({yPosition: 510, title: "Printing your Resources"})}>Printing your Resources</Button>
-                      <Button id="research-studies" className="titleButtons" onClick={() => setState({yPosition: 565, title: "Research Studies"})}>Research Studies</Button>
-                      <Button id="what-is-cora" className="titleButtons" onClick={() => setState({yPosition: 620, title: "What is CORA?"})}>What is CORA?</Button>
+                      <Button id="print-resources" className="titleButtons" onClick={() => setState({yPosition: 440, title: "Printing your Resources"})}>Printing your Resources</Button>
+                      <Button id="research-studies" className="titleButtons" onClick={() => setState({yPosition: 495, title: "Research Studies"})}>Research Studies</Button>
+                      <Button id="what-is-cora" className="titleButtons" onClick={() => setState({yPosition: 550, title: "What is CORA?"})}>What is CORA?</Button>
                     </ButtonGroup>
                   </div>
                 </Col>
@@ -314,11 +281,9 @@ function HowToUseCORABase() {
                       <Form.Control as="select" value={state.title} onChange={handleFAQDropdownChange} custom>
                         <option>How to use CORAbase</option>
                         <option>Advanced Search</option>
-                        <option>Prevention</option>
                         <option>Recovery</option>
                         <option>Mental Health Resources</option>
                         <option>Harm Reduction</option>
-                        <option>Pregnancy Support</option>
                         <option>Transportation</option>
                         <option>What is My Account?</option>
                         <option>Bookmarks</option>
