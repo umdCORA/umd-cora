@@ -6,7 +6,7 @@ div.faq {
 div.line {
     border-left: 2px solid #FFFFFF;
     margin-top: 20px;
-    height: 650px;
+    height: 580px;
     display: inline-block;
     position: absolute;
     left: 48.5px;
@@ -65,10 +65,12 @@ div.faqCardColumn {
   padding-left: 50px;
   padding-right: 50px;
   padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
 }
 
 div.faqCard {
-  height: 600px;
+  flex: 1;
   background: #F9F8F8;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
@@ -92,7 +94,7 @@ button.resources-button {
 }
 
 div.faqColumn {
-  min-height: 680px; /* contain full div.line (650px) with some padding */
+  min-height: 610px; /* contain full div.line (580px) with some padding */
 }
 
 div.how-card {

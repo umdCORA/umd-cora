@@ -49,11 +49,6 @@ class FindResource extends React.Component {
   renderNarrowSearch = () => {
     const { narrowSearchOptions } = this.state;
     const { distanceInMilesSelection } = narrowSearchOptions;
-    const preventionOptions = [
-      { value: 'Awareness and Education', label: 'Awareness and Education' },
-      { value: 'Physician Education', label: 'Physician Education' },
-      { value: 'Political Advocacy', label: 'Political Advocacy' },
-    ]
     const recoveryOptions = [
       { value: 'Medicated Assisted Treatment', label: 'Medicated Assisted Treatment' },
       { value: 'Inpatient Rehabilitation', label: 'Inpatient Rehabilitation' },
@@ -67,40 +62,24 @@ class FindResource extends React.Component {
       { value: 'Support Groups', label: 'Support Groups' },
     ]
     const payOptions = [
-          { value: 'Sliding Scale', label: 'Sliding Scale' },
-          { value: 'Free', label: 'Free' },
-          { value: 'Paid', label: 'Paid' },
+      { value: 'Sliding Scale', label: 'Sliding Scale' },
+      { value: 'Free', label: 'Free' },
+      { value: 'Paid', label: 'Paid' },
     ]
     const harmReductionOptions = [
       { value: 'Overdose Response', label: 'Overdose Response' },
       { value: 'Needle Exchange Programs', label: 'Needle Exchange Programs' },
       { value: 'Vaccine and Prophylaxis Clinics', label: 'Vaccine and Prophylaxis Clinics' },
-    ]
-    const pregnancyOptions = [
       { value: 'Pregnancy Support', label: 'Pregnancy Support' },
     ]
     const transportOptions = [
       { value: 'Transportation', label: 'Transportation' },
-    ]
-    const demographicOptions = [
-      { value: 'Adults', label: 'Adults' },
-      { value: 'LGBTQ+', label: 'LGBTQ+' },
-      { value: 'Veterans', label: 'Veterans' },
-      { value: 'Seniors', label: 'Seniors' },
-      { value: 'Children', label: 'Children' },
-      { value: 'Adolescents', label: 'Adolescents' },
-      { value: 'Young Adults', label: 'Young Adults' },
-      { value: 'Homeless', label: 'Homeless' },
     ]
 
     return (
       <Card className="narrow-search-card">
         <Card.Body className="narrow-search-field-card" style={{'marginTop': '10px'}}>
           <Container>
-            <Row>
-              <Col lg={6} xl={4}>Prevention:</Col>
-              <Col><Select closeMenuOnSelect={false} isMulti options={preventionOptions} onChange={e => this.handleNarrowSearchChange('Prevention', e)} /></Col>
-            </Row>
             <Row>
               <Col lg={6} xl={4}>Recovery:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={recoveryOptions} onChange={e => this.handleNarrowSearchChange('Recovery', e)} /></Col>
@@ -118,16 +97,8 @@ class FindResource extends React.Component {
               <Col><Select closeMenuOnSelect={false} isMulti options={harmReductionOptions} onChange={e => this.handleNarrowSearchChange('Harm Reduction', e)} /></Col>
             </Row>
             <Row>
-              <Col lg={6} xl={4}>Pregnancy Support:</Col>
-              <Col><Select closeMenuOnSelect={false} isMulti options={pregnancyOptions} onChange={e => this.handleNarrowSearchChange('Pregnancy Support', e)} /></Col>
-            </Row>
-            <Row>
               <Col lg={6} xl={4}>Transportation:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={transportOptions} onChange={e => this.handleNarrowSearchChange('Transportation', e)} /></Col>
-            </Row>
-            <Row>
-              <Col lg={6} xl={4}>Demographic:</Col>
-              <Col><Select closeMenuOnSelect={false} isMulti options={demographicOptions} onChange={e => this.handleNarrowSearchChange('Demographic', e)} /></Col>
             </Row>
             <Row style={{'marginTop': '20px'}}>
               <Col xs xl={4}>Distance in Miles:</Col>
