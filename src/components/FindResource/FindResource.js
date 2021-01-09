@@ -9,7 +9,7 @@ import Nav from 'react-bootstrap/Nav';
 import SearchResultLeftPanel from '../SearchResultLeftPanel/SearchResultLeftPanel';
 import SearchResultRightPanel from '../SearchResultRightPanel/SearchResultRightPanel';
 import Select from 'react-select'
-import AutocompleteSearchBox from '../AutocompleteSearchBox/AutcompleteSearchBox';
+import AutocompleteSearchBox from '../AutocompleteSearchBox/AutocompleteSearchBox';
 
 import './FindResource.css';
 
@@ -18,14 +18,14 @@ class FindResource extends React.Component {
     super(props);
     this.state = {
       query: '',
+      lat: null,
+      long: null,
       showNarrowSearch: false,
       showSearchResults: false,
       narrowSearchOptions: {
-        resourceTypeSelection: [],
         distanceInMilesSelection: 5,
-        transportationSelection: [],
-        demographicSelection: [],
-      }
+      },
+      searchResults: null,
     }
   }
 
@@ -151,10 +151,29 @@ class FindResource extends React.Component {
   }
 
   handlePlaceSelect = (query, lat, lng) => {
+    const {
+      narrowSearchOptions
+    } = this.state;
+    const {
+      distanceInMilesSelection,
+    } = narrowSearchOptions;
+    let allTags = [];
+    for(const [key, value] of Object.entries(narrowSearchOptions)) {
+      if (key !== 'distanceInMilesSelection') {
+        allTags = allTags.concat(value);
+      }
+    }
+
     if (query && lat && lng) {
       this.setState({
         query,
+        lat,
+        long: lng,
         showSearchResults: true,
+      }, () => {
+        fetch(`/api/v1/data/resources?lat=${lat}&long=${lng}&radius=${distanceInMilesSelection}&tags=${allTags.toString()}`)
+          .then(res => res.json())
+          .then(results => this.setState({searchResults: results}))
       });
     }
   }
@@ -167,6 +186,9 @@ class FindResource extends React.Component {
       showSearchResults,
       narrowSearchOptions,
       query,
+      lat,
+      long,
+      searchResults,
     } = this.state;
 
     return (
@@ -221,7 +243,11 @@ class FindResource extends React.Component {
               />
             </div>
             <div className="right-panel">
-              <SearchResultRightPanel/>
+              <SearchResultRightPanel
+                lat={lat}
+                long={long}
+                searchResults={searchResults}
+              />
             </div>
           </div>
         }
