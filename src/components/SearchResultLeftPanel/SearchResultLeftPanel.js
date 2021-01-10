@@ -19,12 +19,12 @@ class SearchResultLeftPanel extends  React.Component {
         {
           Object.keys(narrowSearchOptions).map((key, index) => (
             <div className="criteria" key={index}>
-              {narrowSearchOptions[key].length > 0 && (<span><u>{key}:</u> {narrowSearchOptions[key].join(", ")}</span>)}
+              {narrowSearchOptions[key].length > 0 && (<span><u>{key}</u>: {narrowSearchOptions[key].join(", ")}</span>)}
             </div>
           ))
         }
         <div className="criteria">
-          <u>Transportation</u>: {transportationSelection.toString()}
+          <u>Free Transportation Available</u>: {transportationSelection.toString()}
         </div>
         <div className="criteria">
           <u>Distance</u>: {distanceInMilesSelection.toString()}
