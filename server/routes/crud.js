@@ -83,24 +83,23 @@ router.put("/data/resources/:id", (req, res) => {
 router.get("/data/resources", (req, res) => {
   
   var params = {};
-  if(req.query.tags){
-    params.tags= {$all: JSON.parse(req.query.tags)}
-    
-  }
   if(req.query.lat && req.query.long && req.query.radius){
     params = {"location.geo":{
       $nearSphere: {
         $geometry: {
           type: "Point",
-          coordinates: [req.query.long, req.query.lat]
+          coordinates: [req.query.lat, req.query.long]
         },
-        $maxDistance: req.query.radius/.000621371
+        $maxDistance: req.query.radius/.000621371 // mile to meters for google api
        
       }
     }
     }
   }
-  var filter = ResourceDB.find(params , (err, doc) => {
+  if(req.query.tags){
+    params.tags= {$all: req.query.tags.split(',')}
+  }
+  var filter = ResourceDB.find(params, (err, doc) => {
     errorFun(err, res);
     res.send(doc);
   });
