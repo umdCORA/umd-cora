@@ -9,15 +9,12 @@ class SearchResultLeftPanel extends  React.Component {
       address,
       narrowSearchOptions,
     } = this.props;
-    const { distanceInMilesSelection } = narrowSearchOptions;
+    const { transportationSelection, distanceInMilesSelection } = narrowSearchOptions;
 
     return (
       <div className="search-criteria">
         <div className="criteria">
-          <u>Address:</u>  {address}
-        </div>
-        <div className="criteria">
-          <u>Distance:</u> {distanceInMilesSelection}
+          <u>Address</u>:  {address}
         </div>
         {
           Object.keys(narrowSearchOptions).map((key, index) => (
@@ -26,6 +23,12 @@ class SearchResultLeftPanel extends  React.Component {
             </div>
           ))
         }
+        <div className="criteria">
+          <u>Transportation</u>: {transportationSelection.toString()}
+        </div>
+        <div className="criteria">
+          <u>Distance</u>: {distanceInMilesSelection.toString()}
+        </div>
       </div>
     )
   }

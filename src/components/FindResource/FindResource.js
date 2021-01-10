@@ -23,10 +23,28 @@ class FindResource extends React.Component {
       showNarrowSearch: false,
       showSearchResults: false,
       narrowSearchOptions: {
-        distanceInMilesSelection: 5,
+        transportationSelection: false,
+        distanceInMilesSelection: 25,
       },
       searchResults: null,
     }
+  }
+
+  handleNarrowSearchChange = (category, event) => {
+    const { narrowSearchOptions } = this.state;
+    narrowSearchOptions[category] = event == null ? [] : event.map(x => x.value);
+    this.setState(narrowSearchOptions);
+  }
+
+  handleTransportationChange = event => {
+    const { narrowSearchOptions } = this.state;
+
+    this.setState({
+      narrowSearchOptions: {
+        ...narrowSearchOptions,
+        transportationSelection: event.currentTarget.checked
+      }
+    });
   }
 
   handleMileDropdownChange = event => {
@@ -38,12 +56,6 @@ class FindResource extends React.Component {
         distanceInMilesSelection: parseInt(event.target.value)
       }
     });
-  }
-
-  handleNarrowSearchChange = (category, event) => {
-    const { narrowSearchOptions } = this.state;
-    narrowSearchOptions[category] = event == null ? [] : event.map(x => x.value);
-    this.setState(narrowSearchOptions);
   }
 
   renderNarrowSearch = () => {
@@ -72,39 +84,42 @@ class FindResource extends React.Component {
       { value: 'Vaccine and Prophylaxis Clinics', label: 'Vaccine and Prophylaxis Clinics' },
       { value: 'Pregnancy Support', label: 'Pregnancy Support' },
     ]
-    const transportOptions = [
-      { value: 'Transportation', label: 'Transportation' },
-    ]
 
     return (
       <Card className="narrow-search-card">
         <Card.Body className="narrow-search-field-card" style={{'marginTop': '10px'}}>
           <Container>
             <Row>
-              <Col lg={6} xl={4}>Recovery:</Col>
+              <Col xl={6}>Recovery:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={recoveryOptions} onChange={e => this.handleNarrowSearchChange('Recovery', e)} /></Col>
             </Row>
             <Row>
-              <Col lg={6} xl={4}>Mental Health Resources:</Col>
+              <Col xl={6}>Mental Health Resources:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={mentalHealthOptions} onChange={e => this.handleNarrowSearchChange('Mental Health Resources', e)} /></Col>
             </Row>
             <Row>
-              <Col lg={6} xl={4}>Payment:</Col>
+              <Col xl={6}>Payment:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={payOptions} onChange={e => this.handleNarrowSearchChange('Payment', e)} /></Col>
             </Row>
             <Row>
-              <Col lg={6} xl={4}>Harm Reduction:</Col>
+              <Col xl={6}>Harm Reduction:</Col>
               <Col><Select closeMenuOnSelect={false} isMulti options={harmReductionOptions} onChange={e => this.handleNarrowSearchChange('Harm Reduction', e)} /></Col>
             </Row>
-            <Row>
-              <Col lg={6} xl={4}>Transportation:</Col>
-              <Col><Select closeMenuOnSelect={false} isMulti options={transportOptions} onChange={e => this.handleNarrowSearchChange('Transportation', e)} /></Col>
-            </Row>
-            <Row style={{'marginTop': '20px'}}>
-              <Col xs xl={4}>Distance in Miles:</Col>
+            <Row style={{'marginTop': '1rem'}}>
+              <Col xs xl={6}>Free Transportation Available:</Col>
               <Col xs="auto">
                 <Form>
-                  <Form.Group controlId="exampleForm.SelectCustom">
+                  <Form.Group style={{'marginBottom': '0.5rem'}} controlId="transportationForm">
+                    <Form.Check style={{'zIndex': '0'}} type="checkbox" onChange={this.handleTransportationChange} label="" custom />
+                  </Form.Group>
+                </Form>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs xl={6}>Distance in Miles:</Col>
+              <Col xs="auto">
+                <Form>
+                  <Form.Group controlId="distanceForm">
                     <Form.Control as="select" value={distanceInMilesSelection} onChange={this.handleMileDropdownChange} custom>
                       <option>5</option>
                       <option>10</option>
