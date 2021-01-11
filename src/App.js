@@ -148,7 +148,6 @@ class App extends React.Component {
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav variant="pills" defaultActiveKey="/" activeKey={window.location.pathname} className="mr-auto">
               <Nav.Link href="/">Find a Resource</Nav.Link>
-              <Nav.Link href="/general-info">General Opioid Information and Statistics</Nav.Link>
               <Nav.Link href="/how-to-use-corabase">How to Use CORAbase</Nav.Link>
               <Nav.Link href="/join-a-research-study">Join a Research Study</Nav.Link>
               <Nav.Link href="/about-us">About Us</Nav.Link>
@@ -171,9 +170,6 @@ class App extends React.Component {
           </Navbar>
           <div id="body-wrapper">
             <Switch>
-              <Route path="/general-info">
-                <div>info</div>
-              </Route>
               <Route path="/how-to-use-corabase">
                 <HowToUseCORABase></HowToUseCORABase>
               </Route>
