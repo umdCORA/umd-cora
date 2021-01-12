@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -143,9 +144,14 @@ class FindResource extends React.Component {
     const {
       distanceInMilesSelection,
     } = narrowSearchOptions;
+
     let allTags = [];
-    for(const [key, value] of Object.entries(narrowSearchOptions)) {
-      if (key !== 'distanceInMilesSelection') {
+    for (const [key, value] of Object.entries(narrowSearchOptions)) {
+      if (key === 'transportationSelection') {
+        if (value) {
+          allTags.push('Transportation');
+        }
+      } else if (key !== 'distanceInMilesSelection') {
         allTags = allTags.concat(value);
       }
     }
@@ -242,4 +248,4 @@ class FindResource extends React.Component {
   }
 }
 
-export default FindResource;
+export default withRouter(FindResource);

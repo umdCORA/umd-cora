@@ -1,0 +1,19 @@
+.RightPanel {
+  display: flex;
+  flex-direction: column;
+}
+
+.right-icons {
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+}
+
+.print:hover {
+  cursor: pointer;
+}
+
+.summary-title {
+  font-weight: bold;
+}

@@ -26,7 +26,7 @@ function handleScriptLoad(updateQuery, autoCompleteRef) {
   autoComplete = new window.google.maps.places.Autocomplete(
     autoCompleteRef.current,
     {
-      types: ["(regions)"], 
+      types: [], 
       componentRestrictions: { country: "us" }
     }
   );

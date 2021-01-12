@@ -18,6 +18,7 @@ class SearchResultRightPanel extends React.Component {
       contact,
       name,
       tags,
+      _id,
     } = result;
     const {
       address,
@@ -32,6 +33,7 @@ class SearchResultRightPanel extends React.Component {
     const {
       coordinates
     } = location.geo;
+
     let distanceInMiles = convertDistance(getDistance(
       { latitude: lat, longitude: long },
       { latitude: coordinates[0], longitude: coordinates[1] },
@@ -55,7 +57,7 @@ class SearchResultRightPanel extends React.Component {
             Services: {tags.join(", ")}
           </Card.Text>
           <Card.Text>
-            <b>Click the card for more information</b>
+              <a href={`/resource-page/${_id}/${lat}/${long}`} target="_blank" rel="noopener noreferrer">Click the card for more information</a>
           </Card.Text>
         </Card.Body>
       </Card>
