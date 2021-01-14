@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  withRouter,
 } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -14,6 +15,7 @@ import FindResource from './components/FindResource/FindResource';
 import AboutUs from './components/AboutUs/AboutUs';
 import ResearchStudy from './components/ResearchStudy/ResearchStudy';
 import HowToUseCORABase from './components/HowToUseCORABase/HowToUseCORABase';
+import ResourcePage from'./components/ResourcePage/ResourcePage';
 import cora_logo from './assests/cora_logo.png'
 
 import './App.css';
@@ -136,6 +138,8 @@ class App extends React.Component {
       userLoggedIn,
     } = this.state;
 
+    // resource-page should have pill on Find Resource tab
+    const activeKey = window.location.pathname.includes('resource-page') ? '/' : window.location.pathname;
     return (
       <Router>
         <div className="App">
@@ -146,7 +150,7 @@ class App extends React.Component {
             <Navbar.Brand href="/"><Image id="cora_logo" src={cora_logo}></Image></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-            <Nav variant="pills" defaultActiveKey="/" activeKey={window.location.pathname} className="mr-auto">
+            <Nav variant="pills" defaultActiveKey="/" activeKey={activeKey} className="mr-auto">
               <Nav.Link href="/">Find a Resource</Nav.Link>
               <Nav.Link href="/how-to-use-corabase">How to Use CORAbase</Nav.Link>
               <Nav.Link href="/join-a-research-study">Join a Research Study</Nav.Link>
@@ -179,9 +183,8 @@ class App extends React.Component {
               <Route path="/about-us">
                 <AboutUs></AboutUs>
               </Route>
-              <Route path="/">
-                <FindResource/>
-              </Route>
+              <Route path="/resource-page/:uuid/:lat/:long" component={ResourcePage}/>
+              <Route path="/" component={FindResource}/>
             </Switch>
           </div>
           <Navbar id="footer" className="mr-auto">
@@ -198,4 +201,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);

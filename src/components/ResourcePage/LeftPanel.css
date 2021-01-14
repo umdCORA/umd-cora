@@ -1,0 +1,12 @@
+.LeftPanel {
+  margin-right: 50px;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.map-header {
+  display: flex;
+  justify-content: space-between;
+}
