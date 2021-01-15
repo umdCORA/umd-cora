@@ -24,10 +24,10 @@ router.all("/*", (req, res, next) => {
   }
 });
 
-router.post("/register", (req, res, next) => {
-  var user = req.body.username;
+router.post("/data/users/register", (req, res, next) => {
+  var user = req.body.username.toLowerCase();
   var pswd = req.body.password;
-  var email = req.body.email;
+  var email = req.body.email.toLowerCase();
 
   bcrypt
     .hash(pswd, Properties.BCRYPT_SALT_ROUNDS)
@@ -41,7 +41,7 @@ router.post("/register", (req, res, next) => {
       return newUser.save({});
     })
     .then(function () {
-      res.send("Correct login");
+      res.send("Account created");
     })
     .catch(function (error) {
       console.log("Err: ");
@@ -51,18 +51,18 @@ router.post("/register", (req, res, next) => {
     });
 });
 
-router.post("/login", (req, res, next) => {
-  var username = req.body.username;
+router.post("/data/users/login", (req, res, next) => {
+  var username = req.body.username.toLowerCase();
   var password = req.body.password;
-  var email = req.body.email || "";
 
   UserDB.findOne({ username: username })
     .then(function (user) {
+      if(!user) return 0
       return bcrypt.compare(password, user.hash);
     })
     .then(function (correctPsw) {
       if (!correctPsw) {
-        res.status(403).send();
+        res.status(403).send("User and password do not match");
       }
       res.send();
     })
@@ -81,23 +81,24 @@ router.post("/login", (req, res, next) => {
   "newPassword": "newPassword"
 }
  */
-router.post("/updatePassword", (req, res, next) => {
-  var username = req.body.username;
+router.post("/data/users/updatePassword", (req, res, next) => {
+  var username = req.body.username.toLowerCase();
   var password = req.body.password;
   var newPassword = req.body.newPassword;
-  var user = UserDB.findOne({ username: username }, (err, doc) => {
+
+  UserDB.findOne({ username: username }, (err, doc) => {
     if (!doc) {
       res.status(404).send("User does not exist");
       next();
       return;
     }
-    bcrypt.compare(password, doc.hash).then(function (correctPsw) {
+    bcrypt.compare(password, doc.hash, function (err, correctPsw) {
       if (!correctPsw) {
         res.status(403).send("Wrong password");
         next();
         return;
       }
-      bcrypt.hash(newPassword, user.salt, (err, encrpyted) => {
+      bcrypt.hash(newPassword, parseInt(doc.salt), (err, encrpyted) => {
         doc.hash = encrpyted;
         doc.save();
         res.send("Password changed");
@@ -107,19 +108,19 @@ router.post("/updatePassword", (req, res, next) => {
   });
 });
 
-router.post("/getAll", (req, res, next) => {
+router.post("/data/users/getAll", (req, res, next) => {
   UserDB.find({}).then((doc) => {
     res.send(doc);
   });
 });
-router.post("/getUser", (req, res, next) => {
-  var username = req.body.username;
+router.post("/data/users/getUser", (req, res, next) => {
+  var username = req.body.username.toLowerCase();
   var password = req.body.password;
   var email = req.body.email;
-  UserDB.findOne({ username: req.body.username })
+  UserDB.findOne({ username: username })
     .then(function (doc) {
-      console.log(doc);
-      res.send(doc);
+      if (!doc) res.status(404).send("User not found");
+      else res.send(doc);
     })
     .catch(function (err) {
       console.log("Err: ");
@@ -129,8 +130,8 @@ router.post("/getUser", (req, res, next) => {
     });
 });
 
-router.post("/upvote", (req, res, next) => {
-  var username = req.body.username;
+router.post("/data/users/upvote", (req, res, next) => {
+  var username = req.body.username.toLowerCase();
   var password = req.body.password;
   var postID = req.body.postID;
   UserDB.findOneAndUpdate(
@@ -139,13 +140,13 @@ router.post("/upvote", (req, res, next) => {
       $addToSet: { "meta.upvoted": postID },
       $pull: { "meta.downvoted": postID },
     }
-  ).then(() => {
+  ).then((err,doc) => {
     res.send();
   });
 });
 
-router.post("/downvote", (req, res, next) => {
-  var username = req.body.username;
+router.post("/data/users/downvote", (req, res, next) => {
+  var username = req.body.username.toLowerCase();
   var password = req.body.password;
   var postID = req.body.postID;
   UserDB.findOneAndUpdate(
@@ -159,8 +160,8 @@ router.post("/downvote", (req, res, next) => {
   });
 });
 
-router.post("/bookmark", (req, res, next) => {
-  var username = req.body.username;
+router.post("/data/users/bookmark", (req, res, next) => {
+  var username = req.body.username.toLowerCase();
   var password = req.body.password;
   var postID = req.body.postID;
   UserDB.findOneAndUpdate(
@@ -173,8 +174,8 @@ router.post("/bookmark", (req, res, next) => {
   });
 });
 
-router.post("/unbookmark", (req, res, next) => {
-  var username = req.body.username;
+router.post("/data/users/unbookmark", (req, res, next) => {
+  var username = req.body.username.toLowerCase();
   var password = req.body.password;
   var postID = req.body.postID;
   UserDB.findOneAndUpdate(

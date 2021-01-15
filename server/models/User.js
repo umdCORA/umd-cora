@@ -25,7 +25,10 @@ var UserSchema = new Schema(
       validate: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
     },
 
-    hash: String,
+    hash: {
+      type: String,
+      required: true
+    },
     salt: String,
 
     meta: {

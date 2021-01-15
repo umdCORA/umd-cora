@@ -10,5 +10,5 @@ module.exports = {
     database_ENDPOINT: '/api/v1',
     client_ENDPOINT: '/client',
 
-    BCRYPT_SALT_ROUNDS: 12
+    BCRYPT_SALT_ROUNDS: 10
 }
