@@ -17,10 +17,9 @@ app.use(actuator());
 app.use(properties.database_ENDPOINT, crudRouter);
 app.use(properties.client_ENDPOINT, clientRouter);
 
-
 db();
 
-app.listen(5000, function () {
+app.listen(properties.SERVER_PORT, function () {
   console.log(`Listening on port: ${properties.SERVER_PORT}`);
 });
 
