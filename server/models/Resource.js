@@ -50,6 +50,11 @@ const contact = new Schema({
     type: String,
     default: "",
   },
+  website: {
+    type: String, 
+    required: true,
+    default: "",
+  },
 });
 
 const meta = new Schema({
