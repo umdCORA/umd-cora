@@ -30,7 +30,7 @@ var UserSchema = new Schema(
       required: true
     },
     salt: String,
-
+    
     meta: {
       type: meta,
       required: true,

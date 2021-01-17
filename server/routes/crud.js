@@ -33,7 +33,7 @@ router.all("/*", (req, res, next) => {
  *  "email": "user1@email.com",
  *  "password": "somePassword"
  * }
- * 
+ *
  * Successfull addition will result in a 200 and success message.
  * Some notes:
  * -Usernames and email is treated as case-insensitive, so everything will be stored in lowercase
@@ -77,7 +77,7 @@ router.post("/data/users/register", (req, res, next) => {
 
 /**
  * To check authentication, pass a password to be hashed.
- * 
+ *
  * POST: localhost:5000/api/v1/data/users/login
  * body:
  * {
@@ -85,13 +85,13 @@ router.post("/data/users/register", (req, res, next) => {
  *    "password": "somePassword"
  * }
  * Successful login/authentication will result in a 200 code.
- * 
- * Some notes: 
+ *
+ * Some notes:
  * -If either user does not exist or password does not match in database,
  * a 403 will be thrown.
  * -This does not directly compare the two passwords, but rather the two passwords
  * hashes.
- * 
+ *
  */
 router.post("/data/users/login", (req, res, next) => {
   var username = req.body.username.toLowerCase();
@@ -99,7 +99,7 @@ router.post("/data/users/login", (req, res, next) => {
 
   UserDB.findOne({ username: username })
     .then(function (user) {
-      if(!user) return 0
+      if (!user) return 0;
       return bcrypt.compare(password, user.hash);
     })
     .then(function (correctPsw) {
@@ -118,17 +118,17 @@ router.post("/data/users/login", (req, res, next) => {
 /**
  * To update password
  * POST: localhost:5000/data/users/updatePassword
- * body: 
+ * body:
  * {
  *  "username": "someUsername",
  * "password": "someOldPassword",
  * "newPassword": "someNewPassword"
  * }
- * 
+ *
  * Successful update will give 200 code
- * 
+ *
  * Some notes:
- * -Creating new password will change the previous salt round of the account 
+ * -Creating new password will change the previous salt round of the account
  * to the current salt round in Properties.
  * -If user does not exist, results in a 404.
  * -If old password is incorrect, results in a 403.
@@ -150,18 +150,22 @@ router.post("/data/users/updatePassword", (req, res, next) => {
         next();
         return;
       }
-      bcrypt.hash(newPassword, Properties.BCRYPT_SALT_ROUNDS, (err, encrpyted) => {
-        doc.hash = encrpyted;
-        doc.salt = Properties.BCRYPT_SALT_ROUNDS;
-        doc.save();
-        res.send("Password changed");
-        next();
-      });
+      bcrypt.hash(
+        newPassword,
+        Properties.BCRYPT_SALT_ROUNDS,
+        (err, encrpyted) => {
+          doc.hash = encrpyted;
+          doc.salt = Properties.BCRYPT_SALT_ROUNDS;
+          doc.save();
+          res.send("Password changed");
+          next();
+        }
+      );
     });
   });
 });
 /**
- * Grabs and returns all users in the collection. You shouldn't 
+ * Grabs and returns all users in the collection. You shouldn't
  * really need this other than for debugging.
  */
 router.post("/data/users/getAll", (req, res, next) => {
@@ -172,15 +176,15 @@ router.post("/data/users/getAll", (req, res, next) => {
 
 /**
  * Grabs and returns entry in Collection with matching username.
- * 
+ *
  * POST: you know what it is
  * body:
  * {
  * "username": "..."
  * }
- * 
+ *
  * On success 200 code is returned.
- * 
+ *
  * Some notes:
  * -404 if requested user does not exist currently.
  * -case-insensitive for usernames
@@ -210,12 +214,12 @@ router.post("/data/users/getUser", (req, res, next) => {
  *  "username": "...",
  * "postID": "UUID of resource entry"
  * }
- * 
+ *
  * On success returns 200.
- * 
+ *
  * Some notes:
  * -NO VALIDATION for correct resource UUIDs
- * -Will automatically remove entry from downvote array 
+ * -Will automatically remove entry from downvote array
  * and move to upvote if it was previously downvoted.
  * -Currently not implemented is tracking the resources meta-data
  * -Handles duplicate IDs.
@@ -230,12 +234,14 @@ router.post("/data/users/upvote", (req, res, next) => {
       $addToSet: { "meta.upvoted": postID },
       $pullAll: { "meta.downvoted": [postID] },
     }
-  ).then(()=>{
-    /* Increase resource entry metadata
+  )
+    .then(() => {
+      /* Increase resource entry metadata
     ResourceDB.findByIdAndUpdate({_id: postID}, {$inc: "meta.votes_positive"})*/
-  }).then(() => {
-    res.send();
-  });
+    })
+    .then(() => {
+      res.send();
+    });
 });
 /**
  * Used to downvote meta data.
@@ -245,12 +251,12 @@ router.post("/data/users/upvote", (req, res, next) => {
  *  "username": "...",
  * "postID": "UUID of resource entry"
  * }
- * 
+ *
  * On success returns 200.
- * 
+ *
  * Some notes:
  * -NO VALIDATION for correct resource UUIDs
- * -Will automatically remove entry from upvote array 
+ * -Will automatically remove entry from upvote array
  * and move to downvote if it was previously upvoted.
  * -Currently not implemented is tracking the resources meta-data.
  * -Handles duplicate IDs.
@@ -265,32 +271,34 @@ router.post("/data/users/downvote", (req, res, next) => {
       $addToSet: { "meta.downvoted": postID },
       $pullAll: { "meta.upvoted": [postID] },
     }
-  ).then(()=>{
-    /* Increase resource entry metadata
+  )
+    .then(() => {
+      /* Increase resource entry metadata
     ResourceDB.findByIdAndUpdate({_id: postID}, {$inc: "meta.votes_negative"})*/
-  }).then(() => {
-    res.send();
-  });
+    })
+    .then(() => {
+      res.send();
+    });
 });
 
 /**
  * Same as above, but completely removes all votes related to that resource.
  * Handles duplicate IDs
  */
-router.post("/data/users/removeVote", (req, res, next) =>{
+router.post("/data/users/removeVote", (req, res, next) => {
   var username = req.body.username.toLowerCase();
   var password = req.body.password;
   var postID = req.body.postID;
   UserDB.findOneAndUpdate(
-    {username: username},
+    { username: username },
     {
-      $pullAll: {"meta.upvoted": [postID]},
-      $pullAll: {"meta.downvoted": [postID]}
+      $pullAll: { "meta.upvoted": [postID] },
+      $pullAll: { "meta.downvoted": [postID] },
     }
-  ).then(()=>{
+  ).then(() => {
     res.send();
-  })
-})
+  });
+});
 
 /**
  * Bookmarks resource ID.
@@ -320,7 +328,7 @@ router.post("/data/users/unbookmark", (req, res, next) => {
   UserDB.findOneAndUpdate(
     { username: username },
     {
-      $pullAll: { "meta.bookmarked": [postID]},
+      $pullAll: { "meta.bookmarked": [postID] },
     }
   ).then(() => {
     res.send();
