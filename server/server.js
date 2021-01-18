@@ -1,5 +1,6 @@
 //Main config
 const express = require("express");
+const path = require('path')
 const app = express();
 const actuator = require("express-actuator");
 const morgan = require('morgan');
@@ -9,7 +10,7 @@ const clientRouter = require("./routes/clientrouter.js");
 const crudRouter = require("./routes/crud");
 
 
-app.use(express.static("static"));
+app.use(express.static(path.join(__dirname, '../build')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('combined'));
