@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import { getDistance, convertDistance } from 'geolib';
 
 import './SearchResultRightPanel.css';
 
@@ -24,21 +23,15 @@ class SearchResultRightPanel extends React.Component {
       address,
       city,
       state,
-      zipcode
+      zipcode,
+      distance,
     } = location;
     const {
       phone,
       email
     } = contact
-    const {
-      coordinates
-    } = location.geo;
 
-    let distanceInMiles = convertDistance(getDistance(
-      { latitude: lat, longitude: long },
-      { latitude: coordinates[0], longitude: coordinates[1] },
-    ), 'mi');
-    distanceInMiles = Math.round(distanceInMiles * 100) / 100;
+    const distanceInMiles = Math.round(distance * 100) / 100;
     return (
       <Card id="result-card" key={index}>
         <Card.Header id="result-card-header">
