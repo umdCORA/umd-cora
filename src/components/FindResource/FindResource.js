@@ -28,6 +28,7 @@ class FindResource extends React.Component {
         distanceInMilesSelection: 25,
       },
       searchResults: null,
+      searchError: null,
     }
   }
 
@@ -165,7 +166,8 @@ class FindResource extends React.Component {
       }, () => {
         fetch(`/api/v1/data/resources?lat=${lat}&long=${lng}&radius=${distanceInMilesSelection}&tags=${allTags.toString()}`)
           .then(res => res.json())
-          .then(results => this.setState({searchResults: results}))
+          .then(results => this.setState({searchResults: results, searchError: null}))
+          .catch((error) => this.setState({searchError: error}))
       });
     }
   }
@@ -181,7 +183,24 @@ class FindResource extends React.Component {
       lat,
       long,
       searchResults,
+      searchError,
     } = this.state;
+
+    let rightPanel;
+    if(!searchError) {
+      if(searchResults?.length) {
+        rightPanel =
+          <SearchResultRightPanel
+            lat={lat}
+            long={long}
+            searchResults={searchResults}
+          />;
+      } else {
+        rightPanel = <p>No results match the search criteria. <a href="/">Click here</a> to return to the homepage.</p>;
+      }
+    } else {
+      rightPanel = <p>Something unexpected happened. <a href="/">Click here</a> to return to the homepage.</p>;
+    }
 
     return (
       <div className="FindResource">
@@ -235,11 +254,7 @@ class FindResource extends React.Component {
               />
             </div>
             <div className="right-panel">
-              <SearchResultRightPanel
-                lat={lat}
-                long={long}
-                searchResults={searchResults}
-              />
+              {rightPanel}
             </div>
           </div>
         }
