@@ -32,7 +32,8 @@ const location = new Schema({
     default: "",
   },
   geo: {
-    type: point
+    type: point,
+    index: '2dsphere'
   }
 });
 
@@ -52,7 +53,6 @@ const contact = new Schema({
   },
   website: {
     type: String, 
-    required: true,
     default: "",
   },
 });

@@ -393,8 +393,22 @@ router.put("/data/resources/:id", (req, res) => {
   });
 });
 
+router.post("/flipCoordinates", (req, res) => {
+  ResourceDB.find({}, (err, doc) => {
+    doc.forEach((doc) => {
+      var loc = [
+        doc.location.geo.coordinates[1],
+        doc.location.geo.coordinates[0],
+      ];
+      console.log(loc);
+      doc.location.geo.coordinates = loc;
+      doc.save();
+    });
+  });
+  res.send();
+});
 router.get("/data/resources", (req, res) => {
-  var params = {};
+  /*var params = {};
   if (req.query.lat && req.query.long && req.query.radius) {
     params = {
       "location.geo": {
@@ -403,16 +417,48 @@ router.get("/data/resources", (req, res) => {
             type: "Point",
             coordinates: [req.query.lat, req.query.long],
           },
-          $maxDistance: req.query.radius / 0.000621371, // mile to meters for google api
+          $maxDistance: req.query.radius / 0.000621371, 
+          "distanceField": "distance"// mile to meters for google api
         },
       },
     };
   }
+  ResourceDB.
   if (req.query.tags) {
     params.tags = { $all: req.query.tags.split(",") };
-  }
+  };
   var filter = ResourceDB.find(params, (err, doc) => {
     errorFun(err, res);
+    res.send(doc);
+  });
+  /*ResourceDB.find(
+    {
+      "geo.location":{
+      $geoNear: {
+         $geometry: { type: "Point", coordinates: [parseInt(req.query.long),parseInt(req.query.lat)] },
+         $minDistance: 5000,
+         $spherical: true
+      }
+    }
+    }
+ .then((doc)=>{
+   res.send(doc)
+  console.log(parseFloat(req.query.long) + "  "+ parseFloat(req.query.lat))*/
+  ResourceDB.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: "Point",
+          coordinates: [parseFloat(req.query.long), parseFloat(req.query.lat)],
+        },
+        minDistance: 0,
+        distanceField: "location.distance",
+        query: req.query.tags ? { $all: req.query.tags.split(",") } : {},
+        maxDistance: req.query.radius * 1609.34,
+        distanceMultiplier: 1 / 1609.34,
+      },
+    },
+  ]).then((doc) => {
     res.send(doc);
   });
 });
