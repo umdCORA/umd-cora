@@ -14,6 +14,21 @@
   cursor: pointer;
 }
 
+.error:hover {
+  cursor: pointer;
+}
+
 .summary-title {
   font-weight: bold;
+}
+
+.modal-body {
+  padding: 0px 1rem !important;
+}
+.modal-content .modal-body form {
+  padding: 0px !important;
+}
+
+.form-group {
+  margin-bottom: 0px !important;
 }
