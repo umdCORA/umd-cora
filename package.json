@@ -29,8 +29,8 @@
   },
   "scripts": {
     "dev": "concurrently \"nodemon server/server.js\" \"./node_modules/react-scripts/bin/react-scripts.js start\"",
-    "start": "node server/server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build",
+    "start": "cd server && npm install && node server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && npm run build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
