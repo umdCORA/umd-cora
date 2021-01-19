@@ -36,22 +36,22 @@ class ResourcePage extends React.Component {
 
         let distanceInMiles = convertDistance(getDistance(
           { latitude: parseFloat(lat), longitude: parseFloat(long) },
-          { latitude: result.location.geo.coordinates[0], longitude: result.location.geo.coordinates[1] },
+          { latitude: result.location.geo.coordinates[1], longitude: result.location.geo.coordinates[0] },
         ), 'mi');
         distanceInMiles = Math.round(distanceInMiles * 100) / 100;
         this.setState({
-        name: result.name,
-        phone:  result.contact.phone,
-        description: result.description,
-        location: result.location,
-        services: result.services,
-        distance: distanceInMiles,
-        targetLat: result.location.geo.coordinates[0],
-        targetLong: result.location.geo.coordinates[1],
-        tags: result.tags,
-        searchError: null,
-      })})
-    .catch((error) => this.setState({searchError: error}));
+          name: result.name,
+          phone:  result.contact.phone,
+          description: result.description,
+          location: result.location,
+          services: result.services,
+          distance: distanceInMiles,
+          targetLat: result.location.geo.coordinates[0],
+          targetLong: result.location.geo.coordinates[1],
+          tags: result.tags,
+          searchError: null,
+        })
+      });
   }
 
   render() {
