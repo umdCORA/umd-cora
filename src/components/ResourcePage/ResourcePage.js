@@ -21,6 +21,7 @@ class ResourcePage extends React.Component {
       targetLat: null,
       targetLong: null,
       tags: [],
+      searchError: null,
     };
   }
 
@@ -48,7 +49,9 @@ class ResourcePage extends React.Component {
         targetLat: result.location.geo.coordinates[0],
         targetLong: result.location.geo.coordinates[1],
         tags: result.tags,
-      })});
+        searchError: null,
+      })})
+    .catch((error) => this.setState({searchError: error}));
   }
 
   render() {
@@ -62,11 +65,15 @@ class ResourcePage extends React.Component {
       targetLat,
       targetLong,
       tags,
+      searchError,
     } = this.state;
 
     return (
       <div className="ResourcePage">
-        {targetLat && targetLong &&
+        {searchError &&
+          <p style={{'textAlign': 'center'}}>Something unexpected happened. <a href="/">Click here</a> to return to the homepage.</p>
+        }
+        {!searchError && targetLat && targetLong &&
           <div className="resource-page-container">
             <div className="panel-container">
               <LeftPanel
