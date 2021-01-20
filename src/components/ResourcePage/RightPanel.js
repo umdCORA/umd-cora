@@ -17,6 +17,7 @@ class ReportIssueModal extends React.Component {
         {...this.props}
         size="lg"
         centered
+        dialogClassName="issue-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">

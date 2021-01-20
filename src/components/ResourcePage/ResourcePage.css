@@ -9,7 +9,3 @@
   display: flex;
   flex-direction: row;
 }
-
-.modal-content .modal-body .btn {
-  float: right;
-}
