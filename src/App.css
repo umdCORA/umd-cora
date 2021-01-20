@@ -158,5 +158,26 @@
 
 .collapse .navbar-text {
   margin-right: 10px;
-  color: white;
+  color: black !important;
+}
+
+.collapse .navbar-text .bold-username {
+  font-weight: bold;
+}
+
+.signout-modal .modal-footer .btn-primary {
+  color: #ffffff;
+  font-weight: bold;
+  background-color: #8d9df9;
+  border-radius: 15px;
+  border: none;
+  display: block;
+}
+
+.signout-modal .modal-footer .btn-danger {
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 15px;
+  border: none;
+  display: block;
 }
