@@ -164,6 +164,7 @@ class FindResource extends React.Component {
         long: lng,
         showSearchResults: true,
       }, () => {
+        console.log(`/api/v1/data/resources?lat=${lat}&long=${lng}&radius=${distanceInMilesSelection}&tags=${allTags.toString()}`);
         fetch(`/api/v1/data/resources?lat=${lat}&long=${lng}&radius=${distanceInMilesSelection}&tags=${allTags.toString()}`)
           .then(res => res.json())
           .then(results => this.setState({searchResults: results, searchError: null}))
@@ -246,17 +247,23 @@ class FindResource extends React.Component {
           </Card>
         }
         {showSearchResults &&
-          <div className="results-container">
-            <div className="left-panel">
-              <SearchResultLeftPanel
-                address={query}
-                narrowSearchOptions={narrowSearchOptions}
-              />
-            </div>
-            <div className="right-panel">
-              {rightPanel}
-            </div>
-          </div>
+          <Container fluid style={{height: '100%'}}>
+            <Row style={{height: '100%'}}>
+              <Col xs={12} sm={12} md={4} lg={4} style={{paddingLeft: '0px', paddingRight: '0px'}}>
+                <div className="left-panel">
+                  <SearchResultLeftPanel
+                    address={query}
+                    narrowSearchOptions={narrowSearchOptions}
+                  />
+                </div>
+              </Col>
+              <Col xs={12} sm={12} md={8} lg={8} style={{paddingLeft: '0px', paddingRight: '0px'}}>
+                <div className="right-panel">
+                  {rightPanel}
+                </div>
+              </Col>
+            </Row>
+          </Container>
         }
       </div>
     )
