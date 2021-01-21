@@ -453,9 +453,10 @@ router.get("/data/resources", (req, res) => {
         },
         minDistance: 0,
         distanceField: "location.distance",
-        query: req.query.tags ? { $all: req.query.tags.split(",") } : {},
+        query: req.query.tags ? {tags:{ $all: req.query.tags.split(",") }} : {},
         maxDistance: req.query.radius * 1609.34,
         distanceMultiplier: 1 / 1609.34,
+        uniqueDocs: true
       },
     },
   ]).then((doc) => {
