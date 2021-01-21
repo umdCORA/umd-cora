@@ -1,11 +1,43 @@
 .ResourcePage {
   padding-top: 32px;
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
   text-align: left;
+  height: 100%;
 }
 
-.panel-container {
+.title {
+  font-weight: bold;
+}
+
+.right-icons {
+  font-weight: bold;
+  float: right;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  margin-left: auto;
+}
+
+.print:hover {
+  cursor: pointer;
+}
+
+.error:hover {
+  cursor: pointer;
+}
+
+.issue-modal .modal-body {
+  padding: 0px 1rem !important;
+}
+
+.issue-modal .modal-content .modal-body form {
+  padding: 0px !important;
+}
+
+.issue-modal .form-group {
+  margin-bottom: 0px !important;
+}
+
+.issue-modal .modal-content .modal-body .btn {
+  float: right;
 }
