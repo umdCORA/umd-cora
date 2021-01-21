@@ -16,7 +16,7 @@ import AboutUs from './components/AboutUs/AboutUs';
 import ResearchStudy from './components/ResearchStudy/ResearchStudy';
 import HowToUseCORABase from './components/HowToUseCORABase/HowToUseCORABase';
 import ResourcePage from'./components/ResourcePage/ResourcePage';
-import cora_logo from './assests/cora_logo.png'
+import cora_logo from './assets/cora_logo.png'
 
 import './App.css';
 

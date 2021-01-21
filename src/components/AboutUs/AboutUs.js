@@ -1,11 +1,11 @@
 import React from 'react';
 import { Card, Container, Row, Col, CardDeck, Jumbotron } from 'react-bootstrap';
-import kevin_tu_profile_pic from './../../assests/kevin_tu_profile_pic.jpeg';
-import annie_feng_profile_pic from './../../assests/annie_feng_profile_pic.png';
-import anna_feng_profile_pic from './../../assests/anna_feng_profile_pic.png';
-import michael_li_profile_pic from './../../assests/michael_li_profile_pic.jpg';
-import anthony_cortez_profile_pic from './../../assests/anthony_cortez_profile_pic.jpg';
-import jason_lavis_profile_pic from './../../assests/jason_lavis_profile_pic.png';
+import kevin_tu_profile_pic from './../../assets/kevin_tu_profile_pic.jpeg';
+import annie_feng_profile_pic from './../../assets/annie_feng_profile_pic.png';
+import anna_feng_profile_pic from './../../assets/anna_feng_profile_pic.png';
+import michael_li_profile_pic from './../../assets/michael_li_profile_pic.jpg';
+import anthony_cortez_profile_pic from './../../assets/anthony_cortez_profile_pic.jpg';
+import jason_lavis_profile_pic from './../../assets/jason_lavis_profile_pic.png';
 
 import './AboutUs.css';
 
