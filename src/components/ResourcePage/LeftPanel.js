@@ -9,7 +9,6 @@ const formatAddressString = (address, city, state, zipcode) => `${address} ${cit
 class LeftPanel extends React.Component {
   render() {
     const {
-      name,
       location,
       distance,
       targetLat,
@@ -25,12 +24,11 @@ class LeftPanel extends React.Component {
     const mapStyle = {
       position: 'relative',
       height: '250px',
-      width: '600px',
+      width: '100%',
     };
 
     return (
       <div className="LeftPanel">
-        <h1 className="title">{name}</h1>
         <div className="map-header">
           <h2 style={{fontWeight: 'bold'}}>Location</h2>
           <h2>{distance} Miles</h2>
@@ -45,8 +43,8 @@ class LeftPanel extends React.Component {
         >
           <Marker />
         </Map>
-        <div className="address-blurb">
-          {formatAddressString(address, city, state, zipcode) }
+        <div className="address">
+          <span className="address-blurb">{formatAddressString(address, city, state, zipcode)}</span>
           <Button
             className="shadow-none"
             href={`https://www.google.com/maps/dir/?api=1&destination=${targetLat},${targetLong}`}
