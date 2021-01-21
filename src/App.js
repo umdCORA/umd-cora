@@ -9,8 +9,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
-import { Navbar, Image } from 'react-bootstrap';
 
+import { Navbar, Image } from 'react-bootstrap';
 import FindResource from './components/FindResource/FindResource';
 import AboutUs from './components/AboutUs/AboutUs';
 import ResearchStudy from './components/ResearchStudy/ResearchStudy';
@@ -29,75 +29,204 @@ class App extends React.Component {
       showCreateAccountModal: false,
       showResetPasswordModal: false,
       userLoggedIn: false,
-      userName: '',
-      password: '',
-      email: '',
+      username: '',
+      loginErrorMsg: '',
+      createAccountErrorMsg: '',
     }
   }
 
   handleLogin = (event) => {
     event.preventDefault();
-    //console.log(this.state);
+    const username = event.target.elements.formBasicUsername.value;
+    const password = event.target.elements.formBasicPassword.value;
 
-    fetch("/api/v1/data/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        "username": this.state.userName,
-        "password": this.state.password
-      }),
-      redirect: "follow"
-    }).then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-
-    // console.log(response);
-    this.setState({
-      showSignInModal: false,
-      showResetPasswordModal: false,
-      userLoggedIn: true,
-      password: '',
-      email: '',
-    });
+    if(username && password) {
+      fetch("/api/v1/data/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "username": username,
+          "password": password,
+        }),
+        redirect: "follow"
+      })
+        .then(res => {
+          if (res.status === 200) {
+            this.setState({
+              showSignInModal: false,
+              showResetPasswordModal: false,
+              userLoggedIn: true,
+              username,
+              loginErrorMsg: '',
+            });
+          } else if (res.status === 403) {
+            this.setState({ loginErrorMsg: 'Invalid login credentials.Please try again.' });
+          } else {
+            this.setState({ loginErrorMsg: 'Something unexpected happened. Please try again.' }); 
+          }
+        })
+        //TODO do we need to create a better error handle?
+        .catch(error => console.log('error', error));
+    }
   }
 
+  renderSignInModal = () => {
+    const {
+      showSignInModal,
+      loginErrorMsg,
+    } = this.state;
+
+    return (
+      <Modal
+        show={showSignInModal}
+        onHide={() => this.setState({showSignInModal: false})}
+      >
+        <Modal.Header closeButton />
+        <Modal.Body>
+          <Modal.Title>Welcome Back!</Modal.Title>
+          <Form onSubmit={this.handleLogin}>
+            { loginErrorMsg && <Form.Label style={{color: "red"}}>{loginErrorMsg}</Form.Label> }
+            <Form.Group controlId="formBasicUsername">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => this.setState({username: e.target.value})}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                onChange={(e) => this.setState({password: e.target.value})}
+                required
+              />
+            </Form.Group>
+            {/*TODO add remember sign in if possible?*/}
+            <Form.Check label="Remember my sign in" />
+            <Button variant="primary" type="submit">Sign In</Button>
+            <Form.Text 
+              className="fake-link" 
+              onClick={() => this.setState({showSignInModal: false, showResetPasswordModal: true})}
+            >
+              Forgot your password?
+            </Form.Text>
+            <Form.Text
+              className="fake-link"
+              onClick={() => this.setState({showSignInModal: false, showCreateAccountModal: true})}
+            >
+              Create an Account
+            </Form.Text>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    );
+  }
 
   handleCreateAccount = (event) => {
     event.preventDefault();
-    //console.log(this.state);
+    const username = event.target.elements.formBasicUsername.value;
+    const email = event.target.elements.formBasicEmail.value;
+    const password = event.target.elements.formBasicPassword.value;
+    const passwordConfirmation = event.target.elements.formBasicPasswordConfirmation.value;
 
-    fetch("/api/v1/data/users/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        "username": this.state.userName,
-        "email": this.state.email,
-        "password": this.state.password
-      }),
-      redirect: "follow"
-    }).then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-
-    // console.log(response);
-    this.setState({
-      showSignInModal: true,
-      showResetPasswordModal: false,
-      showCreateAccountModal: false,
-      userLoggedIn: false,
-      userName: '',
-      password: '',
-      email: '',
-    });
+    if (username && email && password && password === passwordConfirmation) {
+      fetch("/api/v1/data/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "username": username,
+          "email": email,
+          "password": password,
+        }),
+        redirect: "follow"
+      })
+        .then(res => {
+          if (res.status === 200) {
+            this.setState({
+              showSignInModal: true,
+              showResetPasswordModal: false,
+              showCreateAccountModal: false,
+              createAccountErrorMsg: '',
+            });
+          } else if (res.status === 403) {
+            this.setState({ createAccountErrorMsg: 'Either the username or the email address you have entered has already been taken. Please choose a different username or email address.' });
+          } else {
+            this.setState({ createAccountErrorMsg: 'Something unexpected happened. Please try again.' }); 
+          }
+        })
+        //TODO do we need to create a better error handle?
+        .catch(error => console.log('error', error));
+    } else if (password !== passwordConfirmation) {
+      this.setState({ createAccountErrorMsg: 'Passwords do not match. Please try again.' })
+    }
   }
 
+  renderCreateAccountModal = () => {
+    const {
+      showCreateAccountModal,
+      createAccountErrorMsg,
+    } = this.state;
+
+    return (
+      <Modal
+        show={showCreateAccountModal}
+        onHide={() => this.setState({showCreateAccountModal: false})}
+      >
+        <Modal.Header closeButton />
+        <Modal.Body>
+          <Modal.Title>Create an Account</Modal.Title>
+          <Form onSubmit={this.handleCreateAccount}>
+            {createAccountErrorMsg && <Form.Label style={{color: 'red'}}>{createAccountErrorMsg}</Form.Label>}
+            <Form.Group controlId="formBasicUsername">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => this.setState({username: e.target.value})}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email Address</Form.Label>
+              <Form.Control
+                type="email"
+                onChange={(e) => this.setState({email: e.target.value})}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                onChange={(e) => this.setState({password: e.target.value})}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicPasswordConfirmation">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type="password"
+                onChange={(e) => this.setState({password: e.target.value})}
+                required
+              />
+            </Form.Group>
+            {/*TODO add newsletter fxnality*/}
+            <Form.Check label="Sign up for our newsletter to receive updates from CORA" />
+            <Button variant="primary" type="submit">Sign Up!</Button>
+            <Form.Text className="fake-link" onClick={() => this.setState({showCreateAccountModal:false, showSignInModal: true})}>I already have an account</Form.Text>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    );
+  }
 
   renderResetPasswordModal = () => {
     const { showResetPasswordModal } = this.state;
+
     return (
       <Modal
         show={showResetPasswordModal}
@@ -109,7 +238,7 @@ class App extends React.Component {
           <Form onSubmit={this.handleResetPassword}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email Address</Form.Label>
-              <Form.Control type="email" />
+              <Form.Control type="email" required/>
             </Form.Group>
             <Button variant="primary" type="submit" style={{marginLeft: 0, marginTop: 0}}>Send Request</Button>
             <Form.Text>You will shortly receive an email to reset your password</Form.Text>
@@ -121,61 +250,30 @@ class App extends React.Component {
     );
   }
 
-  renderSignInModal = () => {
-    const { showSignInModal } = this.state;
-    return (
-      <Modal
-        show={showSignInModal}
-        onHide={() => this.setState({showSignInModal: false})}
-      >
-        <Modal.Header closeButton />
-        <Modal.Body>
-          <Modal.Title>Welcome Back!</Modal.Title>
-          <Form onSubmit={this.handleLogin}>
-            <Form.Group controlId="formBasicUsername">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                onChange={(e) => {
-                  this.setState({userName: e.target.value});
-                  // console.log(this.state);
-                }}
-              />
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                onChange={(e) => {
-                  this.setState({password: e.target.value});
-                  // console.log(this.state);
-                }}
-              />
-            </Form.Group>
-            <Form.Check label="Remember my sign in" />
-            <Button variant="primary" type="submit">Sign In</Button>
-            <Form.Text className="fake-link" onClick={() => this.setState({showSignInModal: false, showResetPasswordModal: true})}>Forgot your password?</Form.Text>
-            <Form.Text className="fake-link" onClick={() => this.setState({showSignInModal: false, showCreateAccountModal: true})}>Create an Account</Form.Text>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    );
-  }
-
   renderSignOutModal = () => {
     const { showSignOutModal } = this.state;
 
     return (
-        <Modal show={showSignOutModal} onHide={() => this.setState({showSignOutModal: false})}>
+        <Modal
+          show={showSignOutModal}
+          onHide={() => this.setState({showSignOutModal: false})}
+          dialogClassName="signout-modal"
+        >
           <Modal.Header closeButton>
             <Modal.Title>Sign out</Modal.Title>
           </Modal.Header>
           <Modal.Body>Signed out successfully!</Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => this.setState({showSignOutModal: false, showSignInModal: true})}>
+            <Button
+              variant="primary"
+              onClick={() => this.setState({showSignOutModal: false, showSignInModal: true})}
+            >
               Sign in as another user
             </Button>
-            <Button variant="danger" onClick={() => this.setState({showSignOutModal: false})}>
+            <Button
+              variant="danger"
+              onClick={() => this.setState({showSignOutModal: false})}
+            >
               Close
             </Button>
           </Modal.Footer>
@@ -183,59 +281,10 @@ class App extends React.Component {
     );
   }
 
-  renderCreateAccountModal = () => {
-    const { showCreateAccountModal } = this.state;
-    return (
-      <Modal
-        show={showCreateAccountModal}
-        onHide={() => this.setState({showCreateAccountModal: false})}
-      >
-        <Modal.Header closeButton />
-        <Modal.Body>
-          <Modal.Title>Create an Account</Modal.Title>
-          <Form onSubmit={this.handleCreateAccount}>
-            <Form.Group controlId="formBasicUsername">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                onChange={(e) => {
-                  this.setState({userName: e.target.value});
-                  // console.log(this.state);
-                }}
-              />
-            </Form.Group>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                onChange={(e) => {
-                  this.setState({email: e.target.value});
-                  // console.log(this.state);
-                }}
-              />
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                onChange={(e) => {
-                  this.setState({password: e.target.value});
-                  // console.log(this.state);
-                }}
-              />
-            </Form.Group>
-            <Form.Check label="Sign up for our newsletter to receive updates from CORA" />
-            <Button variant="primary" type="submit">Sign Up!</Button>
-            <Form.Text className="fake-link" onClick={() => this.setState({showCreateAccountModal:false, showSignInModal: true})}>I already have an account</Form.Text>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    );
-  }
-
   render(){
     const {
       userLoggedIn,
+      username,
     } = this.state;
 
     // resource-page should have pill on Find Resource tab
@@ -266,7 +315,7 @@ class App extends React.Component {
             {userLoggedIn &&
               <div className="signed-in-content">
                 <Navbar.Collapse className="justify-content-end">
-                  <Navbar.Text>Signed in as: {this.state.userName.split()[0][0].toUpperCase() + this.state.userName.split()[0].substr(1).toLowerCase()}</Navbar.Text>
+                  <Navbar.Text>Signed in as: <span className="bold-username">{username}</span></Navbar.Text>
                 </Navbar.Collapse>
                 <Button variant="outline-dark" onClick={() => this.setState({userLoggedIn: false, showSignOutModal: true})}>Sign Out</Button>
               </div>

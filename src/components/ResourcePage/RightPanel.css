@@ -22,13 +22,18 @@
   font-weight: bold;
 }
 
-.modal-body {
+.issue-modal .modal-body {
   padding: 0px 1rem !important;
 }
-.modal-content .modal-body form {
+
+.issue-modal .modal-content .modal-body form {
   padding: 0px !important;
 }
 
-.form-group {
+.issue-modal .form-group {
   margin-bottom: 0px !important;
+}
+
+.issue-modal .modal-content .modal-body .btn {
+  float: right;
 }
