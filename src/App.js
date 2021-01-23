@@ -35,10 +35,49 @@ class App extends React.Component {
     }
   }
 
-  handleLogin = (event) => {
+  componentDidMount = () => {
+    // Various scenarios user session based on https://stackoverflow.com/questions/47928055/multiple-tabs-same-session-clear-the-session-when-all-tabs-are-gone
+    // TODO there is still 1 scenario where this fails: user does not login on tab1 but logins on tab2. This tab1 doesn't auto login when refreshed.
+    window.addEventListener("beforeunload", () => {
+      localStorage.removeItem('signed-in');
+    });
+
+    const sessionSignedIn = sessionStorage.getItem('signed-in');
+    const persistSignIn = localStorage.getItem('persist-sign-in');
+    const username = localStorage.getItem('username');
+    const signedIn = localStorage.getItem('signed-in');
+
+    if((persistSignIn === 'true' && username) || signedIn || (!signedIn && sessionSignedIn)) {
+      if (sessionSignedIn) {
+        localStorage.setItem('signed-in', JSON.parse(sessionSignedIn));
+      }
+      if (signedIn) {
+        sessionStorage.setItem('signed-in', JSON.parse(signedIn));
+      }
+      this.setState({
+        userLoggedIn: true,
+        username: localStorage.getItem('username'),
+      });
+    }
+
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'signed-out' && event.newValue) { 
+        sessionStorage.removeItem('signed-in');
+        localStorage.removeItem('signed-out');
+      }
+    });
+  }
+
+  componentDidUnMount = () => {
+    window.removeEventListener("beforeunload");
+    window.removeEventListener("storage");
+  }
+
+  handleSignIn = (event) => {
     event.preventDefault();
     const username = event.target.elements.formBasicUsername.value;
     const password = event.target.elements.formBasicPassword.value;
+    const persistSignIn = event.target.elements.formBasicCheck.checked;
 
     if(username && password) {
       fetch("/api/v1/data/users/login", {
@@ -54,6 +93,10 @@ class App extends React.Component {
       })
         .then(res => {
           if (res.status === 200) {
+            localStorage.setItem('username', username);
+            localStorage.setItem('signed-in', true);
+            localStorage.setItem('persist-sign-in', persistSignIn);
+            sessionStorage.setItem('signed-in', true);
             this.setState({
               showSignInModal: false,
               showResetPasswordModal: false,
@@ -86,7 +129,7 @@ class App extends React.Component {
         <Modal.Header closeButton />
         <Modal.Body>
           <Modal.Title>Welcome Back!</Modal.Title>
-          <Form onSubmit={this.handleLogin}>
+          <Form onSubmit={this.handleSignIn}>
             { loginErrorMsg && <Form.Label style={{color: "red"}}>{loginErrorMsg}</Form.Label> }
             <Form.Group controlId="formBasicUsername">
               <Form.Label>Username</Form.Label>
@@ -104,8 +147,12 @@ class App extends React.Component {
                 required
               />
             </Form.Group>
-            {/*TODO add remember sign in if possible?*/}
-            <Form.Check label="Remember my sign in" />
+            <Form.Group controlId="formBasicCheck">
+              <Form.Check
+                type="checkbox"
+                label="Remember my sign in"
+              />
+            </Form.Group>
             <Button variant="primary" type="submit">Sign In</Button>
             <Form.Text 
               className="fake-link" 
@@ -250,6 +297,17 @@ class App extends React.Component {
     );
   }
 
+  handleSignOut = () => {
+    localStorage.removeItem('username');
+    localStorage.removeItem('persist-sign-in');
+    localStorage.setItem('signed-out', true)
+
+    this.setState({
+      userLoggedIn: false,
+      showSignOutModal: true,
+    });
+  }
+
   renderSignOutModal = () => {
     const { showSignOutModal } = this.state;
 
@@ -317,7 +375,7 @@ class App extends React.Component {
                 <Navbar.Collapse className="justify-content-end">
                   <Navbar.Text>Signed in as: <span className="bold-username">{username}</span></Navbar.Text>
                 </Navbar.Collapse>
-                <Button variant="outline-dark" onClick={() => this.setState({userLoggedIn: false, showSignOutModal: true})}>Sign Out</Button>
+                <Button variant="outline-dark" onClick={() => this.handleSignOut()}>Sign Out</Button>
               </div>
             }
             </Navbar.Collapse>
