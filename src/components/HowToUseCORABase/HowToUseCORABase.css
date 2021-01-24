@@ -1,6 +1,9 @@
-div.faq {
-    background: #8D9DF9;
-    height: 100%;
+.how-to-use-container {
+  flex-grow: 1 !important;
+}
+
+.how-to-use-row {
+  flex-grow: 1 !important;
 }
 
 div.line {
@@ -60,7 +63,6 @@ div.btn-group-vertical {
 
 div.faqCardColumn {
   background: #FFFFFF;
-  height: 100%;
   padding-top: 30px;
   padding-left: 50px;
   padding-right: 50px;
@@ -95,6 +97,7 @@ button.resources-button {
 
 div.faqColumn {
   min-height: 610px; /* contain full div.line (580px) with some padding */
+  background: #8D9DF9;
 }
 
 div.how-card {
