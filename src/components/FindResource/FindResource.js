@@ -164,7 +164,6 @@ class FindResource extends React.Component {
         long: lng,
         showSearchResults: true,
       }, () => {
-        console.log(`/api/v1/data/resources?lat=${lat}&long=${lng}&radius=${distanceInMilesSelection}&tags=${allTags.toString()}`);
         fetch(`/api/v1/data/resources?lat=${lat}&long=${lng}&radius=${distanceInMilesSelection}&tags=${allTags.toString()}`)
           .then(res => res.json())
           .then(results => this.setState({searchResults: results, searchError: null}))
