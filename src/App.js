@@ -398,9 +398,9 @@ class App extends React.Component {
           <Navbar id="footer" className="mr-auto">
             <Navbar.Brand><Image id="cora_logo" src={cora_logo}></Image></Navbar.Brand>
             <Navbar className="ml-auto flex-column">
-              <Navbar.Text>CORA FAQ |</Navbar.Text>
-              <Navbar.Text>Contact |</Navbar.Text>
-              <Navbar.Text>Joining Us</Navbar.Text>
+              <Nav.Link href="https://coraumd.wixsite.com/cora/faq-for-partners">CORA FAQ |</Nav.Link>
+              <Nav.Link href="https://coraumd.wixsite.com/cora/contact">Contact |</Nav.Link>
+              <Nav.Link href="https://coraumd.wixsite.com/cora/community-partners">Joining Us</Nav.Link>
             </Navbar>
           </Navbar>
         </div>
