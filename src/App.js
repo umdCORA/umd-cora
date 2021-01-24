@@ -32,6 +32,8 @@ class App extends React.Component {
       username: '',
       loginErrorMsg: '',
       createAccountErrorMsg: '',
+      showPassword: false,
+      showConfirmPassword: false,
     }
   }
 
@@ -61,7 +63,7 @@ class App extends React.Component {
     }
 
     window.addEventListener('storage', (event) => {
-      if (event.key === 'signed-out' && event.newValue) { 
+      if (event.key === 'signed-out' && event.newValue) {
         sessionStorage.removeItem('signed-in');
         localStorage.removeItem('signed-out');
       }
@@ -105,9 +107,9 @@ class App extends React.Component {
               loginErrorMsg: '',
             });
           } else if (res.status === 403) {
-            this.setState({ loginErrorMsg: 'Invalid login credentials.Please try again.' });
+            this.setState({ loginErrorMsg: 'Invalid login credentials. Please try again.' });
           } else {
-            this.setState({ loginErrorMsg: 'Something unexpected happened. Please try again.' }); 
+            this.setState({ loginErrorMsg: 'Something unexpected happened. Please try again.' });
           }
         })
         //TODO do we need to create a better error handle?
@@ -119,11 +121,16 @@ class App extends React.Component {
     const {
       showSignInModal,
       loginErrorMsg,
+      showPassword,
     } = this.state;
 
     return (
       <Modal
         show={showSignInModal}
+        onShow={() => this.setState({
+          loginErrorMsg: '',
+          showPassword: false,
+        })}
         onHide={() => this.setState({showSignInModal: false})}
       >
         <Modal.Header closeButton />
@@ -140,9 +147,9 @@ class App extends React.Component {
               />
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label>Password <span className="fake-link" onClick={() => this.setState({showPassword: !showPassword})}>{showPassword ? '(hide)' : '(show)'}</span></Form.Label>
               <Form.Control
-                type="password"
+                type={showPassword ? "text" : "password"}
                 onChange={(e) => this.setState({password: e.target.value})}
                 required
               />
@@ -154,8 +161,8 @@ class App extends React.Component {
               />
             </Form.Group>
             <Button variant="primary" type="submit">Sign In</Button>
-            <Form.Text 
-              className="fake-link" 
+            <Form.Text
+              className="fake-link"
               onClick={() => this.setState({showSignInModal: false, showResetPasswordModal: true})}
             >
               Forgot your password?
@@ -203,7 +210,7 @@ class App extends React.Component {
           } else if (res.status === 403) {
             this.setState({ createAccountErrorMsg: 'Either the username or the email address you have entered has already been taken. Please choose a different username or email address.' });
           } else {
-            this.setState({ createAccountErrorMsg: 'Something unexpected happened. Please try again.' }); 
+            this.setState({ createAccountErrorMsg: 'Something unexpected happened. Please try again.' });
           }
         })
         //TODO do we need to create a better error handle?
@@ -217,11 +224,18 @@ class App extends React.Component {
     const {
       showCreateAccountModal,
       createAccountErrorMsg,
+      showPassword,
+      showConfirmPassword,
     } = this.state;
 
     return (
       <Modal
         show={showCreateAccountModal}
+        onShow={() => this.setState({
+          createAccountErrorMsg: '',
+          showPassword: false,
+          showConfirmPassword: false,
+        })}
         onHide={() => this.setState({showCreateAccountModal: false})}
       >
         <Modal.Header closeButton />
@@ -246,17 +260,17 @@ class App extends React.Component {
               />
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label>Password <span className="fake-link" onClick={() => this.setState({showPassword: !showPassword})}>{showPassword ? '(hide)' : '(show)'}</span></Form.Label>
               <Form.Control
-                type="password"
+                type={showPassword ? "text" : "password"}
                 onChange={(e) => this.setState({password: e.target.value})}
                 required
               />
             </Form.Group>
             <Form.Group controlId="formBasicPasswordConfirmation">
-              <Form.Label>Confirm Password</Form.Label>
+              <Form.Label>Confirm Password <span className="fake-link" onClick={() => this.setState({showConfirmPassword: !showConfirmPassword})}>{showConfirmPassword ? '(hide)' : '(show)'}</span></Form.Label>
               <Form.Control
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 onChange={(e) => this.setState({password: e.target.value})}
                 required
               />
