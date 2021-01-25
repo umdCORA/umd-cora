@@ -40,6 +40,12 @@ var UserSchema = new Schema(
         bookmarked: []
       },
       _id: false
+    },
+
+    resetToken: {
+      type: String,
+      required: false,
+      default: null
     }
   },
   {
