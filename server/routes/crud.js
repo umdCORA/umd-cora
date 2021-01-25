@@ -171,7 +171,7 @@ router.post("/data/users/updatePassword", (req, res, next) => {
  * "username": "..."
  * }
  */
-router.post("/generateUUID", (req, res) => {
+router.post("/data/users/generateUUID", (req, res) => {
   var username = req.body.username;
   UserDB.findOne({ username: username }, (err, doc) => {
     console.log(doc);
@@ -191,7 +191,7 @@ router.post("/generateUUID", (req, res) => {
   });
 });
 
-router.post("/resetPassword", (req, res) => {
+router.post("/data/users/resetPassword", (req, res) => {
   var username = req.body.username;
   var newPassword = req.body.newPassword;
   var resetToken = req.body.resetToken;
