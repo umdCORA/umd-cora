@@ -141,16 +141,16 @@ class ResourcePage extends React.Component {
           <p style={{'textAlign': 'center'}}>Something unexpected happened. <a href="/">Click here</a> to return to the homepage.</p>
         }
         {!searchError && targetLat && targetLong &&
-          <Container fluid style={{height: '100%'}}>
+          <Container fluid>
             <Row>
-              <Col xs={12} sm={12} md={6} lg={6} style={{paddingLeft: '0px', paddingRight: '0px'}}>
+              <Col xs={12} sm={12} md={6} lg={6}>
                 <h1 className="title">{name}</h1>
               </Col>
-              <Col xs={12} sm={12} md={6} lg={6} style={{paddingLeft: '0px', paddingRight: '0px'}}>
+              <Col xs={12} sm={12} md={6} lg={6}>
                 <div className="right-icons">
                   <span className="phone">
                     <PhoneIcon/> {phone}
-                  </span> 
+                  </span>
                   <span className="print" onClick={() => window.print()}>
                     <PrintIcon/> Print Page
                   </span>
@@ -159,7 +159,9 @@ class ResourcePage extends React.Component {
                   </span>
                 </div>
               </Col>
-              <Col xs={12} sm={12} md={6} lg={6} style={{paddingLeft: '0px', paddingRight: '0px'}}>
+            </Row>
+            <Row style={{flex: '1'}}>
+              <Col id="left-panel-col" xs={12} sm={12} md={6} lg={6}>
                 <LeftPanel
                   name={name}
                   location={location}
@@ -168,19 +170,14 @@ class ResourcePage extends React.Component {
                   targetLong={targetLong}
                 />
               </Col>
-              <Col xs={12} sm={12} md={6} lg={6} style={{paddingLeft: '0px', paddingRight: '0px'}}>
+              <Col xs={12} sm={12} md={6} lg={6}>
                 <RightPanel
                   phone={phone}
                   description={description}
                   services={services}
                 />
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12} sm={12} md={6} lg={6} style={{paddingLeft: '0px', paddingRight: '0px'}}>
-                <DescriptionPanel
-                  tags={tags}
-                />
+                <hr style={{visibility: "hidden"}} />
+                <DescriptionPanel tags={tags} />
               </Col>
             </Row>
           </Container>

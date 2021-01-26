@@ -7,6 +7,7 @@ import './LeftPanel.css';
 const formatAddressString = (address, city, state, zipcode) => `${address} ${city}, ${state}, ${zipcode}`;
 
 class LeftPanel extends React.Component {
+
   render() {
     const {
       location,
@@ -14,6 +15,7 @@ class LeftPanel extends React.Component {
       targetLat,
       targetLong,
     } = this.props;
+
     const {
       address,
       city,
@@ -23,15 +25,16 @@ class LeftPanel extends React.Component {
 
     const mapStyle = {
       position: 'relative',
-      height: '250px',
+      minHeight: '250px',
       width: '100%',
+      flex: '1',
     };
 
     return (
       <div className="LeftPanel">
         <div className="map-header">
           <h2 style={{fontWeight: 'bold'}}>Location</h2>
-          <h2>{distance} Miles</h2>
+          <h2 style={{textAlign: 'right'}}>{distance} Miles</h2>
         </div>
         <Map
           google={this.props.google}
