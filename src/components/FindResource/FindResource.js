@@ -246,8 +246,8 @@ class FindResource extends React.Component {
           </Card>
         }
         {showSearchResults &&
-          <Container fluid style={{height: '100%'}}>
-            <Row style={{height: '100%'}}>
+          <Container fluid id="result-container">
+            <Row style={{flexGrow: '1'}}>
               <Col xs={12} sm={12} md={4} lg={4} style={{paddingLeft: '0px', paddingRight: '0px'}}>
                 <div className="left-panel">
                   <SearchResultLeftPanel
