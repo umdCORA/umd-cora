@@ -6,6 +6,7 @@ const UserDB = require("../dao/UserDAO");
 const ResourceDB = require("../dao/ResourceDAO");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const uuid = require("uuid");
 
 let errorFun = function (err, res) {
   if (err) {
@@ -18,7 +19,7 @@ let errorFun = function (err, res) {
 router.all("/*", (req, res, next) => {
   if (mongoose.connection.readyState != 1) {
     res.status(500);
-    res.send("DB ERROR-STATUS: " + mongoose.connection.readyStatus);
+    res.send("DB Not Connected");
   } else {
     next();
   }
@@ -162,6 +163,56 @@ router.post("/data/users/updatePassword", (req, res, next) => {
         }
       );
     });
+  });
+});
+/**
+ * body:
+ * {
+ * "username": "..."
+ * }
+ */
+router.post("/data/users/generateUUID", (req, res) => {
+  var username = req.body.username;
+  UserDB.findOne({ username: username }, (err, doc) => {
+    console.log(doc);
+    if (!doc) {
+      res.status(404).send("User not found");
+    } else {
+      doc.resetToken = uuid.v4();
+      doc.save().then(
+        () => {
+          res.send(doc.resetToken);
+        },
+        (reason) => {
+          res.send("Failed due to " + reason);
+        }
+      );
+    }
+  });
+});
+
+router.post("/data/users/resetPassword", (req, res) => {
+  var username = req.body.username;
+  var newPassword = req.body.newPassword;
+  var resetToken = req.body.resetToken;
+  UserDB.findOne({ username: username }, (err, doc) => {
+    if (!doc) {
+      res.send(404).send("User not found");
+    } else {
+      if (doc.resetToken == resetToken) {
+        bcrypt
+          .hash(newPassword, parseInt(Properties.BCRYPT_SALT_ROUNDS))
+          .then(function (hashedPassword) {
+            doc.hash = hashedPassword;
+            doc.save();
+          })
+          .then(function () {
+            res.send("Password changed.");
+          });
+      } else {
+        res.send(403).send("resetToken does not match");
+      }
+    }
   });
 });
 /**
@@ -408,42 +459,6 @@ router.post("/flipCoordinates", (req, res) => {
   res.send();
 });
 router.get("/data/resources", (req, res) => {
-  /*var params = {};
-  if (req.query.lat && req.query.long && req.query.radius) {
-    params = {
-      "location.geo": {
-        $nearSphere: {
-          $geometry: {
-            type: "Point",
-            coordinates: [req.query.lat, req.query.long],
-          },
-          $maxDistance: req.query.radius / 0.000621371, 
-          "distanceField": "distance"// mile to meters for google api
-        },
-      },
-    };
-  }
-  ResourceDB.
-  if (req.query.tags) {
-    params.tags = { $all: req.query.tags.split(",") };
-  };
-  var filter = ResourceDB.find(params, (err, doc) => {
-    errorFun(err, res);
-    res.send(doc);
-  });
-  /*ResourceDB.find(
-    {
-      "geo.location":{
-      $geoNear: {
-         $geometry: { type: "Point", coordinates: [parseInt(req.query.long),parseInt(req.query.lat)] },
-         $minDistance: 5000,
-         $spherical: true
-      }
-    }
-    }
- .then((doc)=>{
-   res.send(doc)
-  console.log(parseFloat(req.query.long) + "  "+ parseFloat(req.query.lat))*/
   ResourceDB.aggregate([
     {
       $geoNear: {
@@ -453,10 +468,12 @@ router.get("/data/resources", (req, res) => {
         },
         minDistance: 0,
         distanceField: "location.distance",
-        query: req.query.tags ? {tags:{ $all: req.query.tags.split(",") }} : {},
+        query: req.query.tags
+          ? { tags: { $all: req.query.tags.split(",") } }
+          : {},
         maxDistance: req.query.radius * 1609.34,
         distanceMultiplier: 1 / 1609.34,
-        uniqueDocs: true
+        uniqueDocs: true,
       },
     },
   ]).then((doc) => {
