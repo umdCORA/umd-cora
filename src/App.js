@@ -1,4 +1,5 @@
 import React from 'react';
+import emailjs from 'emailjs-com';
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,13 +10,13 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
-
 import { Navbar, Image } from 'react-bootstrap';
 import FindResource from './components/FindResource/FindResource';
 import AboutUs from './components/AboutUs/AboutUs';
 import ResearchStudy from './components/ResearchStudy/ResearchStudy';
 import HowToUseCORABase from './components/HowToUseCORABase/HowToUseCORABase';
 import ResourcePage from'./components/ResourcePage/ResourcePage';
+import ResetPasswordPage from './components/ResetPasswordPage/ResetPasswordPage';
 import cora_logo from './assets/cora_logo.png'
 
 import './App.css';
@@ -32,6 +33,7 @@ class App extends React.Component {
       username: '',
       loginErrorMsg: '',
       createAccountErrorMsg: '',
+      resetPasswordErrorMsg: '',
       showPassword: false,
       showConfirmPassword: false,
     }
@@ -150,7 +152,6 @@ class App extends React.Component {
               <Form.Label>Password <span className="fake-link" onClick={() => this.setState({showPassword: !showPassword})}>{showPassword ? '(hide)' : '(show)'}</span></Form.Label>
               <Form.Control
                 type={showPassword ? "text" : "password"}
-                onChange={(e) => this.setState({password: e.target.value})}
                 required
               />
             </Form.Group>
@@ -263,7 +264,6 @@ class App extends React.Component {
               <Form.Label>Password <span className="fake-link" onClick={() => this.setState({showPassword: !showPassword})}>{showPassword ? '(hide)' : '(show)'}</span></Form.Label>
               <Form.Control
                 type={showPassword ? "text" : "password"}
-                onChange={(e) => this.setState({password: e.target.value})}
                 required
               />
             </Form.Group>
@@ -271,7 +271,6 @@ class App extends React.Component {
               <Form.Label>Confirm Password <span className="fake-link" onClick={() => this.setState({showConfirmPassword: !showConfirmPassword})}>{showConfirmPassword ? '(hide)' : '(show)'}</span></Form.Label>
               <Form.Control
                 type={showConfirmPassword ? "text" : "password"}
-                onChange={(e) => this.setState({password: e.target.value})}
                 required
               />
             </Form.Group>
@@ -285,24 +284,67 @@ class App extends React.Component {
     );
   }
 
+  handleResetPasswordSubmission = (event) => {
+    event.preventDefault();
+    const username = event.target.elements.formBasicUsername.value;
+    fetch("/api/v1/data/users/generateUUID", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "username": username,
+      }),
+      redirect: "follow"
+    })
+      .then(res => {
+        if (res.status === 200) {
+          return res.text();
+        } else if (res.status === 404) {
+          this.setState({ resetPasswordErrorMsg: 'Username not found. Please try again.' });
+          throw new Error('Username not found');
+        } else {
+          this.setState({ resetPasswordErrorMsg: 'Something unexpected happened. Please try again.' }); 
+          throw new Error('Something unexpected happened');
+        }
+      })
+      .then(data => {
+        const templateParams = {
+          username,
+          url: `${window.location.origin}/reset-password`,
+          uuid: data,
+        }
+        this.setState({ showResetPasswordModal: false });
+        emailjs.send(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_RESET_TEMPLATE_ID, templateParams, process.env.REACT_APP_EMAILJS_USER_ID)
+          .then(() => {
+            alert('We have emailed your password reset link!');
+          },
+          error => {
+            alert( 'An error occured. Please try again.', error.text)
+          })
+      })
+      .catch(error => console.error(error.message))
+  }
+
   renderResetPasswordModal = () => {
-    const { showResetPasswordModal } = this.state;
+    const { showResetPasswordModal, resetPasswordErrorMsg } = this.state;
 
     return (
       <Modal
         show={showResetPasswordModal}
+        onShow={() => this.setState({ resetPasswordErrorMsg: ''})}
         onHide={() => this.setState({showResetPasswordModal: false})}
       >
         <Modal.Header closeButton />
         <Modal.Body>
           <Modal.Title>Reset Password</Modal.Title>
-          <Form onSubmit={this.handleResetPassword}>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control type="email" required/>
+          <Form onSubmit={this.handleResetPasswordSubmission}>
+            { resetPasswordErrorMsg && <Form.Label style={{color: "red"}}>{resetPasswordErrorMsg}</Form.Label> }
+            <Form.Group controlId="formBasicUsername">
+              <Form.Label>Username</Form.Label>
+              <Form.Control type="text" required/>
             </Form.Group>
             <Button variant="primary" type="submit" style={{marginLeft: 0, marginTop: 0}}>Send Request</Button>
-            <Form.Text>You will shortly receive an email to reset your password</Form.Text>
             <br />
             <Button variant="primary" onClick={() => this.setState({showResetPasswordModal: false, showSignInModal: true})}>Return to Sign In</Button>
           </Form>
@@ -405,6 +447,7 @@ class App extends React.Component {
               <Route path="/about-us">
                 <AboutUs></AboutUs>
               </Route>
+              <Route path="/reset-password" component={ResetPasswordPage}/>
               <Route path="/resource-page/:uuid/:lat/:long" component={ResourcePage}/>
               <Route path="/" component={FindResource}/>
             </Switch>
