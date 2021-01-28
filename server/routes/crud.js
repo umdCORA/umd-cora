@@ -196,8 +196,8 @@ router.post("/data/users/resetPassword", (req, res) => {
   var newPassword = req.body.newPassword;
   var resetToken = req.body.resetToken;
   UserDB.findOne({ username: username }, (err, doc) => {
-    if (!doc) {
-      res.send(404).send("User not found");
+    if (!doc || err) {
+      res.status(404).send("User not found");
     } else {
       if (doc.resetToken == resetToken) {
         bcrypt
@@ -210,7 +210,7 @@ router.post("/data/users/resetPassword", (req, res) => {
             res.send("Password changed.");
           });
       } else {
-        res.send(403).send("resetToken does not match");
+        res.status(403).send("resetToken does not match");
       }
     }
   });
