@@ -50,6 +50,40 @@ function HowToUseCORABase() {
           </p>
         </div>
       );
+    }else if(state.title === "Prevention"){
+      cardContents = (
+        <div className="cardContents">
+          <p>
+            There are 3 subgroups of prevention:
+          </p>
+          <ul>
+            <li>Awareness and Education</li>
+              <ul>
+                <li>
+                  According to CORA’s research, the general public is unable to correctly answer 60% of 
+                  questions related to opioid use, which leads to frequent misuse. Filter by this tag to 
+                  find programs dedicated to educating the everyday person.
+                </li>
+              </ul>
+            <li>Physician Education</li>
+              <ul>
+                <li>
+                  80% of opioid-use disorder cases originate with prescribed opioids for pain, and chronic 
+                  pain management has been omitted from physician education. Filter by this tag to find 
+                  educational resources for healthcare professionals.
+                </li>
+              </ul>
+            <li>Political Advocacy</li>
+              <ul>
+                <li>
+                  Developing policy geared towards reducing opioid-use disorders cases and overdose is 
+                  crucial to curbing the opioid epidemic. Filter by this tag to find programs dedicated 
+                  to advocating for this cause to all levels of government.
+                </li>
+              </ul>
+          </ul>
+        </div>
+      );
     }else if(state.title === "Recovery"){
       cardContents = (
         <div className="cardContents">
@@ -83,6 +117,30 @@ function HowToUseCORABase() {
                   but require the flexibility of a program that will work around their schedules.
                   Filter by this tag to find outpatient rehabilitations centers.
                 </li>
+                <li>Day Programs</li>
+                  <ul>
+                    <li>
+                      Outpatient day programs have the highest level of care and structure provided within 
+                      an outpatient setting. In a day program, clients typically commit to meeting 5-7 days 
+                      per week at an outpatient facility for multiple hours each day. 
+                    </li>
+                  </ul>
+                <li>Intensive Outpatient Programs</li>
+                  <ul>
+                    <li>
+                      Intensive outpatient programs establish a treatment plan with defined, measurable 
+                      milestones in place to indicate progress. As these milestones are met, the time commitment 
+                      required per week decreases.
+                    </li>
+                  </ul>
+                <li>Continuing Care</li>
+                  <ul>
+                    <li>
+                      Continuing care groups such as Narcotics Anonymous are ongoing support resources to help an 
+                      individual solidify their commitment to sobriety. The groups are typically facilitated by a 
+                      licensed therapist and meet weekly.
+                    </li>
+                  </ul>
               </ul>
             <li>Gender-Specific Treatment</li>
               <ul>
@@ -94,6 +152,11 @@ function HowToUseCORABase() {
                   and address the unique needs of each of the sexes in a comfortable and supportive environment.
                   Filter by this tag to find gender-specific rehabilitations centers.
                 </li>
+                <ul>
+                  <li>Treatment for Men</li>
+                  <li>Treatment for Women</li>
+                  <li>Treatment for non-binary peoples</li>
+                </ul>
               </ul>
             <li>Intervention Specialists</li>
               <ul>
@@ -103,14 +166,28 @@ function HowToUseCORABase() {
                   This person is someone who is trained, experienced, and educated about detox and recovery from drugs.
                   For resources in help in staging an intervention, use this tag.
                 </li>
+                <li>Nutrition Management</li>
+                <ul>
+                  <li>
+                    Nutrition management has been shown to significantly improve opioid-use disorder recovery rates. 
+                    Filter by this tag to find treatment centers who offer their own nutrition services or resources 
+                    that focus on nutrition management.
+                  </li>
+                </ul>
               </ul>
             <li>Recovery Residences</li>
               <ul>
                 <li>
-                  A "recovery residence" is a service that provides substance-free housing
-                  to individuals with substance-related disorders.
-                  Individuals can live with others who have gone through the same hardships in recovery residences.
+                  A “recovery residence” means a service that provides alcohol-free and illicit drug-free housing to 
+                  individuals with substance-related disorders or addictive disorders or co-occurring mental health 
+                  and substance-related disorders or addictive disorders.
                 </li>
+                <ul>
+                  <li>Level 1: Peer Run</li>
+                  <li>Level 2: Monitored</li>
+                  <li>Level 3: Supervised</li>
+                  <li>Level 4: Service Provider</li>
+                </ul>
               </ul>
           </ul>
         </div>
@@ -162,6 +239,10 @@ function HowToUseCORABase() {
                   a life-saving drug that reverses the effects of an overdose.
                   Some of these programs are able to distribute naloxone themselves.
                 </li>
+                <ul>
+                  <li>Naloxone Distributor</li>
+                  <li>Overdose Response Trainer</li>
+                </ul>
               </ul>
             <li>Needle Exchange Programs</li>
               <ul>
@@ -170,8 +251,12 @@ function HowToUseCORABase() {
                   or needle-syringe programs&mdash;provide new and sterile syringes to drug users.
                   This is to reduce transmission of blood-borne diseases such as HIV and Hepatitis C.
                 </li>
+                <ul>
+                  <li>Needle Injection Sites</li>
+                  <li>Needle-Transmitted Diseases</li>
+                </ul>
               </ul>
-            <li>Vaccine Clinics</li>
+            <li>Vaccine and Prophylaxis Clinics</li>
               <ul>
                 <li>
                   These clinics are essential to reducing the spread of diseases such as HIV spread by needle sharing.
@@ -179,16 +264,18 @@ function HowToUseCORABase() {
                   For resources on vaccines and prophylaxis, use this tag.
                 </li>
               </ul>
-            <li>Pregnancy Support</li>
-              <ul>
-                <li>
-                  Babies who are exposed to opiates during pregnancy are at risk for
-                  low birth weight, behavioral problems, developmental delays, learning disabilities, birth defects and stillbirth.
-                  Effective treatments and pregnancy support services exist for those with opioid use disorders
-                  and can be found with this tag.
-                </li>
-              </ul>
           </ul>
+        </div>
+      );
+    }else if(state.title === "Pregnancy Support"){
+      cardContents = (
+        <div className="cardContents">
+          <p>
+            Babies who are exposed to opiates during pregnancy are at risk for
+            low birth weight, behavioral problems, developmental delays, learning disabilities, birth defects and stillbirth.
+            Effective treatments and pregnancy support services exist for those with opioid use disorders
+            and can be found with this tag.
+          </p>
         </div>
       );
     }else if(state.title === "Transportation"){
@@ -213,40 +300,36 @@ function HowToUseCORABase() {
             We do not collect any information from you other than
             username, password, and bookmarked resources.
           </p>
-        </div>
-      );
-    }else if(state.title === "Bookmarks"){
-      cardContents = (
-        <div className="cardContents">
-          <p>
-            You are able to bookmark resources
-            by clicking on the bookmark button on the button right hand corner of each resource.
-            This will add the resource to the “My Bookmarked Resources”.
-            You can also compare your bookmarked resources
-            by going to this tab and checking the “Compare” box next to each resource.
-          </p>
-        </div>
-      );
-    }else if(state.title === "Suggest a Resource"){
-      cardContents = (
-        <div className="cardContents">
-          <p>
-            We understand that we may have missed resources while making the database.
-            If you know of any resources in any of the categories,
-            please suggest the resource through your account.
-            We will audit the submitted resources before adding them to the database.
-          </p>
-        </div>
-      );
-    }else if(state.title === "Report a Resource"){
-      cardContents = (
-        <div className="cardContents">
-          <p>
-            We understand that some of our information may potentially be slightly out-of-date.
-            If you have any changes you’d like to suggest,
-            please do so through the “Report A Resource” tab through your account.
-            We will audit the submitted suggestions before changing them in the database.
-          </p>
+          <ul>
+            <li>Bookmarking resources</li>
+            <ul>
+              <li>
+                You are able to bookmark resources
+                by clicking on the bookmark button on the button right hand corner of each resource.
+                This will add the resource to the “My Bookmarked Resources”.
+                You can also compare your bookmarked resources
+                by going to this tab and checking the “Compare” box next to each resource.
+              </li>
+            </ul>
+            <li>Suggesting resources</li>
+            <ul>
+              <li>
+                We understand that we may have missed resources while making the database.
+                If you know of any resources in any of the categories,
+                please suggest the resource through your account.
+                We will audit the submitted resources before adding them to the database.
+              </li>
+            </ul>
+            <li>Reporting resources</li>
+            <ul>
+              <li>
+                We understand that some of our information may potentially be slightly out-of-date.
+                If you have any changes you’d like to suggest,
+                please do so through the “Report A Resource” tab through your account.
+                We will audit the submitted suggestions before changing them in the database.
+              </li>
+            </ul>
+          </ul>
         </div>
       );
     }else if(state.title === "Printing your Resources"){
@@ -259,7 +342,7 @@ function HowToUseCORABase() {
           </p>
         </div>
       );
-    }else if(state.title === "Research Studies"){
+    }else if(state.title === "Join a Research Study"){
       cardContents = (
         <div className="cardContents">
           <p>
@@ -302,19 +385,18 @@ function HowToUseCORABase() {
                   <Button className="titleButtons" onClick={() => setState({yPosition: 25, title: "How to use CORAbase"})}>How to use CORAbase</Button>
 
                   <Button id="advanced-search" className="titleButtons" onClick={() => setState({yPosition: 80, title: "Advanced Search"})}>Advanced Search</Button>
-                  <Button className="subButtons" onClick={() => setState({yPosition: 115, title: "Recovery"})}>Recovery</Button>
-                  <Button className="subButtons" onClick={() => setState({yPosition: 150, title: "Mental Health Resources"})}>Mental Health Resources</Button>
-                  <Button className="subButtons" onClick={() => setState({yPosition: 185, title: "Harm Reduction"})}>Harm Reduction</Button>
-                  <Button className="subButtons" onClick={() => setState({yPosition: 220, title: "Transportation"})}>Transportation</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 115, title: "Prevention"})}>Prevention</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 150, title: "Recovery"})}>Recovery</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 185, title: "Mental Health Resources"})}>Mental Health Resources</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 220, title: "Harm Reduction"})}>Harm Reduction</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 255, title: "Pregnancy Support"})}>Pregnancy Support</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 290, title: "Transportation"})}>Transportation</Button>
 
-                  <Button id="my-account" className="titleButtons" onClick={() => setState({yPosition: 280, title: "What is My Account?"})}>What is My Account?</Button>
-                  <Button className="subButtons" onClick={() => setState({yPosition: 315, title: "Bookmarks"})}>Bookmarks</Button>
-                  <Button className="subButtons" onClick={() => setState({yPosition: 350, title: "Suggest a Resource"})}>Suggest a Resource</Button>
-                  <Button className="subButtons" onClick={() => setState({yPosition: 385, title: "Report a Resource"})}>Report a Resource</Button>
+                  <Button id="my-account" className="titleButtons" onClick={() => setState({yPosition: 345, title: "What is My Account?"})}>What is My Account?</Button>
 
-                  <Button id="print-resources" className="titleButtons" onClick={() => setState({yPosition: 440, title: "Printing your Resources"})}>Printing your Resources</Button>
-                  <Button id="research-studies" className="titleButtons" onClick={() => setState({yPosition: 495, title: "Research Studies"})}>Research Studies</Button>
-                  <Button id="what-is-cora" className="titleButtons" onClick={() => setState({yPosition: 550, title: "What is CORA?"})}>What is CORA?</Button>
+                  <Button id="print-resources" className="titleButtons" onClick={() => setState({yPosition: 405, title: "Printing your Resources"})}>Printing your Resources</Button>
+                  <Button id="research-studies" className="titleButtons" onClick={() => setState({yPosition: 460, title: "Join a Research Study"})}>Join a Research Study</Button>
+                  <Button id="what-is-cora" className="titleButtons" onClick={() => setState({yPosition: 515, title: "What is CORA?"})}>What is CORA?</Button>
                 </ButtonGroup>
               </div>
             </Col>
@@ -326,16 +408,15 @@ function HowToUseCORABase() {
                   <Form.Control as="select" value={state.title} onChange={handleFAQDropdownChange} custom>
                     <option>How to use CORAbase</option>
                     <option>Advanced Search</option>
+                    <option>Prevention</option>
                     <option>Recovery</option>
                     <option>Mental Health Resources</option>
                     <option>Harm Reduction</option>
+                    <option>Pregnancy Support</option>
                     <option>Transportation</option>
                     <option>What is My Account?</option>
-                    <option>Bookmarks</option>
-                    <option>Suggest a Resource</option>
-                    <option>Report a Resource</option>
                     <option>Printing your Resources</option>
-                    <option>Research Studies</option>
+                    <option>Join a Research Study</option>
                     <option>What is CORA?</option>
                   </Form.Control>
                 </Form.Group>
