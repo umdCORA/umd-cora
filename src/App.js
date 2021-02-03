@@ -17,6 +17,7 @@ import ResearchStudy from './components/ResearchStudy/ResearchStudy';
 import HowToUseCORABase from './components/HowToUseCORABase/HowToUseCORABase';
 import ResourcePage from'./components/ResourcePage/ResourcePage';
 import ResetPasswordPage from './components/ResetPasswordPage/ResetPasswordPage';
+import ProfilePage from './components/ProfilePage/ProfilePage';
 import cora_logo from './assets/cora_logo.png'
 
 import './App.css';
@@ -144,7 +145,6 @@ class App extends React.Component {
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(e) => this.setState({username: e.target.value})}
                 required
               />
             </Form.Group>
@@ -248,7 +248,6 @@ class App extends React.Component {
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(e) => this.setState({username: e.target.value})}
                 required
               />
             </Form.Group>
@@ -256,7 +255,6 @@ class App extends React.Component {
               <Form.Label>Email Address</Form.Label>
               <Form.Control
                 type="email"
-                onChange={(e) => this.setState({email: e.target.value})}
                 required
               />
             </Form.Group>
@@ -275,7 +273,7 @@ class App extends React.Component {
               />
             </Form.Group>
             {/*TODO add newsletter fxnality*/}
-            <Form.Check label="Sign up for our newsletter to receive updates from CORA" />
+            {/*<Form.Check label="Sign up for our newsletter to receive updates from CORA" />*/}
             <Button variant="primary" type="submit">Sign Up!</Button>
             <Form.Text className="fake-link" onClick={() => this.setState({showCreateAccountModal:false, showSignInModal: true})}>I already have an account</Form.Text>
           </Form>
@@ -361,6 +359,7 @@ class App extends React.Component {
     this.setState({
       userLoggedIn: false,
       showSignOutModal: true,
+      username: '',
     });
   }
 
@@ -419,6 +418,7 @@ class App extends React.Component {
               <Nav.Link href="/how-to-use-corabase">How to Use CORAbase</Nav.Link>
               <Nav.Link href="/join-a-research-study">Join a Research Study</Nav.Link>
               <Nav.Link href="/about-us">About Us</Nav.Link>
+              {username && <Nav.Link href={`/account`}>My Account</Nav.Link>}
             </Nav>
             {!userLoggedIn &&
               <div className="signed-out-content">
@@ -438,6 +438,7 @@ class App extends React.Component {
           </Navbar>
           <div id="body-wrapper">
             <Switch>
+              <Route exact path="/" component={FindResource}/>
               <Route path="/how-to-use-corabase">
                 <HowToUseCORABase></HowToUseCORABase>
               </Route>
@@ -449,7 +450,8 @@ class App extends React.Component {
               </Route>
               <Route path="/reset-password" component={ResetPasswordPage}/>
               <Route path="/resource-page/:uuid/:lat/:long" component={ResourcePage}/>
-              <Route path="/" component={FindResource}/>
+              {username && <Route path="/account" component={ProfilePage}/>}
+              <Route path="*" component={FindResource}/>
             </Switch>
           </div>
           <Navbar id="footer" className="mr-auto">
