@@ -31,6 +31,7 @@ function HowToUseCORABase() {
     var cardContents;
     if(state.title === "How to use CORAbase"){
       cardContents = (
+        <>
         <div className="cardContents">
           <p>
             Start by entering your ZIP code, address, or current location.
@@ -38,9 +39,12 @@ function HowToUseCORABase() {
             and you can change the distance to show more or fewer locations.
           </p>
         </div>
+        <Button href="/" className="mt-auto p-2 resources-button">Get Started!</Button>
+        </>
       );
     }else if(state.title === "Advanced Search"){
       cardContents = (
+        <>
         <div className="cardContents">
           <p>
             Often, users may require more specific resources for their situation.
@@ -49,6 +53,8 @@ function HowToUseCORABase() {
             Each category is further defined below.
           </p>
         </div>
+        <Button href="https://www.psychiatry.org/patients-families/addiction/opioid-use-disorder/opioid-use-disorder" className="mt-auto p-2 resources-button">More on Opioid Addiction</Button>
+        </>
       );
     }else if(state.title === "Prevention"){
       cardContents = (
@@ -86,6 +92,7 @@ function HowToUseCORABase() {
       );
     }else if(state.title === "Recovery"){
       cardContents = (
+        <>
         <div className="cardContents">
           <ul>
             <li>Medicated Assisted Treatment</li>
@@ -191,9 +198,12 @@ function HowToUseCORABase() {
               </ul>
           </ul>
         </div>
+        <Button href="https://www.drugabuse.gov/publications/drugs-brains-behavior-science-addiction/treatment-recovery" className="mt-auto p-2 resources-button">More on Recovery Treatment</Button>
+        </>
       );
     }else if(state.title === "Mental Health Resources"){
       cardContents = (
+        <>
         <div className="cardContents">
           <p>
             At its core, an opioid use disorder is a mental health issue.
@@ -222,9 +232,12 @@ function HowToUseCORABase() {
               </ul>
           </ul>
         </div>
+        <Button href="https://www.mentalhealth.gov/basics/what-is-mental-health" className="mt-auto p-2 resources-button">More on Mental Health</Button>
+        </>
       );
     }else if(state.title === "Harm Reduction"){
       cardContents = (
+        <>
         <div className="cardContents">
           <p>
             Harm reduction is a set of strategies and ideas
@@ -266,6 +279,8 @@ function HowToUseCORABase() {
               </ul>
           </ul>
         </div>
+        <Button href="https://americanaddictioncenters.org/harm-reduction" className="mt-auto p-2 resources-button">More on Harm Reduction</Button>
+        </>
       );
     }else if(state.title === "Pregnancy Support"){
       cardContents = (
@@ -344,6 +359,7 @@ function HowToUseCORABase() {
       );
     }else if(state.title === "Join a Research Study"){
       cardContents = (
+        <>
         <div className="cardContents">
           <p>
             CORA is actively engaged in opioid-related research
@@ -354,6 +370,8 @@ function HowToUseCORABase() {
             please consider taking 10 minutes to participate in a research study.
           </p>
         </div>
+        <Button href="/join-a-research-study" className="mt-auto p-2 resources-button">Learn More</Button>
+        </>
       );
     }else if(state.title === "What is CORA?"){
       cardContents = (
@@ -426,7 +444,6 @@ function HowToUseCORABase() {
               <Card.Body className="d-flex align-items-start flex-column how-card">
                 <Card.Title className="p-2 faqTitle">{state.title}</Card.Title>
                 {cardContents}
-                <Button className="mt-auto p-2 resources-button">Fun link to more resources</Button>
               </Card.Body>
             </Card>
           </Col>
