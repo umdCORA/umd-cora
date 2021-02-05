@@ -15,7 +15,7 @@ div.line {
     left: 48.5px;
 }
 
-span.circle { 
+span.circle {
     height: 25px;
     width: 25px;
     background-color: #FFFFFF;
@@ -90,7 +90,7 @@ div.faqTitle {
   padding-bottom: 30px;
 }
 
-button.resources-button {
+a.resources-button {
   background-color: #8D9DF9;
   border-color: #8D9DF9;
   border-radius: 20px;
