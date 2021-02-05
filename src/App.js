@@ -302,7 +302,7 @@ class App extends React.Component {
           this.setState({ resetPasswordErrorMsg: 'Username not found. Please try again.' });
           throw new Error('Username not found');
         } else {
-          this.setState({ resetPasswordErrorMsg: 'Something unexpected happened. Please try again.' }); 
+          this.setState({ resetPasswordErrorMsg: 'Something unexpected happened. Please try again.' });
           throw new Error('Something unexpected happened');
         }
       })
@@ -413,27 +413,27 @@ class App extends React.Component {
             <Navbar.Brand href="/"><Image id="cora_logo" src={cora_logo}></Image></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-            <Nav variant="pills" defaultActiveKey="/" activeKey={activeKey} className="mr-auto">
-              <Nav.Link href="/">Find a Resource</Nav.Link>
-              <Nav.Link href="/how-to-use-corabase">How to Use CORAbase</Nav.Link>
-              <Nav.Link href="/join-a-research-study">Join a Research Study</Nav.Link>
-              <Nav.Link href="/about-us">About Us</Nav.Link>
-              {username && <Nav.Link href={`/account`}>My Account</Nav.Link>}
-            </Nav>
-            {!userLoggedIn &&
-              <div className="signed-out-content">
-                <Button variant="outline-dark" style={{marginRight: 10}} onClick={() => this.setState({showSignInModal: true})}>Sign In</Button>
-                <Button variant="outline-dark" onClick={() => this.setState({showCreateAccountModal: true})}>Create Account</Button>
-              </div>
-            }
-            {userLoggedIn &&
-              <div className="signed-in-content">
-                <Navbar.Collapse className="justify-content-end">
-                  <Navbar.Text>Signed in as: <span className="bold-username">{username}</span></Navbar.Text>
-                </Navbar.Collapse>
-                <Button variant="outline-dark" onClick={() => this.handleSignOut()}>Sign Out</Button>
-              </div>
-            }
+              <Nav variant="pills" defaultActiveKey="/" activeKey={activeKey} className="mr-auto">
+                <Nav.Link href="/">Find a Resource</Nav.Link>
+                <Nav.Link href="/how-to-use-corabase">How to Use CORAbase</Nav.Link>
+                <Nav.Link href="/join-a-research-study">Join a Research Study</Nav.Link>
+                <Nav.Link href="/about-us">About Us</Nav.Link>
+                {username && <Nav.Link href={`/account`}>My Account</Nav.Link>}
+              </Nav>
+              {!userLoggedIn &&
+                <div className="signed-out-content">
+                  <Button variant="outline-dark" onClick={() => this.setState({showSignInModal: true})}>Sign In</Button>
+                  <Button variant="outline-dark" onClick={() => this.setState({showCreateAccountModal: true})}>Create Account</Button>
+                </div>
+              }
+              {userLoggedIn &&
+                <div className="signed-in-content">
+                  <Navbar.Collapse className="justify-content-end">
+                    <Navbar.Text style={{verticalAlign: 'middle'}}>Signed in as: <span className="bold-username">{username}</span></Navbar.Text>
+                    <Button variant="outline-dark" onClick={() => this.handleSignOut()}>Sign Out</Button>
+                  </Navbar.Collapse>
+                </div>
+              }
             </Navbar.Collapse>
           </Navbar>
           <div id="body-wrapper">
