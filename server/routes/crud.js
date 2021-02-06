@@ -370,6 +370,25 @@ router.post("/data/users/bookmark", (req, res, next) => {
 });
 
 /**
+ * localhost:5000/api/v1/data/users/getbookmarks?bookmarks:["id1", "id2", ....]
+ */
+router.get("/data/users/getbookmarks", (req, res, next) =>{
+  var arr = JSON.parse(req.query.bookmarks)
+  console.log(arr)
+  ResourceDB.find({
+    '_id': {
+      $in: arr
+    }
+  }, (err, doc)=>{
+    if(err)
+      res.status(500).send(err.message)
+      else
+    res.send(doc)
+  }
+
+  )
+})
+/**
  * Removes bookmark.
  */
 router.post("/data/users/unbookmark", (req, res, next) => {
@@ -464,7 +483,7 @@ router.get("/data/resources", (req, res) => {
       $geoNear: {
         near: {
           type: "Point",
-          coordinates: [parseFloat(req.query.long), parseFloat(req.query.lat)],
+          coordinates: [parseFloat(req.query.long | 0), parseFloat(req.query.lat | 0)],
         },
         minDistance: 0,
         distanceField: "location.distance",
