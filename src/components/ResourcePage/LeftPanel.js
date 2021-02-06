@@ -27,7 +27,7 @@ class LeftPanel extends React.Component {
       position: 'relative',
       minHeight: '250px',
       width: '100%',
-      flex: '1',
+      flexGrow: '1',
     };
 
     return (
