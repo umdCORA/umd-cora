@@ -160,7 +160,7 @@ class ResourcePage extends React.Component {
                 </div>
               </Col>
             </Row>
-            <Row style={{flex: '1'}}>
+            <Row style={{flexGrow: '1'}}>
               <Col id="left-panel-col" xs={12} sm={12} md={6} lg={6}>
                 <LeftPanel
                   name={name}
