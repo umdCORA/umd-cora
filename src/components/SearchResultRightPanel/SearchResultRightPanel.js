@@ -18,8 +18,8 @@ class SearchResultRightPanel extends React.Component {
 
   componentDidMount = () => {
     const username = localStorage.getItem('username');
-    const signedIn = localStorage.getItem('signed-in');
-    if (username && signedIn) {
+
+    if (username) {
       this.setState({ username }); 
       fetch("/api/v1/data/users/getUser", {
         method: "POST",

@@ -30,7 +30,6 @@ class App extends React.Component {
       showSignOutModal: false,
       showCreateAccountModal: false,
       showResetPasswordModal: false,
-      userLoggedIn: false,
       username: '',
       loginErrorMsg: '',
       createAccountErrorMsg: '',
@@ -41,41 +40,40 @@ class App extends React.Component {
   }
 
   componentDidMount = () => {
-    // Various scenarios user session based on https://stackoverflow.com/questions/47928055/multiple-tabs-same-session-clear-the-session-when-all-tabs-are-gone
-    // TODO there is still 1 scenario where this fails: user does not login on tab1 but logins on tab2. This tab1 doesn't auto login when refreshed.
-    window.addEventListener("beforeunload", () => {
-      localStorage.removeItem('signed-in');
+    // persistent login based on https://stackoverflow.com/questions/47928055/multiple-tabs-same-session-clear-the-session-when-all-tabs-are-gone
+    window.addEventListener('beforeunload', () => {
+      if (!localStorage.getItem('persist-sign-in')) {
+        localStorage.removeItem('username');
+      }
     });
 
-    const sessionSignedIn = sessionStorage.getItem('signed-in');
-    const persistSignIn = localStorage.getItem('persist-sign-in');
     const username = localStorage.getItem('username');
-    const signedIn = localStorage.getItem('signed-in');
-
-    if((persistSignIn === 'true' && username) || signedIn || (!signedIn && sessionSignedIn)) {
-      if (sessionSignedIn) {
-        localStorage.setItem('signed-in', JSON.parse(sessionSignedIn));
+    const sessionUsername = sessionStorage.getItem('username');
+    if (!username) {
+      if (sessionUsername) {
+        localStorage.setItem('username', sessionUsername);
+        this.setState({username: sessionUsername});
       }
-      if (signedIn) {
-        sessionStorage.setItem('signed-in', JSON.parse(signedIn));
-      }
-      this.setState({
-        userLoggedIn: true,
-        username: localStorage.getItem('username'),
-      });
+    } else {
+      sessionStorage.setItem('username', username);
+      this.setState({ username });
     }
 
     window.addEventListener('storage', (event) => {
-      if (event.key === 'signed-out' && event.newValue) {
-        sessionStorage.removeItem('signed-in');
-        localStorage.removeItem('signed-out');
+      if (event.key === 'username' && event.newValue) {
+        sessionStorage.setItem('username', event.newValue);
+        this.setState({ username: event.newValue });
+      } else if (event.key === 'logout' && event.newValue) {
+        this.setState({ username: '' });
+        sessionStorage.clear();
+        localStorage.clear();
       }
     });
   }
 
-  componentDidUnMount = () => {
-    window.removeEventListener("beforeunload");
-    window.removeEventListener("storage");
+  componenWillUnmount = () => {
+    window.removeEventListener('beforeunload');
+    window.removeEventListener('storage');
   }
 
   handleSignIn = (event) => {
@@ -99,13 +97,15 @@ class App extends React.Component {
         .then(res => {
           if (res.status === 200) {
             localStorage.setItem('username', username);
-            localStorage.setItem('signed-in', true);
-            localStorage.setItem('persist-sign-in', persistSignIn);
-            sessionStorage.setItem('signed-in', true);
+            if (persistSignIn) {
+              localStorage.setItem('persist-sign-in', true);
+            }
+            localStorage.removeItem('logout');
+            sessionStorage.setItem('username', username);
+
             this.setState({
               showSignInModal: false,
               showResetPasswordModal: false,
-              userLoggedIn: true,
               username,
               loginErrorMsg: '',
             });
@@ -352,12 +352,10 @@ class App extends React.Component {
   }
 
   handleSignOut = () => {
-    localStorage.removeItem('username');
-    localStorage.removeItem('persist-sign-in');
-    localStorage.setItem('signed-out', true)
+    localStorage.setItem('logout', true);
+    sessionStorage.clear();
 
     this.setState({
-      userLoggedIn: false,
       showSignOutModal: true,
       username: '',
     });
@@ -396,7 +394,6 @@ class App extends React.Component {
 
   render(){
     const {
-      userLoggedIn,
       username,
     } = this.state;
 
@@ -420,13 +417,13 @@ class App extends React.Component {
                 <Nav.Link href="/about-us">About Us</Nav.Link>
                 {username && <Nav.Link href={`/account`}>My Account</Nav.Link>}
               </Nav>
-              {!userLoggedIn &&
+              {!username &&
                 <div className="signed-out-content">
                   <Button variant="outline-dark" onClick={() => this.setState({showSignInModal: true})}>Sign In</Button>
                   <Button variant="outline-dark" onClick={() => this.setState({showCreateAccountModal: true})}>Create Account</Button>
                 </div>
               }
-              {userLoggedIn &&
+              {username &&
                 <div className="signed-in-content">
                   <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text style={{verticalAlign: 'middle'}}>Signed in as: <span className="bold-username">{username}</span></Navbar.Text>
