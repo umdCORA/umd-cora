@@ -11,7 +11,6 @@ class LeftPanel extends React.Component {
   render() {
     const {
       location,
-      distance,
       targetLat,
       targetLong,
     } = this.props;
@@ -36,7 +35,6 @@ class LeftPanel extends React.Component {
       <div className="LeftPanel">
         <div className="map-header">
           <h2 style={{fontWeight: 'bold'}}>Location</h2>
-          <h2 style={{textAlign: 'right'}}>{distance} Miles</h2>
         </div>
         <Map
           google={this.props.google}

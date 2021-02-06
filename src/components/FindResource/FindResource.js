@@ -7,8 +7,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
-import SearchResultLeftPanel from '../SearchResultLeftPanel/SearchResultLeftPanel';
-import SearchResultRightPanel from '../SearchResultRightPanel/SearchResultRightPanel';
+import SearchResultLeftPanel from './SearchResultLeftPanel';
+import SearchResultRightPanel from './SearchResultRightPanel';
 import Select from 'react-select'
 import AutocompleteSearchBox from '../AutocompleteSearchBox/AutocompleteSearchBox';
 

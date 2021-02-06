@@ -75,21 +75,21 @@ class BookmarkCard extends React.Component {
       summary,
       bookmarkErrorMsg,
     } = this.state;
+    const { uuid } = this.props;
 
     return (
       <div>
-        {name && addressText && summary &&
-          <Card className="container" id="bookmark-card">
-            <Card.Body>
-              {bookmarkErrorMsg && <div style={{color: 'red'}}>{bookmarkErrorMsg}</div>}
-              <h4 className="bookmark-title">{name} </h4>
-              <div className="bookmark-address">{addressText}</div>
-              <div>{summary}</div>
-              <Button className="bookmark-button" onClick={() => this.handleRemoveBookmark()}>Remove</Button>
+        <Card className="container" id="bookmark-card">
+          <Card.Body>
+            {bookmarkErrorMsg && <div style={{color: 'red'}}>{bookmarkErrorMsg}</div>}
+            <h4 className="bookmark-title">{name} </h4>
+            <div className="bookmark-address">{addressText}</div>
+            <div>{summary}</div>
+            <a href={`/resource-page/${uuid}`} target="_blank" rel="noopener noreferrer">Click the here for more information</a>
+            <Button className="bookmark-button" onClick={() => this.handleRemoveBookmark()}>Remove</Button>
 
-            </Card.Body>
-          </Card>
-        }
+          </Card.Body>
+        </Card>
       </div>
     );
   }
@@ -136,6 +136,8 @@ class ProfilePage extends React.Component {
         .then(res => res.json())
         .then(data => this.setState({bookmarks: data, profilePageErrorMsg: ''}))
         .catch(() => this.setState({profilePageErrorMsg: 'Something unexpected happened. Please reload the page.'}));
+    } else {
+      this.setState({bookmarks: [], profilePageErrorMsg: ''});
     }
   }
 
