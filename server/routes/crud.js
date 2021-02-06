@@ -483,7 +483,7 @@ router.get("/data/resources", (req, res) => {
       $geoNear: {
         near: {
           type: "Point",
-          coordinates: [parseFloat(req.query.long | 0), parseFloat(req.query.lat | 0)],
+          coordinates: [parseFloat(req.query.long), parseFloat(req.query.lat)],
         },
         minDistance: 0,
         distanceField: "location.distance",

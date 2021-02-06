@@ -440,7 +440,7 @@ class App extends React.Component {
               <Route path="/join-a-research-study" component={ResearchStudy}/>
               <Route path="/about-us" component={AboutUs}/>
               <Route path="/reset-password" component={ResetPasswordPage}/>
-              <Route path="/resource-page/:uuid/:lat/:long" component={ResourcePage}/>
+              <Route path="/resource-page/:uuid" component={ResourcePage}/>
               {username && <Route path="/account" component={ProfilePage}/>}
               <Route path="*" component={FindResource}/>
             </Switch>
