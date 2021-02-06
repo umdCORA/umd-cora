@@ -26,8 +26,10 @@ class LeftPanel extends React.Component {
     const mapStyle = {
       position: 'relative',
       minHeight: '250px',
-      width: '100%',
+      maxHeight: '1000px',
       flexGrow: '1',
+      overflow: 'visible',
+      width: '100%',
     };
 
     return (
