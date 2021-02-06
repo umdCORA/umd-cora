@@ -208,7 +208,7 @@ class FindResource extends React.Component {
           <Container fluid className="top-container">
             <Row className="justify-content-md-center">
               <Col xs={12} sm={12} md={6} lg={6}>
-                <h3 className="home-main-text">Millions of Americans Have an Opiod-Use Disorder and Even More Misuse Them. <br/> Help is available.</h3>
+                <h3 className="home-main-text">Millions of Americans Have an Opioid-Use Disorder and Even More Misuse Them. <br/> Help is available.</h3>
               </Col>
             </Row>
             <Row className="justify-content-md-center">
