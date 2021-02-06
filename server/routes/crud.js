@@ -373,7 +373,7 @@ router.post("/data/users/bookmark", (req, res, next) => {
  * localhost:5000/api/v1/data/users/getbookmarks?bookmarks:["id1", "id2", ....]
  */
 router.get("/data/users/getbookmarks", (req, res, next) =>{
-  var arr = JSON.parse(req.query.bookmarks)
+  var arr = req.query.bookmarks.split(',');
   console.log(arr)
   ResourceDB.find({
     '_id': {
