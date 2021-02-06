@@ -436,15 +436,9 @@ class App extends React.Component {
           <div id="body-wrapper">
             <Switch>
               <Route exact path="/" component={FindResource}/>
-              <Route path="/how-to-use-corabase">
-                <HowToUseCORABase></HowToUseCORABase>
-              </Route>
-              <Route path="/join-a-research-study">
-                <ResearchStudy></ResearchStudy>
-              </Route>
-              <Route path="/about-us">
-                <AboutUs></AboutUs>
-              </Route>
+              <Route path="/how-to-use-corabase" component={HowToUseCORABase}/>
+              <Route path="/join-a-research-study" component={ResearchStudy}/>
+              <Route path="/about-us" component={AboutUs}/>
               <Route path="/reset-password" component={ResetPasswordPage}/>
               <Route path="/resource-page/:uuid/:lat/:long" component={ResourcePage}/>
               {username && <Route path="/account" component={ProfilePage}/>}

@@ -20,31 +20,30 @@ class BookmarkCard extends React.Component {
   }
 
   componentDidMount = () => {
-    const { uuid } = this.props;
+    const {
+      description,
+      location,
+      name
+    } = this.props;
+    const {
+      address,
+      city,
+      state,
+      zipcode,
+    } = location;
 
-    fetch(`/api/v1/data/resources/${uuid}`)
-      .then(res => res.json())
-      .then(data => {
-        const {
-          address,
-          city,
-          state,
-          zipcode,
-        } = data.location;
-        this.setState({
-          name: data.name,
-          addressText: `${address}, ${city}, ${state}, ${zipcode}`,
-          summary: data.description,
-        })
-      })
-      .catch((error) => console.log(error));
+    this.setState({
+      name: name,
+      addressText: `${address}, ${city}, ${state}, ${zipcode}`,
+      summary: description,
+    })
   }
 
   handleRemoveBookmark = () => {
     const {
       uuid,
       username,
-      fetchNewBookmarks,
+      fetchUserInfo,
     } = this.props; 
 
     fetch("/api/v1/data/users/unbookmark", {
@@ -66,7 +65,7 @@ class BookmarkCard extends React.Component {
         }
       });
 
-    fetchNewBookmarks();
+    fetchUserInfo();
   }
 
   render() {
@@ -108,10 +107,10 @@ class ProfilePage extends React.Component {
   }
 
   componentDidMount = () => {
-    this.fetchNewBookmarks();
+    this.fetchUserInfo();
   }
 
-  fetchNewBookmarks = () => {
+  fetchUserInfo = () => {
     const username = localStorage.getItem('username');
     fetch("/api/v1/data/users/getUser", {
       method: "POST",
@@ -124,7 +123,17 @@ class ProfilePage extends React.Component {
       redirect: "follow"
     })
       .then(res => res.json())
-      .then(data => this.setState({username, email: data.email, bookmarks: data.meta.bookmarked, profilePageErrorMsg: ''}))
+      .then(data =>{
+        this.fetchBookmarks(data.meta.bookmarked);
+        this.setState({username, email: data.email, profilePageErrorMsg: ''})
+      })
+      .catch(() => this.setState({profilePageErrorMsg: 'Something unexpected happened. Please reload the page.'}));
+  }
+
+  fetchBookmarks = (bookmarkUUIDs) => {
+    fetch(`/api/v1/data/users/getbookmarks?bookmarks=${bookmarkUUIDs}`)
+      .then(res => res.json())
+      .then(data => this.setState({bookmarks: data}))
       .catch(() => this.setState({profilePageErrorMsg: 'Something unexpected happened. Please reload the page.'}));
   }
 
@@ -152,7 +161,7 @@ class ProfilePage extends React.Component {
           <Col>
             <h4 className="bookmark-content-title">My Bookmarks</h4>
             {profilePageErrorMsg && <div style={{color: 'red'}}>{profilePageErrorMsg}</div>}
-            {bookmarks.map(uuid => <BookmarkCard uuid={uuid} username={username} key={uuid} fetchNewBookmarks={this.fetchNewBookmarks}/>)}
+            {bookmarks.map(bookmark => <BookmarkCard location={bookmark.location} name={bookmark.name} description={bookmark.description} username={username} key={bookmark._id} uuid={bookmark._id} fetchUserInfo={this.fetchUserInfo}/>)}
           </Col>
         </Row>
       </Container>
