@@ -85,7 +85,7 @@ class BookmarkCard extends React.Component {
             <h4 className="bookmark-title">{name} </h4>
             <div className="bookmark-address">{addressText}</div>
             <div>{summary}</div>
-            <a href={`/resource-page/${uuid}`} target="_blank" rel="noopener noreferrer">Click the here for more information</a>
+            <a href={`/resource-page/${uuid}`} target="_blank" rel="noopener noreferrer">Click here for more information</a>
             <Button className="bookmark-button" onClick={() => this.handleRemoveBookmark()}>Remove</Button>
 
           </Card.Body>

@@ -154,7 +154,7 @@ class SearchResultRightPanel extends React.Component {
             Services: {tags.join(", ")}
           </Card.Text>
           <Card.Text>
-              <a href={`/resource-page/${_id}`} target="_blank" rel="noopener noreferrer">Click the here for more information</a>
+              <a href={`/resource-page/${_id}`} target="_blank" rel="noopener noreferrer">Click here for more information</a>
           </Card.Text>
           {username && bookmarks.has(_id) &&
             <BookmarkIcon
