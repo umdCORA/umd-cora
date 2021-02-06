@@ -131,10 +131,12 @@ class ProfilePage extends React.Component {
   }
 
   fetchBookmarks = (bookmarkUUIDs) => {
-    fetch(`/api/v1/data/users/getbookmarks?bookmarks=${bookmarkUUIDs}`)
-      .then(res => res.json())
-      .then(data => this.setState({bookmarks: data}))
-      .catch(() => this.setState({profilePageErrorMsg: 'Something unexpected happened. Please reload the page.'}));
+    if (bookmarkUUIDs.length >= 1) {
+      fetch(`/api/v1/data/users/getbookmarks?bookmarks=${bookmarkUUIDs}`)
+        .then(res => res.json())
+        .then(data => this.setState({bookmarks: data, profilePageErrorMsg: ''}))
+        .catch(() => this.setState({profilePageErrorMsg: 'Something unexpected happened. Please reload the page.'}));
+    }
   }
 
   render() {
@@ -161,6 +163,7 @@ class ProfilePage extends React.Component {
           <Col>
             <h4 className="bookmark-content-title">My Bookmarks</h4>
             {profilePageErrorMsg && <div style={{color: 'red'}}>{profilePageErrorMsg}</div>}
+            {bookmarks.length === 0 && <div>No bookmarks to display. You can bookmark resources on the Find a Resource results page.</div>}
             {bookmarks.map(bookmark => <BookmarkCard location={bookmark.location} name={bookmark.name} description={bookmark.description} username={username} key={bookmark._id} uuid={bookmark._id} fetchUserInfo={this.fetchUserInfo}/>)}
           </Col>
         </Row>
