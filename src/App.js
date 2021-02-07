@@ -353,6 +353,7 @@ class App extends React.Component {
 
   handleSignOut = () => {
     localStorage.setItem('logout', true);
+    localStorage.removeItem('persist-sign-in');
     sessionStorage.clear();
 
     this.setState({
