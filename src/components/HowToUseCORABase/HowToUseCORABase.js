@@ -5,7 +5,7 @@ import { Button, ButtonGroup, Card, Container, Form, Row, Col } from 'react-boot
 function HowToUseCORABase() {
     const [state, setState] = useState({
       yPosition: 25,
-      title: "How to use CORAbase",
+      title: "How to Use CORAbase",
       windoWidth: window.innerWidth,
     });
     const [width, setWidth] = React.useState(window.innerWidth);
@@ -29,7 +29,7 @@ function HowToUseCORABase() {
     const handleFAQDropdownChange = event => setState({title: event.target.value})
 
     var cardContents;
-    if(state.title === "How to use CORAbase"){
+    if(state.title === "How to Use CORAbase"){
       cardContents = (
         <>
         <div className="cardContents">
@@ -56,37 +56,17 @@ function HowToUseCORABase() {
         <Button href="https://www.psychiatry.org/patients-families/addiction/opioid-use-disorder/opioid-use-disorder" className="mt-auto p-2 resources-button">More on Opioid Addiction</Button>
         </>
       );
-    }else if(state.title === "Prevention"){
+    }else if(state.title === "Payment"){
       cardContents = (
         <div className="cardContents">
           <p>
-            There are 3 subgroups of prevention:
+          We understand that different resources have different means of payment for their treatment. 
+          Here are some of the different payment options some resources provide:
           </p>
           <ul>
-            <li>Awareness and Education</li>
-              <ul>
-                <li>
-                  According to CORA’s research, the general public is unable to correctly answer 60% of 
-                  questions related to opioid use, which leads to frequent misuse. Filter by this tag to 
-                  find programs dedicated to educating the everyday person.
-                </li>
-              </ul>
-            <li>Physician Education</li>
-              <ul>
-                <li>
-                  80% of opioid-use disorder cases originate with prescribed opioids for pain, and chronic 
-                  pain management has been omitted from physician education. Filter by this tag to find 
-                  educational resources for healthcare professionals.
-                </li>
-              </ul>
-            <li>Political Advocacy</li>
-              <ul>
-                <li>
-                  Developing policy geared towards reducing opioid-use disorders cases and overdose is 
-                  crucial to curbing the opioid epidemic. Filter by this tag to find programs dedicated 
-                  to advocating for this cause to all levels of government.
-                </li>
-              </ul>
+            <li>Sliding Scale: The payment of treatment is based on the client’s ability to pay and adjusted based on an individual basis.</li>
+            <li>Free: The selected resource covers fees regarding treatment and the client does not have to pay out of pocket.</li>
+            <li>Paid: Some resources will require a fee to be paid from clients. Search on the resource’s website for payment options. Many will accept Medicaid, Medicare, and insurance.</li>
           </ul>
         </div>
       );
@@ -277,21 +257,19 @@ function HowToUseCORABase() {
                   For resources on vaccines and prophylaxis, use this tag.
                 </li>
               </ul>
+            <li>Pregnancy Support</li>
+              <ul>
+                <li>
+                  Babies who are exposed to opiates during pregnancy are at risk for
+                  low birth weight, behavioral problems, developmental delays, learning disabilities, birth defects and stillbirth.
+                  Effective treatments and pregnancy support services exist for those with opioid use disorders
+                  and can be found with this tag.
+                </li>
+              </ul>
           </ul>
         </div>
         <Button href="https://americanaddictioncenters.org/harm-reduction" className="mt-auto p-2 resources-button">More on Harm Reduction</Button>
         </>
-      );
-    }else if(state.title === "Pregnancy Support"){
-      cardContents = (
-        <div className="cardContents">
-          <p>
-            Babies who are exposed to opiates during pregnancy are at risk for
-            low birth weight, behavioral problems, developmental delays, learning disabilities, birth defects and stillbirth.
-            Effective treatments and pregnancy support services exist for those with opioid use disorders
-            and can be found with this tag.
-          </p>
-        </div>
       );
     }else if(state.title === "Transportation"){
       cardContents = (
@@ -322,8 +300,6 @@ function HowToUseCORABase() {
                 You are able to bookmark resources
                 by clicking on the bookmark button on the button right hand corner of each resource.
                 This will add the resource to the “My Bookmarked Resources”.
-                You can also compare your bookmarked resources
-                by going to this tab and checking the “Compare” box next to each resource.
               </li>
             </ul>
             <li>Suggesting resources</li>
@@ -331,7 +307,7 @@ function HowToUseCORABase() {
               <li>
                 We understand that we may have missed resources while making the database.
                 If you know of any resources in any of the categories,
-                please suggest the resource through your account.
+                please suggest the resource by emailing us at cora.umd@gmail.com.
                 We will audit the submitted resources before adding them to the database.
               </li>
             </ul>
@@ -340,14 +316,14 @@ function HowToUseCORABase() {
               <li>
                 We understand that some of our information may potentially be slightly out-of-date.
                 If you have any changes you’d like to suggest,
-                please do so through the “Report A Resource” tab through your account.
+                please do so through the “Report an Issue" on the resource page you are viewing.
                 We will audit the submitted suggestions before changing them in the database.
               </li>
             </ul>
           </ul>
         </div>
       );
-    }else if(state.title === "Printing your Resources"){
+    }else if(state.title === "Printing Resources"){
       cardContents = (
         <div className="cardContents">
           <p>
@@ -400,21 +376,20 @@ function HowToUseCORABase() {
               <div className="line faqButtons">
                 <span style={styles} className="circle"/>
                 <ButtonGroup vertical>
-                  <Button className="titleButtons" onClick={() => setState({yPosition: 25, title: "How to use CORAbase"})}>How to use CORAbase</Button>
+                  <Button className="titleButtons" onClick={() => setState({yPosition: 25, title: "How to Use CORAbase"})}>How to Use CORAbase</Button>
 
                   <Button id="advanced-search" className="titleButtons" onClick={() => setState({yPosition: 80, title: "Advanced Search"})}>Advanced Search</Button>
-                  <Button className="subButtons" onClick={() => setState({yPosition: 115, title: "Prevention"})}>Prevention</Button>
-                  <Button className="subButtons" onClick={() => setState({yPosition: 150, title: "Recovery"})}>Recovery</Button>
-                  <Button className="subButtons" onClick={() => setState({yPosition: 185, title: "Mental Health Resources"})}>Mental Health Resources</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 115, title: "Recovery"})}>Recovery</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 150, title: "Mental Health Resources"})}>Mental Health Resources</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 185, title: "Payment"})}>Payment</Button>
                   <Button className="subButtons" onClick={() => setState({yPosition: 220, title: "Harm Reduction"})}>Harm Reduction</Button>
-                  <Button className="subButtons" onClick={() => setState({yPosition: 255, title: "Pregnancy Support"})}>Pregnancy Support</Button>
-                  <Button className="subButtons" onClick={() => setState({yPosition: 290, title: "Transportation"})}>Transportation</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 255, title: "Transportation"})}>Transportation</Button>
 
-                  <Button id="my-account" className="titleButtons" onClick={() => setState({yPosition: 345, title: "What is My Account?"})}>What is My Account?</Button>
+                  <Button id="my-account" className="titleButtons" onClick={() => setState({yPosition: 310, title: "What is My Account?"})}>What is My Account?</Button>
 
-                  <Button id="print-resources" className="titleButtons" onClick={() => setState({yPosition: 405, title: "Printing your Resources"})}>Printing your Resources</Button>
-                  <Button id="research-studies" className="titleButtons" onClick={() => setState({yPosition: 460, title: "Join a Research Study"})}>Join a Research Study</Button>
-                  <Button id="what-is-cora" className="titleButtons" onClick={() => setState({yPosition: 515, title: "What is CORA?"})}>What is CORA?</Button>
+                  <Button id="print-resources" className="titleButtons" onClick={() => setState({yPosition: 370, title: "Printing Resources"})}>Printing Resources</Button>
+                  <Button id="research-studies" className="titleButtons" onClick={() => setState({yPosition: 425, title: "Join a Research Study"})}>Join a Research Study</Button>
+                  <Button id="what-is-cora" className="titleButtons" onClick={() => setState({yPosition: 480, title: "What is CORA?"})}>What is CORA?</Button>
                 </ButtonGroup>
               </div>
             </Col>
@@ -424,16 +399,15 @@ function HowToUseCORABase() {
               <Form>
                 <Form.Group controlId="exampleForm.SelectCustom">
                   <Form.Control as="select" value={state.title} onChange={handleFAQDropdownChange} custom>
-                    <option>How to use CORAbase</option>
+                    <option>How to Use CORAbase</option>
                     <option>Advanced Search</option>
-                    <option>Prevention</option>
                     <option>Recovery</option>
                     <option>Mental Health Resources</option>
+                    <option>Payment</option>
                     <option>Harm Reduction</option>
-                    <option>Pregnancy Support</option>
                     <option>Transportation</option>
                     <option>What is My Account?</option>
-                    <option>Printing your Resources</option>
+                    <option>Printing Resources</option>
                     <option>Join a Research Study</option>
                     <option>What is CORA?</option>
                   </Form.Control>
