@@ -131,11 +131,7 @@ class ResourcePage extends React.Component {
         }
         {!searchError && targetLat && targetLong &&
           <Container fluid>
-            <Row>
-              <Col xs={12} sm={12} md={6} lg={6}>
-                <h1 className="title">{name}</h1>
-                {website && <a href={website} target="_blank" rel="noopener noreferrer">{website}</a>}
-              </Col>
+            <Row style={{flexDirection: 'row-reverse'}}>
               <Col xs={12} sm={12} md={6} lg={6}>
                 <div className="right-icons">
                   <span className="phone">
@@ -148,6 +144,10 @@ class ResourcePage extends React.Component {
                     <WarningIcon/> Report an Issue
                   </span>
                 </div>
+              </Col>
+              <Col xs={12} sm={12} md={6} lg={6}>
+                <h1 className="title">{name}</h1>
+                {website && <a href={website} target="_blank" rel="noopener noreferrer">{website}</a>}
               </Col>
             </Row>
             <Row style={{flexGrow: '1'}}>
