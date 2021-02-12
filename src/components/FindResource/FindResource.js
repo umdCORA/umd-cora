@@ -241,7 +241,7 @@ class FindResource extends React.Component {
               <div className="card-note-text">
                 PLEASE NOTE: Your personal information and the search criteria you enter into the Locator is secure and anonymous. CORA does not collect or maintain any information you provide.
               </div>
-                <Nav.Link href="/general-info"><Button id="learn-cora-button"><b>Learn More About Corabase</b></Button></Nav.Link>
+                <Nav.Link href="/how-to-use-corabase"><Button id="learn-cora-button"><b>Learn More About Corabase</b></Button></Nav.Link>
             </Card.Body>
           </Card>
         }

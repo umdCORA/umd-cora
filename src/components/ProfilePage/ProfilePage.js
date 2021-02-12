@@ -111,7 +111,7 @@ class ProfilePage extends React.Component {
   }
 
   fetchUserInfo = () => {
-    const username = localStorage.getItem('username');
+    const username = localStorage.getItem('username') ? localStorage.getItem('username') : sessionStorage.getItem('username');
     fetch("/api/v1/data/users/getUser", {
       method: "POST",
       headers: {

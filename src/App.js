@@ -5,6 +5,7 @@ import {
   Switch,
   Route,
   withRouter,
+  Redirect,
 } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -400,6 +401,8 @@ class App extends React.Component {
 
     // resource-page should have pill on Find Resource tab
     const activeKey = window.location.pathname.includes('resource-page') ? '/' : window.location.pathname;
+    const usernameInStorage = localStorage.getItem('username') || sessionStorage.getItem('username');
+
     return (
       <Router>
         <div className="App">
@@ -442,8 +445,8 @@ class App extends React.Component {
               <Route path="/about-us" component={AboutUs}/>
               <Route path="/reset-password" component={ResetPasswordPage}/>
               <Route path="/resource-page/:uuid" component={ResourcePage}/>
-              {username && <Route path="/account" component={ProfilePage}/>}
-              <Route path="*" component={FindResource}/>
+              <Route path="/account" render={() => usernameInStorage ? <ProfilePage/> : <Redirect to="/"/>}/>
+              <Route path="*" render={() => <Redirect to="/"/>}/>
             </Switch>
           </div>
           <Navbar id="footer" className="mr-auto">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
 //import { Button, Card, Container, Row, Col, Modal } from 'react-bootstrap';
 import { Container, Row } from 'react-bootstrap';
 import './ResearchStudy.css';
@@ -138,4 +139,4 @@ function ResearchStudy() {
     )*/
 }
 
-export default ResearchStudy;
+export default withRouter(ResearchStudy);
