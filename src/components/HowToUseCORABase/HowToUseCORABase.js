@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { withRouter } from "react-router-dom";
 import './HowToUseCORABase.css';
 import { Button, ButtonGroup, Card, Container, Form, Row, Col } from 'react-bootstrap';
 
@@ -426,4 +427,4 @@ function HowToUseCORABase() {
     )
 }
 
-export default HowToUseCORABase;
+export default withRouter(HowToUseCORABase);

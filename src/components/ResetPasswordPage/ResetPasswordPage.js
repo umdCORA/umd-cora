@@ -43,7 +43,6 @@ class ResetPasswordPage extends React.Component {
               resetPasswordSucceeded: true,
               resetPasswordErrorMsg: '',
             });
-            console.log(this.formRef.current.reset());
           } else if (res.status === 404) {
             this.setState({
               resetPasswordSucceeded: false,

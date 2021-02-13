@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
 import { Card, Container, Row, Col, CardDeck, Jumbotron } from 'react-bootstrap';
 import kevin_tu_profile_pic from './../../assets/kevin_tu_profile_pic.jpeg';
 import annie_feng_profile_pic from './../../assets/annie_feng_profile_pic.png';
@@ -96,4 +97,4 @@ function AboutUs() {
     )
   }
 
-  export default AboutUs;
+  export default withRouter(AboutUs);
