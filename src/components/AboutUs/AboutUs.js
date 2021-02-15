@@ -32,7 +32,7 @@ function AboutUs() {
         "image_one": anna_feng_profile_pic,
         "name_two": "Michael Li",
         "title_two": "CORA Developer",
-        "bio_two": "Cellist by day and coder by night though you'll probably find me taking a nap somewhere.",
+        "bio_two": "Cellist by day and coder by night though you'll probably find me taking a nap somewhere. Currently a Junior majoring in Computer Science, Math, and Cello Performance at UMD.",
         "image_two": michael_li_profile_pic
       },
       {

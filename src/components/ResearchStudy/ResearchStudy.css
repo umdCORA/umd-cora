@@ -16,7 +16,6 @@ div.coming_soon_title {
     text-align: center;
     font-size: 24px;
     line-height: 35px;
-    color: #FFFFFF;
 }
 
 div.research_card {
@@ -28,9 +27,8 @@ div.research_card {
 div.research_card_title {
     font-style: normal;
     font-weight: bold;
-    font-size: 32px;
+    font-size: 28px;
     line-height: 45px;
-    text-decoration-line: underline;
     color: #000000;
 }
 

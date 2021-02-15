@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
 //import { Button, Card, Container, Row, Col, Modal } from 'react-bootstrap';
-import { Container, Row } from 'react-bootstrap';
+import { Card, Container, Row } from 'react-bootstrap';
 import './ResearchStudy.css';
 /*
 function ResearchStudyModal(props) {
@@ -42,7 +42,11 @@ function ResearchStudy() {
           <Container className="research_container">
             <Row>
               <div className="coming_soon_title">
-                Thank you for your interest, Research Studies are coming soon! Please check back later!
+                <Card className="research_card">
+                  <Card.Body className="mb-1">
+                    <Card.Title className="mb-3 research_card_title">Thank you for your interest, Research Studies are coming soon! Please check back later!</Card.Title>
+                  </Card.Body>
+                </Card>
               </div>
             </Row>
           </Container>
