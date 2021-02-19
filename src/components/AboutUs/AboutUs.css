@@ -10,9 +10,18 @@ div.col-4 {
 div.jumbotron {
     padding-top: 32px;
     padding-bottom: 0px;
-    background: #FFFFFF;
+    background: #8d9df9;
+    color: white;
 }
 
 div.card-body {
     text-align: left;
+}
+
+.hideCard {
+    visibility: hidden;
+}
+
+div.aboutUs {
+    background: #8d9df9;
 }
