@@ -7,6 +7,7 @@ const ResourceDB = require("../dao/ResourceDAO");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
+const { route } = require("./clientrouter");
 
 let errorFun = function (err, res) {
   if (err) {
@@ -382,8 +383,8 @@ router.get("/data/users/getbookmarks", (req, res, next) =>{
   }, (err, doc)=>{
     if(err)
       res.status(500).send(err.message)
-      else
-    res.send(doc)
+    else
+      res.send(doc.forEach((val)=>{val.pruneTags}))
   }
 
   )
@@ -451,7 +452,7 @@ router.get("/data/resources/:id", (req, res) => {
   var id = req.params.id;
   ResourceDB.findById(id, (err, doc) => {
     errorFun(err, res);
-    res.send(doc);
+    res.send(doc.pruneTags);
   });
 });
 
@@ -463,7 +464,14 @@ router.put("/data/resources/:id", (req, res) => {
   });
 });
 
-
+router.get("/data/resourcesAll", (req, res) => {
+  ResourceDB.find((err, doc)=>{
+    doc.forEach((val)=>{
+      val.pruneTags;
+    })
+    res.send(doc)
+  })
+})
 router.get("/data/resources", (req, res) => {
   ResourceDB.aggregate([
     {
@@ -483,7 +491,7 @@ router.get("/data/resources", (req, res) => {
       },
     },
   ]).then((doc) => {
-    res.send(doc);
+    res.send(doc.forEach((val)=>{val.pruneTags}));
   });
 });
 
