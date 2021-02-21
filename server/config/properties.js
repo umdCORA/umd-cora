@@ -10,5 +10,11 @@ module.exports = {
     database_ENDPOINT: '/api/v1',
     client_ENDPOINT: '/client',
 
-    BCRYPT_SALT_ROUNDS: 12
+    BCRYPT_SALT_ROUNDS: 12,
+
+    DB_TAGS: ["Recovery", "Medicated Assisted Treatment", "Inpatient Rehabilitation", 
+    "Outpatient Rehabilitation", "Gender-Specific Treatment", "Intervention Specialists",
+    "Recovery Residences", "Mental Health Resources", "Counseling/Therapy", "Support Groups",
+    "Payment", "Sliding Scale", "Free", "Paid", "Harm Reduction", "Overdose Response", "Needle Exchange Programs", 
+    "Vaccine and Prophylaxis Clinics", "Pregnancy Support", "Free Transportation"]
 }
