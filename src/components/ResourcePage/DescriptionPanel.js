@@ -6,7 +6,7 @@ class DescriptionPanel extends React.Component {
 
     return (
       <div className="DescriptionPanel">
-        <h2 style={{fontWeight: 'bold'}}>Description</h2>
+        <h2 style={{fontWeight: 'bold'}}>Tags</h2>
         {tags.map(tag => <div key={tag}>{tag}</div>)}
       </div>
     );
