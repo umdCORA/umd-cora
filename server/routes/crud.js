@@ -463,20 +463,7 @@ router.put("/data/resources/:id", (req, res) => {
   });
 });
 
-router.post("/flipCoordinates", (req, res) => {
-  ResourceDB.find({}, (err, doc) => {
-    doc.forEach((doc) => {
-      var loc = [
-        doc.location.geo.coordinates[1],
-        doc.location.geo.coordinates[0],
-      ];
-      console.log(loc);
-      doc.location.geo.coordinates = loc;
-      doc.save();
-    });
-  });
-  res.send();
-});
+
 router.get("/data/resources", (req, res) => {
   ResourceDB.aggregate([
     {
