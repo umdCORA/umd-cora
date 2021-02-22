@@ -89,7 +89,7 @@ class SearchResultRightPanel extends React.Component {
       top: '50px',
       marginTop: '-50px',
       cursor: 'pointer',
-      color: '#efebb1',
+      color: '#8D9DF9',
     };
 
     const addBookmark = () => {

@@ -61,11 +61,10 @@ class BookmarkCard extends React.Component {
         if (res.status !== 200) {
           this.setState({bookmarkErrorMsg: 'Something happened while trying to delete this bookmark. Please try again'}); 
         } else {
+          fetchUserInfo();
           this.setState({bookmarkErrorMsg: ''});
         }
       });
-
-    fetchUserInfo();
   }
 
   render() {
@@ -112,22 +111,24 @@ class ProfilePage extends React.Component {
 
   fetchUserInfo = () => {
     const username = localStorage.getItem('username') ? localStorage.getItem('username') : sessionStorage.getItem('username');
-    fetch("/api/v1/data/users/getUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        "username": username,
-      }),
-      redirect: "follow"
-    })
-      .then(res => res.json())
-      .then(data =>{
-        this.fetchBookmarks(data.meta.bookmarked);
-        this.setState({username, email: data.email, profilePageErrorMsg: ''})
+    if (username) {
+      fetch("/api/v1/data/users/getUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "username": username,
+        }),
+        redirect: "follow"
       })
-      .catch(() => this.setState({profilePageErrorMsg: 'Something unexpected happened. Please reload the page.'}));
+        .then(res => res.json())
+        .then(data =>{
+          this.fetchBookmarks(data.meta.bookmarked);
+          this.setState({username, email: data.email, profilePageErrorMsg: ''})
+        })
+        .catch(() => this.setState({profilePageErrorMsg: 'Something unexpected happened. Please reload the page.'}));
+    }
   }
 
   fetchBookmarks = (bookmarkUUIDs) => {
