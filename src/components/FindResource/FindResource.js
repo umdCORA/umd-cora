@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
+import ClipLoader from "react-spinners/ClipLoader";
 import SearchResultLeftPanel from './SearchResultLeftPanel';
 import SearchResultRightPanel from './SearchResultRightPanel';
 import Select from 'react-select'
@@ -30,6 +31,7 @@ class FindResource extends React.Component {
       searchResults: null,
       searchErrorMsg: '',
       searchResultError: null,
+      isLoading: false,
     }
   }
 
@@ -168,10 +170,11 @@ class FindResource extends React.Component {
           long: lng,
           showSearchResults: true,
           searchErrorMsg: '',
+          isLoading: true,
         }, () => {
           fetch(`/api/v1/data/resources?lat=${lat}&long=${lng}&radius=${distanceInMilesSelection}&tags=${allTags.toString()}`)
             .then(res => res.json())
-            .then(results => this.setState({searchResults: results, searchResultError: null}))
+            .then(results => this.setState({searchResults: results, searchResultError: null, isLoading: false}))
             .catch((error) => this.setState({searchResultError: error}))
         });
       }
@@ -193,6 +196,7 @@ class FindResource extends React.Component {
       searchResults,
       searchErrorMsg,
       searchResultError,
+      isLoading,
     } = this.state;
 
     let rightPanel;
@@ -204,6 +208,8 @@ class FindResource extends React.Component {
             long={long}
             searchResults={searchResults}
           />;
+      } else if (isLoading) {
+        rightPanel = <div><ClipLoader color={'#8D9DF9'} size={150}/><div>Loading results...</div></div>
       } else {
         rightPanel = <p>No results match the search criteria. <a href="/">Click here</a> to return to the homepage.</p>;
       }
