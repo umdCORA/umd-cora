@@ -1,3 +1,17 @@
+.search-location-input {
+  display: flex; 
+  flex-direction: row;
+}
+
 .search-location-input input {
   width: 100%;
+  text-overflow: ellipsis;
+}
+
+.search-location-input .MuiButtonBase-root {
+  background-color: #e0e0e0
+}
+
+.search-location-input .MuiButtonBase-root:hover {
+  background-color: #e0e0e0
 }

@@ -7,8 +7,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
-import SearchResultLeftPanel from '../SearchResultLeftPanel/SearchResultLeftPanel';
-import SearchResultRightPanel from '../SearchResultRightPanel/SearchResultRightPanel';
+import SearchResultLeftPanel from './SearchResultLeftPanel';
+import SearchResultRightPanel from './SearchResultRightPanel';
 import Select from 'react-select'
 import AutocompleteSearchBox from '../AutocompleteSearchBox/AutocompleteSearchBox';
 
@@ -28,7 +28,8 @@ class FindResource extends React.Component {
         distanceInMilesSelection: 25,
       },
       searchResults: null,
-      searchError: null,
+      searchErrorMsg: '',
+      searchResultError: null,
     }
   }
 
@@ -41,12 +42,14 @@ class FindResource extends React.Component {
   handleTransportationChange = event => {
     const { narrowSearchOptions } = this.state;
 
-    this.setState({
-      narrowSearchOptions: {
-        ...narrowSearchOptions,
-        transportationSelection: event.currentTarget.checked
-      }
-    });
+    const temp = narrowSearchOptions;
+    if (event.currentTarget.checked) {
+      temp.transportationSelection = true;
+    } else {
+      delete temp.transportationSelection;
+    }
+
+    this.setState({ narrowSearchOptions: temp });
   }
 
   handleMileDropdownChange = event => {
@@ -138,7 +141,7 @@ class FindResource extends React.Component {
     );
   }
 
-  handlePlaceSelect = (query, lat, lng) => {
+  handleSearch = (query, lat, lng, isValidSearch) => {
     const {
       narrowSearchOptions
     } = this.state;
@@ -146,29 +149,34 @@ class FindResource extends React.Component {
       distanceInMilesSelection,
     } = narrowSearchOptions;
 
-    let allTags = [];
-    for (const [key, value] of Object.entries(narrowSearchOptions)) {
-      if (key === 'transportationSelection') {
-        if (value) {
-          allTags.push('Transportation');
+    if (isValidSearch) {
+      let allTags = [];
+      for (const [key, value] of Object.entries(narrowSearchOptions)) {
+        if (key === 'transportationSelection') {
+          if (value) {
+            allTags.push('Transportation');
+          }
+        } else if (key !== 'distanceInMilesSelection') {
+          allTags = allTags.concat(value);
         }
-      } else if (key !== 'distanceInMilesSelection') {
-        allTags = allTags.concat(value);
       }
-    }
 
-    if (query && lat && lng) {
-      this.setState({
-        query,
-        lat,
-        long: lng,
-        showSearchResults: true,
-      }, () => {
-        fetch(`/api/v1/data/resources?lat=${lat}&long=${lng}&radius=${distanceInMilesSelection}&tags=${allTags.toString()}`)
-          .then(res => res.json())
-          .then(results => this.setState({searchResults: results, searchError: null}))
-          .catch((error) => this.setState({searchError: error}))
-      });
+      if (query && lat && lng) {
+        this.setState({
+          query,
+          lat,
+          long: lng,
+          showSearchResults: true,
+          searchErrorMsg: '',
+        }, () => {
+          fetch(`/api/v1/data/resources?lat=${lat}&long=${lng}&radius=${distanceInMilesSelection}&tags=${allTags.toString()}`)
+            .then(res => res.json())
+            .then(results => this.setState({searchResults: results, searchResultError: null}))
+            .catch((error) => this.setState({searchResultError: error}))
+        });
+      }
+    } else {
+      this.setState({ searchErrorMsg: 'Please enter a valid address.' }); 
     }
   }
 
@@ -183,11 +191,12 @@ class FindResource extends React.Component {
       lat,
       long,
       searchResults,
-      searchError,
+      searchErrorMsg,
+      searchResultError,
     } = this.state;
 
     let rightPanel;
-    if(!searchError) {
+    if(!searchResultError) {
       if(searchResults?.length) {
         rightPanel =
           <SearchResultRightPanel
@@ -208,15 +217,16 @@ class FindResource extends React.Component {
           <Container fluid className="top-container">
             <Row className="justify-content-md-center">
               <Col xs={12} sm={12} md={6} lg={6}>
-                <h3 className="home-main-text">Millions of Americans Have an Opiod-Use Disorder and Even More Misuse Them. <br/> Help is available.</h3>
+                <h3 className="home-main-text">Millions of Americans Have an Opioid-Use Disorder and Even More Misuse Them. <br/> Help is available.</h3>
               </Col>
             </Row>
             <Row className="justify-content-md-center">
               <Col xs={12} sm={12} md={6} lg={6} style={{'marginTop': '20px', 'float': 'left'}}>
+                {searchErrorMsg && <div style={{color: 'red'}}>{searchErrorMsg}</div>}
                 <AutocompleteSearchBox
                   query={query}
                   onQueryChange={this.handleQueryChange}
-                  onPlaceSelect={this.handlePlaceSelect}
+                  onSearch={this.handleSearch}
                 />
               </Col>
             </Row>
@@ -241,13 +251,13 @@ class FindResource extends React.Component {
               <div className="card-note-text">
                 PLEASE NOTE: Your personal information and the search criteria you enter into the Locator is secure and anonymous. CORA does not collect or maintain any information you provide.
               </div>
-                <Nav.Link href="/general-info"><Button id="learn-cora-button"><b>Learn More About Corabase</b></Button></Nav.Link>
+                <Nav.Link href="/how-to-use-corabase"><Button id="learn-cora-button"><b>Learn More About Corabase</b></Button></Nav.Link>
             </Card.Body>
           </Card>
         }
         {showSearchResults &&
-          <Container fluid style={{height: '100%'}}>
-            <Row style={{height: '100%'}}>
+          <Container fluid id="result-container">
+            <Row style={{flexGrow: '1'}}>
               <Col xs={12} sm={12} md={4} lg={4} style={{paddingLeft: '0px', paddingRight: '0px'}}>
                 <div className="left-panel">
                   <SearchResultLeftPanel

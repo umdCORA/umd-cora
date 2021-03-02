@@ -1,9 +1,32 @@
 .ResourcePage {
-  padding-top: 32px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 20px 10px 20px 10px;
   text-align: left;
   height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+ * GoogleApiWrapper creates a div around LeftPanel;
+ * the div has no className, so this is the only way to style it.
+ * https://github.com/fullstackreact/google-maps-react/blob/5038ac47b22682b12adfe18443ec617b2309f3c6/src/GoogleApiComponent.js#L129
+ *
+ * This has been a known issue for 2 years,
+ * but the developer still hasn't merged one of the multiple proposed fixes.
+ * https://github.com/fullstackreact/google-maps-react/issues/227
+ * https://github.com/fullstackreact/google-maps-react/pull/292
+ * https://github.com/fullstackreact/google-maps-react/pull/467
+ */
+.ResourcePage #left-panel-col > div:first-of-type {
+  height: 100%;
+}
+
+.ResourcePage .container-fluid {
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .title {

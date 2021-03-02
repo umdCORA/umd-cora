@@ -18,8 +18,8 @@ class SearchResultRightPanel extends React.Component {
 
   componentDidMount = () => {
     const username = localStorage.getItem('username');
-    const signedIn = localStorage.getItem('signed-in');
-    if (username && signedIn) {
+
+    if (username) {
       this.setState({ username }); 
       fetch("/api/v1/data/users/getUser", {
         method: "POST",
@@ -59,10 +59,6 @@ class SearchResultRightPanel extends React.Component {
 
   renderCard = (result, index)  => {
     const {
-      lat,
-      long,
-    } = this.props
-    const {
       location,
       contact,
       name,
@@ -93,7 +89,7 @@ class SearchResultRightPanel extends React.Component {
       top: '50px',
       marginTop: '-50px',
       cursor: 'pointer',
-      color: '#efebb1',
+      color: '#8D9DF9',
     };
 
     const addBookmark = () => {
@@ -158,7 +154,7 @@ class SearchResultRightPanel extends React.Component {
             Services: {tags.join(", ")}
           </Card.Text>
           <Card.Text>
-              <a href={`/resource-page/${_id}/${lat}/${long}`} target="_blank" rel="noopener noreferrer">Click the card for more information</a>
+              <a href={`/resource-page/${_id}`} target="_blank" rel="noopener noreferrer">Click here for more information</a>
           </Card.Text>
           {username && bookmarks.has(_id) &&
             <BookmarkIcon

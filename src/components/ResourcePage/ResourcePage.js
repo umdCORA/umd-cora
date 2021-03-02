@@ -9,7 +9,6 @@ import Form from 'react-bootstrap/Form';
 import PhoneIcon from '@material-ui/icons/Phone';
 import PrintIcon from '@material-ui/icons/Print';
 import WarningIcon from '@material-ui/icons/Warning';
-import { getDistance, convertDistance } from 'geolib';
 import emailjs from 'emailjs-com';
 import LeftPanel from './LeftPanel.js';
 import RightPanel from './RightPanel.js';
@@ -55,10 +54,10 @@ class ResourcePage extends React.Component {
     this.state = {
       name: '',
       phone: '',
+      website: '',
       description: '',
       location: '',
       services: [],
-      distance: 0,
       targetLat: null,
       targetLong: null,
       tags: [],
@@ -71,23 +70,13 @@ class ResourcePage extends React.Component {
     fetch(`/api/v1/data/resources/${this.props.match.params.uuid}`)
       .then(res => res.json())
       .then(result => {
-        const {
-          lat,
-          long
-        } = this.props.match.params;
-
-        let distanceInMiles = convertDistance(getDistance(
-          { latitude: parseFloat(lat), longitude: parseFloat(long) },
-          { latitude: result.location.geo.coordinates[1], longitude: result.location.geo.coordinates[0] },
-        ), 'mi');
-        distanceInMiles = Math.round(distanceInMiles * 100) / 100;
         this.setState({
           name: result.name,
           phone:  result.contact.phone,
+          website: result.contact.website,
           description: result.description,
           location: result.location,
           services: result.services,
-          distance: distanceInMiles,
           targetLat: result.location.geo.coordinates[1],
           targetLong: result.location.geo.coordinates[0],
           tags: result.tags,
@@ -105,7 +94,7 @@ class ResourcePage extends React.Component {
       message: msg,
     }
 
-    emailjs.send(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, templateParams, process.env.REACT_APP_EMAILJS_USER_ID)
+    emailjs.send(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_ISSUE_TEMPLATE_ID, templateParams, process.env.REACT_APP_EMAILJS_USER_ID)
       .then(result => {
         alert('Email sent. We\'ll look into the issue.', result.text);
       },
@@ -119,10 +108,10 @@ class ResourcePage extends React.Component {
     const {
       name,
       phone,
+      website,
       description,
       location,
       services,
-      distance,
       targetLat,
       targetLong,
       tags,
@@ -141,16 +130,13 @@ class ResourcePage extends React.Component {
           <p style={{'textAlign': 'center'}}>Something unexpected happened. <a href="/">Click here</a> to return to the homepage.</p>
         }
         {!searchError && targetLat && targetLong &&
-          <Container fluid style={{height: '100%'}}>
-            <Row>
-              <Col xs={12} sm={12} md={6} lg={6} style={{paddingLeft: '0px', paddingRight: '0px'}}>
-                <h1 className="title">{name}</h1>
-              </Col>
-              <Col xs={12} sm={12} md={6} lg={6} style={{paddingLeft: '0px', paddingRight: '0px'}}>
+          <Container fluid>
+            <Row style={{flexDirection: 'row-reverse'}}>
+              <Col xs={12} sm={12} md={6} lg={6}>
                 <div className="right-icons">
                   <span className="phone">
                     <PhoneIcon/> {phone}
-                  </span> 
+                  </span>
                   <span className="print" onClick={() => window.print()}>
                     <PrintIcon/> Print Page
                   </span>
@@ -159,28 +145,28 @@ class ResourcePage extends React.Component {
                   </span>
                 </div>
               </Col>
-              <Col xs={12} sm={12} md={6} lg={6} style={{paddingLeft: '0px', paddingRight: '0px'}}>
+              <Col xs={12} sm={12} md={6} lg={6}>
+                <h1 className="title">{name}</h1>
+                {website && <a href={website} target="_blank" rel="noopener noreferrer">{website}</a>}
+              </Col>
+            </Row>
+            <Row style={{flexGrow: '1'}}>
+              <Col id="left-panel-col" xs={12} sm={12} md={6} lg={6}>
                 <LeftPanel
                   name={name}
                   location={location}
-                  distance={distance}
                   targetLat={targetLat}
                   targetLong={targetLong}
                 />
               </Col>
-              <Col xs={12} sm={12} md={6} lg={6} style={{paddingLeft: '0px', paddingRight: '0px'}}>
+              <Col xs={12} sm={12} md={6} lg={6}>
                 <RightPanel
                   phone={phone}
                   description={description}
                   services={services}
                 />
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12} sm={12} md={6} lg={6} style={{paddingLeft: '0px', paddingRight: '0px'}}>
-                <DescriptionPanel
-                  tags={tags}
-                />
+                <hr style={{visibility: "hidden"}} />
+                <DescriptionPanel tags={tags} />
               </Col>
             </Row>
           </Container>

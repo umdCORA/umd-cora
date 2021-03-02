@@ -23,9 +23,11 @@ class SearchResultLeftPanel extends  React.Component {
             </div>
           ))
         }
-        <div className="criteria">
-          <u>Free Transportation Available</u>: {transportationSelection.toString()}
-        </div>
+        {transportationSelection &&
+          <div className="criteria">
+            <u>Free Transportation Available</u>: {transportationSelection.toString()}
+          </div>
+        }
         <div className="criteria">
           <u>Distance</u>: {distanceInMilesSelection.toString()}
         </div>

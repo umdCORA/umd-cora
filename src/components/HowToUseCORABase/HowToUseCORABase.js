@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { withRouter } from "react-router-dom";
 import './HowToUseCORABase.css';
 import { Button, ButtonGroup, Card, Container, Form, Row, Col } from 'react-bootstrap';
 
 function HowToUseCORABase() {
     const [state, setState] = useState({
       yPosition: 25,
-      title: "How to use CORAbase",
+      title: "How to Use CORAbase",
       windoWidth: window.innerWidth,
     });
     const [width, setWidth] = React.useState(window.innerWidth);
@@ -29,8 +30,9 @@ function HowToUseCORABase() {
     const handleFAQDropdownChange = event => setState({title: event.target.value})
 
     var cardContents;
-    if(state.title === "How to use CORAbase"){
+    if(state.title === "How to Use CORAbase"){
       cardContents = (
+        <>
         <div className="cardContents">
           <p>
             Start by entering your ZIP code, address, or current location.
@@ -38,9 +40,12 @@ function HowToUseCORABase() {
             and you can change the distance to show more or fewer locations.
           </p>
         </div>
+        <Button href="/" className="mt-auto p-2 resources-button">Get Started!</Button>
+        </>
       );
     }else if(state.title === "Advanced Search"){
       cardContents = (
+        <>
         <div className="cardContents">
           <p>
             Often, users may require more specific resources for their situation.
@@ -49,9 +54,26 @@ function HowToUseCORABase() {
             Each category is further defined below.
           </p>
         </div>
+        <Button href="https://www.psychiatry.org/patients-families/addiction/opioid-use-disorder/opioid-use-disorder" className="mt-auto p-2 resources-button">More on Opioid Addiction</Button>
+        </>
+      );
+    }else if(state.title === "Payment"){
+      cardContents = (
+        <div className="cardContents">
+          <p>
+          We understand that different resources have different means of payment for their treatment. 
+          Here are some of the different payment options some resources provide:
+          </p>
+          <ul>
+            <li>Sliding Scale: The payment of treatment is based on the client’s ability to pay and adjusted based on an individual basis.</li>
+            <li>Free: The selected resource covers fees regarding treatment and the client does not have to pay out of pocket.</li>
+            <li>Paid: Some resources will require a fee to be paid from clients. Search on the resource’s website for payment options. Many will accept Medicaid, Medicare, and insurance.</li>
+          </ul>
+        </div>
       );
     }else if(state.title === "Recovery"){
       cardContents = (
+        <>
         <div className="cardContents">
           <ul>
             <li>Medicated Assisted Treatment</li>
@@ -83,6 +105,30 @@ function HowToUseCORABase() {
                   but require the flexibility of a program that will work around their schedules.
                   Filter by this tag to find outpatient rehabilitations centers.
                 </li>
+                <li>Day Programs</li>
+                  <ul>
+                    <li>
+                      Outpatient day programs have the highest level of care and structure provided within 
+                      an outpatient setting. In a day program, clients typically commit to meeting 5-7 days 
+                      per week at an outpatient facility for multiple hours each day. 
+                    </li>
+                  </ul>
+                <li>Intensive Outpatient Programs</li>
+                  <ul>
+                    <li>
+                      Intensive outpatient programs establish a treatment plan with defined, measurable 
+                      milestones in place to indicate progress. As these milestones are met, the time commitment 
+                      required per week decreases.
+                    </li>
+                  </ul>
+                <li>Continuing Care</li>
+                  <ul>
+                    <li>
+                      Continuing care groups such as Narcotics Anonymous are ongoing support resources to help an 
+                      individual solidify their commitment to sobriety. The groups are typically facilitated by a 
+                      licensed therapist and meet weekly.
+                    </li>
+                  </ul>
               </ul>
             <li>Gender-Specific Treatment</li>
               <ul>
@@ -94,6 +140,11 @@ function HowToUseCORABase() {
                   and address the unique needs of each of the sexes in a comfortable and supportive environment.
                   Filter by this tag to find gender-specific rehabilitations centers.
                 </li>
+                <ul>
+                  <li>Treatment for Men</li>
+                  <li>Treatment for Women</li>
+                  <li>Treatment for non-binary peoples</li>
+                </ul>
               </ul>
             <li>Intervention Specialists</li>
               <ul>
@@ -103,20 +154,37 @@ function HowToUseCORABase() {
                   This person is someone who is trained, experienced, and educated about detox and recovery from drugs.
                   For resources in help in staging an intervention, use this tag.
                 </li>
+                <li>Nutrition Management</li>
+                <ul>
+                  <li>
+                    Nutrition management has been shown to significantly improve opioid-use disorder recovery rates. 
+                    Filter by this tag to find treatment centers who offer their own nutrition services or resources 
+                    that focus on nutrition management.
+                  </li>
+                </ul>
               </ul>
             <li>Recovery Residences</li>
               <ul>
                 <li>
-                  A "recovery residence" is a service that provides substance-free housing
-                  to individuals with substance-related disorders.
-                  Individuals can live with others who have gone through the same hardships in recovery residences.
+                  A “recovery residence” means a service that provides alcohol-free and illicit drug-free housing to 
+                  individuals with substance-related disorders or addictive disorders or co-occurring mental health 
+                  and substance-related disorders or addictive disorders.
                 </li>
+                <ul>
+                  <li>Level 1: Peer Run</li>
+                  <li>Level 2: Monitored</li>
+                  <li>Level 3: Supervised</li>
+                  <li>Level 4: Service Provider</li>
+                </ul>
               </ul>
           </ul>
         </div>
+        <Button href="https://www.drugabuse.gov/publications/drugs-brains-behavior-science-addiction/treatment-recovery" className="mt-auto p-2 resources-button">More on Recovery Treatment</Button>
+        </>
       );
     }else if(state.title === "Mental Health Resources"){
       cardContents = (
+        <>
         <div className="cardContents">
           <p>
             At its core, an opioid use disorder is a mental health issue.
@@ -145,9 +213,12 @@ function HowToUseCORABase() {
               </ul>
           </ul>
         </div>
+        <Button href="https://www.mentalhealth.gov/basics/what-is-mental-health" className="mt-auto p-2 resources-button">More on Mental Health</Button>
+        </>
       );
     }else if(state.title === "Harm Reduction"){
       cardContents = (
+        <>
         <div className="cardContents">
           <p>
             Harm reduction is a set of strategies and ideas
@@ -162,6 +233,10 @@ function HowToUseCORABase() {
                   a life-saving drug that reverses the effects of an overdose.
                   Some of these programs are able to distribute naloxone themselves.
                 </li>
+                <ul>
+                  <li>Naloxone Distributor</li>
+                  <li>Overdose Response Trainer</li>
+                </ul>
               </ul>
             <li>Needle Exchange Programs</li>
               <ul>
@@ -170,8 +245,12 @@ function HowToUseCORABase() {
                   or needle-syringe programs&mdash;provide new and sterile syringes to drug users.
                   This is to reduce transmission of blood-borne diseases such as HIV and Hepatitis C.
                 </li>
+                <ul>
+                  <li>Needle Injection Sites</li>
+                  <li>Needle-Transmitted Diseases</li>
+                </ul>
               </ul>
-            <li>Vaccine Clinics</li>
+            <li>Vaccine and Prophylaxis Clinics</li>
               <ul>
                 <li>
                   These clinics are essential to reducing the spread of diseases such as HIV spread by needle sharing.
@@ -190,6 +269,8 @@ function HowToUseCORABase() {
               </ul>
           </ul>
         </div>
+        <Button href="https://americanaddictioncenters.org/harm-reduction" className="mt-auto p-2 resources-button">More on Harm Reduction</Button>
+        </>
       );
     }else if(state.title === "Transportation"){
       cardContents = (
@@ -213,43 +294,37 @@ function HowToUseCORABase() {
             We do not collect any information from you other than
             username, password, and bookmarked resources.
           </p>
+          <ul>
+            <li>Bookmarking resources</li>
+            <ul>
+              <li>
+                You are able to bookmark resources
+                by clicking on the bookmark button on the button right hand corner of each resource.
+                This will add the resource to the “My Bookmarked Resources”.
+              </li>
+            </ul>
+            <li>Suggesting resources</li>
+            <ul>
+              <li>
+                We understand that we may have missed resources while making the database.
+                If you know of any resources in any of the categories,
+                please suggest the resource by emailing us at cora.umd@gmail.com.
+                We will audit the submitted resources before adding them to the database.
+              </li>
+            </ul>
+            <li>Reporting resources</li>
+            <ul>
+              <li>
+                We understand that some of our information may potentially be slightly out-of-date.
+                If you have any changes you’d like to suggest,
+                please do so through the “Report an Issue" on the resource page you are viewing.
+                We will audit the submitted suggestions before changing them in the database.
+              </li>
+            </ul>
+          </ul>
         </div>
       );
-    }else if(state.title === "Bookmarks"){
-      cardContents = (
-        <div className="cardContents">
-          <p>
-            You are able to bookmark resources
-            by clicking on the bookmark button on the button right hand corner of each resource.
-            This will add the resource to the “My Bookmarked Resources”.
-            You can also compare your bookmarked resources
-            by going to this tab and checking the “Compare” box next to each resource.
-          </p>
-        </div>
-      );
-    }else if(state.title === "Suggest a Resource"){
-      cardContents = (
-        <div className="cardContents">
-          <p>
-            We understand that we may have missed resources while making the database.
-            If you know of any resources in any of the categories,
-            please suggest the resource through your account.
-            We will audit the submitted resources before adding them to the database.
-          </p>
-        </div>
-      );
-    }else if(state.title === "Report a Resource"){
-      cardContents = (
-        <div className="cardContents">
-          <p>
-            We understand that some of our information may potentially be slightly out-of-date.
-            If you have any changes you’d like to suggest,
-            please do so through the “Report A Resource” tab through your account.
-            We will audit the submitted suggestions before changing them in the database.
-          </p>
-        </div>
-      );
-    }else if(state.title === "Printing your Resources"){
+    }else if(state.title === "Printing Resources"){
       cardContents = (
         <div className="cardContents">
           <p>
@@ -259,8 +334,9 @@ function HowToUseCORABase() {
           </p>
         </div>
       );
-    }else if(state.title === "Research Studies"){
+    }else if(state.title === "Join a Research Study"){
       cardContents = (
+        <>
         <div className="cardContents">
           <p>
             CORA is actively engaged in opioid-related research
@@ -271,6 +347,8 @@ function HowToUseCORABase() {
             please consider taking 10 minutes to participate in a research study.
           </p>
         </div>
+        <Button href="/join-a-research-study" className="mt-auto p-2 resources-button">Learn More</Button>
+        </>
       );
     }else if(state.title === "What is CORA?"){
       cardContents = (
@@ -292,68 +370,61 @@ function HowToUseCORABase() {
     }
 
     return (
-        <div className="faq">
-          <Container fluid className="h-100 d-flex flex-column">
-            <Row className="h-100">
-              {width >= 1250 &&
-                <Col className="faqColumn" md={3} lg={3}>
-                  <div className="line faqButtons">
-                    <span style={styles} className="circle"/>
-                    <ButtonGroup vertical>
-                      <Button className="titleButtons" onClick={() => setState({yPosition: 25, title: "How to use CORAbase"})}>How to use CORAbase</Button>
+      <Container fluid className="h-100 d-flex flex-column how-to-use-container">
+        <Row className="h-100 how-to-use-row">
+          {width >= 1250 &&
+            <Col className="faqColumn" md={3} lg={3}>
+              <div className="line faqButtons">
+                <span style={styles} className="circle"/>
+                <ButtonGroup vertical>
+                  <Button className="titleButtons" onClick={() => setState({yPosition: 25, title: "How to Use CORAbase"})}>How to Use CORAbase</Button>
 
-                      <Button id="advanced-search" className="titleButtons" onClick={() => setState({yPosition: 80, title: "Advanced Search"})}>Advanced Search</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 115, title: "Recovery"})}>Recovery</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 150, title: "Mental Health Resources"})}>Mental Health Resources</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 185, title: "Harm Reduction"})}>Harm Reduction</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 220, title: "Transportation"})}>Transportation</Button>
+                  <Button id="advanced-search" className="titleButtons" onClick={() => setState({yPosition: 80, title: "Advanced Search"})}>Advanced Search</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 115, title: "Recovery"})}>Recovery</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 150, title: "Mental Health Resources"})}>Mental Health Resources</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 185, title: "Payment"})}>Payment</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 220, title: "Harm Reduction"})}>Harm Reduction</Button>
+                  <Button className="subButtons" onClick={() => setState({yPosition: 255, title: "Transportation"})}>Transportation</Button>
 
-                      <Button id="my-account" className="titleButtons" onClick={() => setState({yPosition: 280, title: "What is My Account?"})}>What is My Account?</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 315, title: "Bookmarks"})}>Bookmarks</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 350, title: "Suggest a Resource"})}>Suggest a Resource</Button>
-                      <Button className="subButtons" onClick={() => setState({yPosition: 385, title: "Report a Resource"})}>Report a Resource</Button>
+                  <Button id="my-account" className="titleButtons" onClick={() => setState({yPosition: 310, title: "What is My Account?"})}>What is My Account?</Button>
 
-                      <Button id="print-resources" className="titleButtons" onClick={() => setState({yPosition: 440, title: "Printing your Resources"})}>Printing your Resources</Button>
-                      <Button id="research-studies" className="titleButtons" onClick={() => setState({yPosition: 495, title: "Research Studies"})}>Research Studies</Button>
-                      <Button id="what-is-cora" className="titleButtons" onClick={() => setState({yPosition: 550, title: "What is CORA?"})}>What is CORA?</Button>
-                    </ButtonGroup>
-                  </div>
-                </Col>
-              }
-              <Col className="faqCardColumn" style={width < 1250 ? faqCardStyles : {}}>
-                {width < 1250 &&
-                  <Form>
-                    <Form.Group controlId="exampleForm.SelectCustom">
-                      <Form.Control as="select" value={state.title} onChange={handleFAQDropdownChange} custom>
-                        <option>How to use CORAbase</option>
-                        <option>Advanced Search</option>
-                        <option>Recovery</option>
-                        <option>Mental Health Resources</option>
-                        <option>Harm Reduction</option>
-                        <option>Transportation</option>
-                        <option>What is My Account?</option>
-                        <option>Bookmarks</option>
-                        <option>Suggest a Resource</option>
-                        <option>Report a Resource</option>
-                        <option>Printing your Resources</option>
-                        <option>Research Studies</option>
-                        <option>What is CORA?</option>
-                      </Form.Control>
-                    </Form.Group>
-                  </Form>
-                }
-                <Card className="faqCard container">
-                  <Card.Body className="d-flex align-items-start flex-column how-card">
-                    <Card.Title className="p-2 faqTitle">{state.title}</Card.Title>
-                    {cardContents}
-                    <Button className="mt-auto p-2 resources-button">Fun link to more resources</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Container>
-        </div>
+                  <Button id="print-resources" className="titleButtons" onClick={() => setState({yPosition: 370, title: "Printing Resources"})}>Printing Resources</Button>
+                  <Button id="research-studies" className="titleButtons" onClick={() => setState({yPosition: 425, title: "Join a Research Study"})}>Join a Research Study</Button>
+                  <Button id="what-is-cora" className="titleButtons" onClick={() => setState({yPosition: 480, title: "What is CORA?"})}>What is CORA?</Button>
+                </ButtonGroup>
+              </div>
+            </Col>
+          }
+          <Col className="faqCardColumn" style={width < 1250 ? faqCardStyles : {}}>
+            {width < 1250 &&
+              <Form>
+                <Form.Group controlId="exampleForm.SelectCustom">
+                  <Form.Control as="select" value={state.title} onChange={handleFAQDropdownChange} custom>
+                    <option>How to Use CORAbase</option>
+                    <option>Advanced Search</option>
+                    <option>Recovery</option>
+                    <option>Mental Health Resources</option>
+                    <option>Payment</option>
+                    <option>Harm Reduction</option>
+                    <option>Transportation</option>
+                    <option>What is My Account?</option>
+                    <option>Printing Resources</option>
+                    <option>Join a Research Study</option>
+                    <option>What is CORA?</option>
+                  </Form.Control>
+                </Form.Group>
+              </Form>
+            }
+            <Card className="faqCard container">
+              <Card.Body className="d-flex align-items-start flex-column how-card">
+                <Card.Title className="p-2 faqTitle">{state.title}</Card.Title>
+                {cardContents}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     )
 }
 
-export default HowToUseCORABase;
+export default withRouter(HowToUseCORABase);

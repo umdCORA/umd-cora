@@ -1,7 +1,9 @@
 import React from 'react';
-import { Button, Card, Container, Row, Col, Modal } from 'react-bootstrap';
+import { withRouter } from "react-router-dom";
+//import { Button, Card, Container, Row, Col, Modal } from 'react-bootstrap';
+import { Card, Container, Row } from 'react-bootstrap';
 import './ResearchStudy.css';
-
+/*
 function ResearchStudyModal(props) {
     return (
       <Modal
@@ -31,11 +33,26 @@ function ResearchStudyModal(props) {
         </Modal.Footer>
       </Modal>
     );
-}
+}*/
 
 function ResearchStudy() {
-    const [modalShow, setModalShow] = React.useState(false);
-
+    //const [modalShow, setModalShow] = React.useState(false);
+    return (
+      <div className="research_study">
+          <Container className="research_container">
+            <Row>
+              <div className="coming_soon_title">
+                <Card className="research_card">
+                  <Card.Body className="mb-1">
+                    <Card.Title className="mb-3 research_card_title">Thank you for your interest, Research Studies are coming soon! Please check back later!</Card.Title>
+                  </Card.Body>
+                </Card>
+              </div>
+            </Row>
+          </Container>
+      </div>
+    );
+    /* Commenting these modals so we can use them later
     return (
         <div className="research_study">
             <Container className="research_container">
@@ -44,6 +61,7 @@ function ResearchStudy() {
                   CORA conducts opioid-related research that public services can use to improve their services. Data from CORA’s research is published and made publically available. Participants of our studies are compensated or have a chance at being compensated.
                 </div>
               </Row>
+              
               <Row>
                 <Col>
                   <Card className="research_card">
@@ -122,7 +140,7 @@ function ResearchStudy() {
               onHide={() => setModalShow(false)}
             />
         </div>
-    )
+    )*/
 }
 
-export default ResearchStudy;
+export default withRouter(ResearchStudy);

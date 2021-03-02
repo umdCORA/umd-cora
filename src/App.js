@@ -1,21 +1,24 @@
 import React from 'react';
+import emailjs from 'emailjs-com';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   withRouter,
+  Redirect,
 } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
-
 import { Navbar, Image } from 'react-bootstrap';
 import FindResource from './components/FindResource/FindResource';
 import AboutUs from './components/AboutUs/AboutUs';
 import ResearchStudy from './components/ResearchStudy/ResearchStudy';
 import HowToUseCORABase from './components/HowToUseCORABase/HowToUseCORABase';
 import ResourcePage from'./components/ResourcePage/ResourcePage';
+import ResetPasswordPage from './components/ResetPasswordPage/ResetPasswordPage';
+import ProfilePage from './components/ProfilePage/ProfilePage';
 import cora_logo from './assets/cora_logo.png'
 
 import './App.css';
@@ -28,49 +31,50 @@ class App extends React.Component {
       showSignOutModal: false,
       showCreateAccountModal: false,
       showResetPasswordModal: false,
-      userLoggedIn: false,
       username: '',
       loginErrorMsg: '',
       createAccountErrorMsg: '',
+      resetPasswordErrorMsg: '',
+      showPassword: false,
+      showConfirmPassword: false,
     }
   }
 
   componentDidMount = () => {
-    // Various scenarios user session based on https://stackoverflow.com/questions/47928055/multiple-tabs-same-session-clear-the-session-when-all-tabs-are-gone
-    // TODO there is still 1 scenario where this fails: user does not login on tab1 but logins on tab2. This tab1 doesn't auto login when refreshed.
-    window.addEventListener("beforeunload", () => {
-      localStorage.removeItem('signed-in');
+    // persistent login based on https://stackoverflow.com/questions/47928055/multiple-tabs-same-session-clear-the-session-when-all-tabs-are-gone
+    window.addEventListener('beforeunload', () => {
+      if (!localStorage.getItem('persist-sign-in')) {
+        localStorage.removeItem('username');
+      }
     });
 
-    const sessionSignedIn = sessionStorage.getItem('signed-in');
-    const persistSignIn = localStorage.getItem('persist-sign-in');
     const username = localStorage.getItem('username');
-    const signedIn = localStorage.getItem('signed-in');
-
-    if((persistSignIn === 'true' && username) || signedIn || (!signedIn && sessionSignedIn)) {
-      if (sessionSignedIn) {
-        localStorage.setItem('signed-in', JSON.parse(sessionSignedIn));
+    const sessionUsername = sessionStorage.getItem('username');
+    if (!username) {
+      if (sessionUsername) {
+        localStorage.setItem('username', sessionUsername);
+        this.setState({username: sessionUsername});
       }
-      if (signedIn) {
-        sessionStorage.setItem('signed-in', JSON.parse(signedIn));
-      }
-      this.setState({
-        userLoggedIn: true,
-        username: localStorage.getItem('username'),
-      });
+    } else {
+      sessionStorage.setItem('username', username);
+      this.setState({ username });
     }
 
     window.addEventListener('storage', (event) => {
-      if (event.key === 'signed-out' && event.newValue) { 
-        sessionStorage.removeItem('signed-in');
-        localStorage.removeItem('signed-out');
+      if (event.key === 'username' && event.newValue) {
+        sessionStorage.setItem('username', event.newValue);
+        this.setState({ username: event.newValue });
+      } else if (event.key === 'logout' && event.newValue) {
+        this.setState({ username: '' });
+        sessionStorage.clear();
+        localStorage.clear();
       }
     });
   }
 
-  componentDidUnMount = () => {
-    window.removeEventListener("beforeunload");
-    window.removeEventListener("storage");
+  componenWillUnmount = () => {
+    window.removeEventListener('beforeunload');
+    window.removeEventListener('storage');
   }
 
   handleSignIn = (event) => {
@@ -94,20 +98,22 @@ class App extends React.Component {
         .then(res => {
           if (res.status === 200) {
             localStorage.setItem('username', username);
-            localStorage.setItem('signed-in', true);
-            localStorage.setItem('persist-sign-in', persistSignIn);
-            sessionStorage.setItem('signed-in', true);
+            if (persistSignIn) {
+              localStorage.setItem('persist-sign-in', true);
+            }
+            localStorage.removeItem('logout');
+            sessionStorage.setItem('username', username);
+
             this.setState({
               showSignInModal: false,
               showResetPasswordModal: false,
-              userLoggedIn: true,
               username,
               loginErrorMsg: '',
             });
           } else if (res.status === 403) {
-            this.setState({ loginErrorMsg: 'Invalid login credentials.Please try again.' });
+            this.setState({ loginErrorMsg: 'Invalid login credentials. Please try again.' });
           } else {
-            this.setState({ loginErrorMsg: 'Something unexpected happened. Please try again.' }); 
+            this.setState({ loginErrorMsg: 'Something unexpected happened. Please try again.' });
           }
         })
         //TODO do we need to create a better error handle?
@@ -119,11 +125,16 @@ class App extends React.Component {
     const {
       showSignInModal,
       loginErrorMsg,
+      showPassword,
     } = this.state;
 
     return (
       <Modal
         show={showSignInModal}
+        onShow={() => this.setState({
+          loginErrorMsg: '',
+          showPassword: false,
+        })}
         onHide={() => this.setState({showSignInModal: false})}
       >
         <Modal.Header closeButton />
@@ -135,15 +146,13 @@ class App extends React.Component {
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(e) => this.setState({username: e.target.value})}
                 required
               />
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label>Password <span className="fake-link" onClick={() => this.setState({showPassword: !showPassword})}>{showPassword ? '(hide)' : '(show)'}</span></Form.Label>
               <Form.Control
-                type="password"
-                onChange={(e) => this.setState({password: e.target.value})}
+                type={showPassword ? "text" : "password"}
                 required
               />
             </Form.Group>
@@ -154,8 +163,8 @@ class App extends React.Component {
               />
             </Form.Group>
             <Button variant="primary" type="submit">Sign In</Button>
-            <Form.Text 
-              className="fake-link" 
+            <Form.Text
+              className="fake-link"
               onClick={() => this.setState({showSignInModal: false, showResetPasswordModal: true})}
             >
               Forgot your password?
@@ -203,7 +212,7 @@ class App extends React.Component {
           } else if (res.status === 403) {
             this.setState({ createAccountErrorMsg: 'Either the username or the email address you have entered has already been taken. Please choose a different username or email address.' });
           } else {
-            this.setState({ createAccountErrorMsg: 'Something unexpected happened. Please try again.' }); 
+            this.setState({ createAccountErrorMsg: 'Something unexpected happened. Please try again.' });
           }
         })
         //TODO do we need to create a better error handle?
@@ -217,11 +226,18 @@ class App extends React.Component {
     const {
       showCreateAccountModal,
       createAccountErrorMsg,
+      showPassword,
+      showConfirmPassword,
     } = this.state;
 
     return (
       <Modal
         show={showCreateAccountModal}
+        onShow={() => this.setState({
+          createAccountErrorMsg: '',
+          showPassword: false,
+          showConfirmPassword: false,
+        })}
         onHide={() => this.setState({showCreateAccountModal: false})}
       >
         <Modal.Header closeButton />
@@ -233,7 +249,6 @@ class App extends React.Component {
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(e) => this.setState({username: e.target.value})}
                 required
               />
             </Form.Group>
@@ -241,28 +256,25 @@ class App extends React.Component {
               <Form.Label>Email Address</Form.Label>
               <Form.Control
                 type="email"
-                onChange={(e) => this.setState({email: e.target.value})}
                 required
               />
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label>Password <span className="fake-link" onClick={() => this.setState({showPassword: !showPassword})}>{showPassword ? '(hide)' : '(show)'}</span></Form.Label>
               <Form.Control
-                type="password"
-                onChange={(e) => this.setState({password: e.target.value})}
+                type={showPassword ? "text" : "password"}
                 required
               />
             </Form.Group>
             <Form.Group controlId="formBasicPasswordConfirmation">
-              <Form.Label>Confirm Password</Form.Label>
+              <Form.Label>Confirm Password <span className="fake-link" onClick={() => this.setState({showConfirmPassword: !showConfirmPassword})}>{showConfirmPassword ? '(hide)' : '(show)'}</span></Form.Label>
               <Form.Control
-                type="password"
-                onChange={(e) => this.setState({password: e.target.value})}
+                type={showConfirmPassword ? "text" : "password"}
                 required
               />
             </Form.Group>
             {/*TODO add newsletter fxnality*/}
-            <Form.Check label="Sign up for our newsletter to receive updates from CORA" />
+            {/*<Form.Check label="Sign up for our newsletter to receive updates from CORA" />*/}
             <Button variant="primary" type="submit">Sign Up!</Button>
             <Form.Text className="fake-link" onClick={() => this.setState({showCreateAccountModal:false, showSignInModal: true})}>I already have an account</Form.Text>
           </Form>
@@ -271,24 +283,67 @@ class App extends React.Component {
     );
   }
 
+  handleResetPasswordSubmission = (event) => {
+    event.preventDefault();
+    const username = event.target.elements.formBasicUsername.value;
+    fetch("/api/v1/data/users/generateUUID", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "username": username,
+      }),
+      redirect: "follow"
+    })
+      .then(res => {
+        if (res.status === 200) {
+          return res.text();
+        } else if (res.status === 404) {
+          this.setState({ resetPasswordErrorMsg: 'Username not found. Please try again.' });
+          throw new Error('Username not found');
+        } else {
+          this.setState({ resetPasswordErrorMsg: 'Something unexpected happened. Please try again.' });
+          throw new Error('Something unexpected happened');
+        }
+      })
+      .then(data => {
+        const templateParams = {
+          username,
+          url: `${window.location.origin}/reset-password`,
+          uuid: data,
+        }
+        this.setState({ showResetPasswordModal: false });
+        emailjs.send(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_RESET_TEMPLATE_ID, templateParams, process.env.REACT_APP_EMAILJS_USER_ID)
+          .then(() => {
+            alert('We have emailed your password reset link!');
+          },
+          error => {
+            alert( 'An error occured. Please try again.', error.text)
+          })
+      })
+      .catch(error => console.error(error.message))
+  }
+
   renderResetPasswordModal = () => {
-    const { showResetPasswordModal } = this.state;
+    const { showResetPasswordModal, resetPasswordErrorMsg } = this.state;
 
     return (
       <Modal
         show={showResetPasswordModal}
+        onShow={() => this.setState({ resetPasswordErrorMsg: ''})}
         onHide={() => this.setState({showResetPasswordModal: false})}
       >
         <Modal.Header closeButton />
         <Modal.Body>
           <Modal.Title>Reset Password</Modal.Title>
-          <Form onSubmit={this.handleResetPassword}>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control type="email" required/>
+          <Form onSubmit={this.handleResetPasswordSubmission}>
+            { resetPasswordErrorMsg && <Form.Label style={{color: "red"}}>{resetPasswordErrorMsg}</Form.Label> }
+            <Form.Group controlId="formBasicUsername">
+              <Form.Label>Username</Form.Label>
+              <Form.Control type="text" required/>
             </Form.Group>
             <Button variant="primary" type="submit" style={{marginLeft: 0, marginTop: 0}}>Send Request</Button>
-            <Form.Text>You will shortly receive an email to reset your password</Form.Text>
             <br />
             <Button variant="primary" onClick={() => this.setState({showResetPasswordModal: false, showSignInModal: true})}>Return to Sign In</Button>
           </Form>
@@ -298,13 +353,13 @@ class App extends React.Component {
   }
 
   handleSignOut = () => {
-    localStorage.removeItem('username');
+    localStorage.setItem('logout', true);
     localStorage.removeItem('persist-sign-in');
-    localStorage.setItem('signed-out', true)
+    sessionStorage.clear();
 
     this.setState({
-      userLoggedIn: false,
       showSignOutModal: true,
+      username: '',
     });
   }
 
@@ -341,12 +396,13 @@ class App extends React.Component {
 
   render(){
     const {
-      userLoggedIn,
       username,
     } = this.state;
 
     // resource-page should have pill on Find Resource tab
     const activeKey = window.location.pathname.includes('resource-page') ? '/' : window.location.pathname;
+    const usernameInStorage = localStorage.getItem('username') || sessionStorage.getItem('username');
+
     return (
       <Router>
         <div className="App">
@@ -358,49 +414,47 @@ class App extends React.Component {
             <Navbar.Brand href="/"><Image id="cora_logo" src={cora_logo}></Image></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-            <Nav variant="pills" defaultActiveKey="/" activeKey={activeKey} className="mr-auto">
-              <Nav.Link href="/">Find a Resource</Nav.Link>
-              <Nav.Link href="/how-to-use-corabase">How to Use CORAbase</Nav.Link>
-              <Nav.Link href="/join-a-research-study">Join a Research Study</Nav.Link>
-              <Nav.Link href="/about-us">About Us</Nav.Link>
-            </Nav>
-            {!userLoggedIn &&
-              <div className="signed-out-content">
-                <Button variant="outline-dark" style={{marginRight: 10}} onClick={() => this.setState({showSignInModal: true})}>Sign In</Button>
-                <Button variant="outline-dark" onClick={() => this.setState({showCreateAccountModal: true})}>Create Account</Button>
-              </div>
-            }
-            {userLoggedIn &&
-              <div className="signed-in-content">
-                <Navbar.Collapse className="justify-content-end">
-                  <Navbar.Text>Signed in as: <span className="bold-username">{username}</span></Navbar.Text>
-                </Navbar.Collapse>
-                <Button variant="outline-dark" onClick={() => this.handleSignOut()}>Sign Out</Button>
-              </div>
-            }
+              <Nav variant="pills" defaultActiveKey="/" activeKey={activeKey} className="mr-auto">
+                <Nav.Link href="/">Find a Resource</Nav.Link>
+                <Nav.Link href="/how-to-use-corabase">How to Use CORAbase</Nav.Link>
+                <Nav.Link href="/join-a-research-study">Join a Research Study</Nav.Link>
+                <Nav.Link href="/about-us">About Us</Nav.Link>
+                {username && <Nav.Link href={`/account`}>My Account</Nav.Link>}
+              </Nav>
+              {!username &&
+                <div className="signed-out-content">
+                  <Button variant="outline-dark" onClick={() => this.setState({showSignInModal: true})}>Sign In</Button>
+                  <Button variant="outline-dark" onClick={() => this.setState({showCreateAccountModal: true})}>Create Account</Button>
+                </div>
+              }
+              {username &&
+                <div className="signed-in-content">
+                  <Navbar.Collapse className="justify-content-end">
+                    <Navbar.Text style={{verticalAlign: 'middle'}}>Signed in as: <span className="bold-username">{username}</span></Navbar.Text>
+                    <Button variant="outline-dark" onClick={() => this.handleSignOut()}>Sign Out</Button>
+                  </Navbar.Collapse>
+                </div>
+              }
             </Navbar.Collapse>
           </Navbar>
           <div id="body-wrapper">
             <Switch>
-              <Route path="/how-to-use-corabase">
-                <HowToUseCORABase></HowToUseCORABase>
-              </Route>
-              <Route path="/join-a-research-study">
-                <ResearchStudy></ResearchStudy>
-              </Route>
-              <Route path="/about-us">
-                <AboutUs></AboutUs>
-              </Route>
-              <Route path="/resource-page/:uuid/:lat/:long" component={ResourcePage}/>
-              <Route path="/" component={FindResource}/>
+              <Route exact path="/" component={FindResource}/>
+              <Route path="/how-to-use-corabase" component={HowToUseCORABase}/>
+              <Route path="/join-a-research-study" component={ResearchStudy}/>
+              <Route path="/about-us" component={AboutUs}/>
+              <Route path="/reset-password" component={ResetPasswordPage}/>
+              <Route path="/resource-page/:uuid" component={ResourcePage}/>
+              <Route path="/account" render={() => usernameInStorage ? <ProfilePage/> : <Redirect to="/"/>}/>
+              <Route path="*" render={() => <Redirect to="/"/>}/>
             </Switch>
           </div>
           <Navbar id="footer" className="mr-auto">
             <Navbar.Brand><Image id="cora_logo" src={cora_logo}></Image></Navbar.Brand>
             <Navbar className="ml-auto flex-column">
-              <Navbar.Text>CORA FAQ |</Navbar.Text>
-              <Navbar.Text>Contact |</Navbar.Text>
-              <Navbar.Text>Joining Us</Navbar.Text>
+              <Nav.Link href="https://coraumd.wixsite.com/cora/faq-for-partners">CORA FAQ |</Nav.Link>
+              <Nav.Link href="https://coraumd.wixsite.com/cora/contact">Contact |</Nav.Link>
+              <Nav.Link href="https://coraumd.wixsite.com/cora/community-partners">Joining Us</Nav.Link>
             </Navbar>
           </Navbar>
         </div>
