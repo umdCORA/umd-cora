@@ -26,15 +26,16 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-select": "^3.1.1",
-    "react-spinners": "^0.10.6"
+    "react-spinners": "^0.10.6",
+    "serve": "^11.3.2"
   },
   "scripts": {
-    "dev": "concurrently \"nodemon server/server.js\" \"./node_modules/react-scripts/bin/react-scripts.js start\"",
-    "start": "cd server && npm install && node server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && npm run build",
+    "dev": "concurrently \"nodemon server/server.js\" \"react-scripts start\"",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
