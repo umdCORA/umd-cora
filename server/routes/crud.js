@@ -384,7 +384,7 @@ router.get("/data/users/getbookmarks", (req, res, next) =>{
     if(err)
       res.status(500).send(err.message)
     else
-      res.send(doc.forEach((val)=>{val.pruneTags}))
+      res.send(doc.forEach((val)=>{val.pruneTags()}))
   }
 
   )
@@ -452,7 +452,7 @@ router.get("/data/resources/:id", (req, res) => {
   var id = req.params.id;
   ResourceDB.findById(id, (err, doc) => {
     errorFun(err, res);
-    res.send(doc.pruneTags);
+    res.send(doc.pruneTags())
   });
 });
 
@@ -460,14 +460,14 @@ router.put("/data/resources/:id", (req, res) => {
   var id = req.params.id;
   ResourceDB.findByIdAndUpdate(id, req.body, (err, doc) => {
     errorFun(err, res);
-    res.send(doc);
+    res.send(doc.pruneTags());
   });
 });
 
 router.get("/data/resourcesAll", (req, res) => {
   ResourceDB.find((err, doc)=>{
     doc.forEach((val)=>{
-      val.pruneTags;
+      val.pruneTags();
     })
     res.send(doc)
   })
@@ -491,7 +491,7 @@ router.get("/data/resources", (req, res) => {
       },
     },
   ]).then((doc) => {
-    res.send(doc.forEach((val)=>{val.pruneTags}));
+    res.send(doc.forEach((val)=>{val.pruneTags()}));
   });
 });
 
@@ -507,7 +507,7 @@ router.post("/data/resources", (req, res) => {
 
   resource.save({}, (err, doc) => {
     errorFun(err, res);
-    res.send(doc);
+    res.send(doc.pruneTags());
   });
 });
 
@@ -515,14 +515,14 @@ router.delete("/data/resources/:id", (req, res) => {
   if (req.params.id)
     ResourceDB.findByIdAndDelete(id, (err, doc) => {
       errorFun(err, res);
-      res.send(doc);
+      res.send(doc.pruneTags());
     });
 });
 
 router.delete("/data/resources", (req, res) => {
   ResourceDB.deleteMany(req.query, (err, doc) => {
     errorFun(err, res);
-    res.send(doc);
+    res.send(doc.pruneTags());
   });
 });
 

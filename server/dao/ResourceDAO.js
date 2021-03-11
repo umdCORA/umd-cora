@@ -9,6 +9,7 @@ ResourceSchema.methods.pruneTags = function(){
     this.tags = arr.filter(function(element){
         return properties.DB_TAGS.includes(element)
     })
+    return this
 }
 
 module.exports = mongoose.model('Resource', ResourceSchema);
