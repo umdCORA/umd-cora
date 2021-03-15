@@ -147,6 +147,65 @@ class ResourcePage extends React.Component {
     this.setState({ showModal: false });
   }
 
+  addBookmark = () => {
+    const {
+      username,
+      bookmarks,
+    } = this.state;
+    fetch("/api/v1/data/users/bookmark", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "username": username,
+        "postID": this.props.match.params.uuid,
+      }),
+      redirect: "follow"
+    })
+      .then(res => {
+        if (res.status === 200) {
+          // assigning a new set and adding the id to there so we don't modify react state directly
+          const newBookmarks = new Set(bookmarks);
+          newBookmarks.add(this.props.match.params.uuid);
+
+          // store bookmarks in localStorage to manage bookmarks on multiple instances of the app
+          localStorage.setItem('bookmarks', Array.from(newBookmarks));
+          this.setState({ bookmarks: newBookmarks });
+        }
+      })
+  }
+
+  removeBookmark = () => {
+    const {
+      username,
+      bookmarks,
+    } = this.state;
+
+    fetch("/api/v1/data/users/unbookmark", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "username": username,
+        "postID": this.props.match.params.uuid,
+      }),
+      redirect: "follow"
+    })
+      .then(res => {
+        if (res.status === 200) {
+          // assigning a new set and adding the id to there so we don't modify react state directly
+          const newBookmarks = new Set(bookmarks);
+          newBookmarks.delete(this.props.match.params.uuid);
+
+          // store bookmarks in localStorage to manage bookmarks on multiple instances of the app
+          localStorage.setItem('bookmarks', newBookmarks);
+          this.setState({ bookmarks: newBookmarks });
+        }
+      })
+  }
+
   render() {
     const {
       name,
@@ -169,50 +228,6 @@ class ResourcePage extends React.Component {
       color: '#8D9DF9',
     };
 
-    const addBookmark = () => {
-      fetch("/api/v1/data/users/bookmark", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          "username": username,
-          "postID": this.props.match.params.uuid,
-        }),
-        redirect: "follow"
-      })
-        .then(res => {
-          if (res.status === 200) {
-            // assigning a new set and adding the id to there so we don't modify react state directly
-            const newBookmarks = new Set(bookmarks);
-            newBookmarks.add(this.props.match.params.uuid);
-            this.setState({ bookmarks: newBookmarks });
-          }
-        })
-    }
-
-    const removeBookmark = () => {
-      fetch("/api/v1/data/users/unbookmark", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          "username": username,
-          "postID": this.props.match.params.uuid,
-        }),
-        redirect: "follow"
-      })
-        .then(res => {
-          if (res.status === 200) {
-            // assigning a new set and adding the id to there so we don't modify react state directly
-            const newBookmarks = new Set(bookmarks);
-            newBookmarks.delete(this.props.match.params.uuid);
-            this.setState({ bookmarks: newBookmarks });
-          }
-        })
-    }
-
     return (
       <div className="ResourcePage">
         <ReportIssueModal
@@ -229,12 +244,12 @@ class ResourcePage extends React.Component {
               <Col xs="auto" sm="auto" md="auto" lg="auto">
                 <div className="right-icons">
                   {username && bookmarks.has(this.props.match.params.uuid) &&
-                    <span className="bookmark" onClick={() => removeBookmark()}>
+                    <span className="bookmark" onClick={() => this.removeBookmark()}>
                       <BookmarkIcon style={bookmarkIconStyle}/> Unbookmark me
                     </span>
                   }
                   {username && !bookmarks.has(this.props.match.params.uuid) &&
-                    <span className="bookmark" onClick={() => addBookmark()}>
+                    <span className="bookmark" onClick={() => this.addBookmark()}>
                       <BookmarkBorderIcon style={bookmarkIconStyle}/> Bookmark me
                     </span>
                   }

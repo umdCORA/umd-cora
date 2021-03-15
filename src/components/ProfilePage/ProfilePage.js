@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -102,11 +102,24 @@ class ProfilePage extends React.Component {
       email: '',
       bookmarks: [],
       profilePageErrorMsg: '',
+      shouldRedirect: false,
     };
   }
 
   componentDidMount = () => {
     this.fetchUserInfo();
+
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'bookmarks') {
+        if (event.newValue) {
+          this.fetchBookmarks(event.newValue.split(','));
+        } else {
+          this.setState({ bookmarks: [] });
+        }
+      } else if (event.key === 'logout' && event.newValue) {
+        this.setState({ shouldRedirect: true });
+      }
+    });
   }
 
   fetchUserInfo = () => {
@@ -124,8 +137,15 @@ class ProfilePage extends React.Component {
       })
         .then(res => res.json())
         .then(data =>{
+          // store bookmarks in localStorage to manage bookmarks on multiple instances of the app
+          localStorage.setItem('bookmarks', data.meta.bookmarked);
+
           this.fetchBookmarks(data.meta.bookmarked);
-          this.setState({username, email: data.email, profilePageErrorMsg: ''})
+          this.setState({ 
+            username,
+            email: data.email,
+            profilePageErrorMsg: ''
+          });
         })
         .catch(() => this.setState({profilePageErrorMsg: 'Something unexpected happened. Please reload the page.'}));
     }
@@ -148,8 +168,12 @@ class ProfilePage extends React.Component {
       email,
       bookmarks,
       profilePageErrorMsg,
+      shouldRedirect,
     } = this.state;
 
+    if (shouldRedirect) {
+      return <Redirect to="/"/>
+    }
     return (
       <Container fluid className="ProfilePage">
         <Row className="user-info-row">

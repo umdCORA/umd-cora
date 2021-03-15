@@ -18,9 +18,9 @@ class SearchResultRightPanel extends React.Component {
 
   componentDidMount = () => {
     const username = localStorage.getItem('username');
+    this.setState({ username }); 
 
     if (username) {
-      this.setState({ username }); 
       fetch("/api/v1/data/users/getUser", {
         method: "POST",
         headers: {
@@ -40,6 +40,18 @@ class SearchResultRightPanel extends React.Component {
           this.setState({ bookmarks: new Set(bookmarked) });
         })
     }
+
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'bookmarks') {
+        if (event.newValue) {
+          this.setState({ bookmarks: new Set(event.newValue.split(',')) });
+        } else {
+          this.setState({ bookmarks: new Set() });
+        }
+      } else if (event.key === 'logout' && event.newValue) {
+        this.setState({ username: '' });
+      }
+    });
   }
 
   componentDidUpdate = () => {
@@ -109,6 +121,8 @@ class SearchResultRightPanel extends React.Component {
             // assigning a new set and adding the id to there so we don't modify react state directly
             const newBookmarks = new Set(bookmarks);
             newBookmarks.add(_id);
+            // store bookmarks in localStorage to manage bookmarks on multiple instances of the app
+            localStorage.setItem('bookmarks', Array.from(newBookmarks));
             this.setState({ bookmarks: newBookmarks });
           }
         })
@@ -131,6 +145,8 @@ class SearchResultRightPanel extends React.Component {
             // assigning a new set and adding the id to there so we don't modify react state directly
             const newBookmarks = new Set(bookmarks);
             newBookmarks.delete(_id);
+            // store bookmarks in localStorage to manage bookmarks on multiple instances of the app
+            localStorage.setItem('bookmarks', Array.from(newBookmarks));
             this.setState({ bookmarks: newBookmarks });
           }
         })
