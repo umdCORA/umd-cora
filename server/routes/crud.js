@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 const { route } = require("./clientrouter");
+const properties = require("../config/properties");
 
 let errorFun = function (err, res) {
   if (err) {
@@ -373,22 +374,26 @@ router.post("/data/users/bookmark", (req, res, next) => {
 /**
  * localhost:5000/api/v1/data/users/getbookmarks?bookmarks:["id1", "id2", ....]
  */
-router.get("/data/users/getbookmarks", (req, res, next) =>{
-  var arr = req.query.bookmarks.split(',');
-  console.log(arr)
-  ResourceDB.find({
-    '_id': {
-      $in: arr
+router.get("/data/users/getbookmarks", (req, res, next) => {
+  var arr = req.query.bookmarks.split(",");
+  console.log(arr);
+  ResourceDB.find(
+    {
+      _id: {
+        $in: arr,
+      },
+    },
+    (err, doc) => {
+      if (err) res.status(500).send(err.message);
+      else
+        res.send(
+          doc.forEach((val) => {
+            val.pruneTags();
+          })
+        );
     }
-  }, (err, doc)=>{
-    if(err)
-      res.status(500).send(err.message)
-    else
-      res.send(doc.forEach((val)=>{val.pruneTags()}))
-  }
-
-  )
-})
+  );
+});
 /**
  * Removes bookmark.
  */
@@ -452,7 +457,7 @@ router.get("/data/resources/:id", (req, res) => {
   var id = req.params.id;
   ResourceDB.findById(id, (err, doc) => {
     errorFun(err, res);
-    res.send(doc.pruneTags())
+    res.send(doc.pruneTags());
   });
 });
 
@@ -465,13 +470,14 @@ router.put("/data/resources/:id", (req, res) => {
 });
 
 router.get("/data/resourcesAll", (req, res) => {
-  ResourceDB.find((err, doc)=>{
-    doc.forEach((val)=>{
+  ResourceDB.find((err, doc) => {
+    doc.forEach((val) => {
       val.pruneTags();
-    })
-    res.send(doc)
-  })
-})
+    });
+    res.send(doc);
+  });
+});
+
 router.get("/data/resources", (req, res) => {
   ResourceDB.aggregate([
     {
@@ -490,10 +496,33 @@ router.get("/data/resources", (req, res) => {
         uniqueDocs: true,
       },
     },
-  ]).then((doc) => {
-    res.send(doc.forEach((val)=>{val.pruneTags()}));
+  ]).then((doc)=>{
+    doc.forEach((val)=>{
+      let tags = val.tags.filter((elm)=>{
+        return properties.DB_TAGS.includes(elm)
+      })
+      val.tags = tags
+    })
+    res.send(doc)
   });
 });
+
+/* router.get("/data/resources", (req, res) => {
+  let constr = {
+    long : req.query.long,
+    lat : req.query.lat,
+    radius : req.query.radius
+  }
+  ResourceDB.searchRadius(
+    constr,
+    (err, doc) => {
+      doc.forEach((elm)=>{
+        elm.pruneTags()
+      })
+      res.send(doc);
+    }
+  );
+}); */
 
 router.post("/data/resources", (req, res) => {
   var resource = new ResourceDB({

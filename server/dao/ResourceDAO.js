@@ -12,4 +12,20 @@ ResourceSchema.methods.pruneTags = function(){
     return this
 }
 
+ResourceSchema.statics.searchRadius = function(constr, cb){
+    let val = this.find({
+        "location.geo": {
+            $near: {
+              $geometry: {
+                 type: "Point" ,
+                 coordinates: [ constr.long , constr.lat ]
+              },
+              $maxDistance: constr.radius*1609.34
+            }
+          }
+    }, cb)
+   
+    return val
+}
+
 module.exports = mongoose.model('Resource', ResourceSchema);
