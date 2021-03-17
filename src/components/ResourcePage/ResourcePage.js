@@ -13,6 +13,8 @@ import emailjs from 'emailjs-com';
 import LeftPanel from './LeftPanel.js';
 import RightPanel from './RightPanel.js';
 import DescriptionPanel from './DescriptionPanel.js';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 import './ResourcePage.css';
 
@@ -63,6 +65,8 @@ class ResourcePage extends React.Component {
       tags: [],
       searchError: null,
       showModal: false,
+      username: null,
+      bookmarks: new Set(),
     };
   }
 
@@ -84,6 +88,45 @@ class ResourcePage extends React.Component {
         })
       })
       .catch((error) => this.setState({searchError: error}));
+
+    const username = localStorage.getItem('username');
+
+    if (username) {
+      this.setState({ username });
+      fetch("/api/v1/data/users/getUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "username": username,
+        }),
+        redirect: "follow"
+      })
+        .then(res => res.json())
+        .then(data => {
+          const {
+            bookmarked,
+          } = data.meta;
+
+          this.setState({ bookmarks: new Set(bookmarked) });
+        })
+    }
+  }
+
+  componentDidUpdate = () => {
+    const {
+      username,
+    } = this.state;
+    const storageUsername = localStorage.getItem('username');
+
+    // user logged out on resource page
+    if (username && !storageUsername) {
+      this.setState({ username: null });
+    // user logged in on resource page
+    } else if (!username && storageUsername) {
+      this.setState({ username: storageUsername });
+    }
   }
 
   submitIssue = event => {
@@ -104,6 +147,65 @@ class ResourcePage extends React.Component {
     this.setState({ showModal: false });
   }
 
+  addBookmark = () => {
+    const {
+      username,
+      bookmarks,
+    } = this.state;
+    fetch("/api/v1/data/users/bookmark", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "username": username,
+        "postID": this.props.match.params.uuid,
+      }),
+      redirect: "follow"
+    })
+      .then(res => {
+        if (res.status === 200) {
+          // assigning a new set and adding the id to there so we don't modify react state directly
+          const newBookmarks = new Set(bookmarks);
+          newBookmarks.add(this.props.match.params.uuid);
+
+          // store bookmarks in localStorage to manage bookmarks on multiple instances of the app
+          localStorage.setItem('bookmarks', Array.from(newBookmarks));
+          this.setState({ bookmarks: newBookmarks });
+        }
+      })
+  }
+
+  removeBookmark = () => {
+    const {
+      username,
+      bookmarks,
+    } = this.state;
+
+    fetch("/api/v1/data/users/unbookmark", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "username": username,
+        "postID": this.props.match.params.uuid,
+      }),
+      redirect: "follow"
+    })
+      .then(res => {
+        if (res.status === 200) {
+          // assigning a new set and adding the id to there so we don't modify react state directly
+          const newBookmarks = new Set(bookmarks);
+          newBookmarks.delete(this.props.match.params.uuid);
+
+          // store bookmarks in localStorage to manage bookmarks on multiple instances of the app
+          localStorage.setItem('bookmarks', newBookmarks);
+          this.setState({ bookmarks: newBookmarks });
+        }
+      })
+  }
+
   render() {
     const {
       name,
@@ -117,7 +219,14 @@ class ResourcePage extends React.Component {
       tags,
       searchError,
       showModal,
+      username,
+      bookmarks,
     } = this.state;
+
+    const bookmarkIconStyle = {
+      cursor: 'pointer',
+      color: '#8D9DF9',
+    };
 
     return (
       <div className="ResourcePage">
@@ -132,8 +241,18 @@ class ResourcePage extends React.Component {
         {!searchError && targetLat && targetLong &&
           <Container fluid>
             <Row style={{flexDirection: 'row-reverse'}}>
-              <Col xs={12} sm={12} md={6} lg={6}>
+              <Col xs="auto" sm="auto" md="auto" lg="auto">
                 <div className="right-icons">
+                  {username && bookmarks.has(this.props.match.params.uuid) &&
+                    <span className="bookmark" onClick={() => this.removeBookmark()}>
+                      <BookmarkIcon style={bookmarkIconStyle}/> Unbookmark me
+                    </span>
+                  }
+                  {username && !bookmarks.has(this.props.match.params.uuid) &&
+                    <span className="bookmark" onClick={() => this.addBookmark()}>
+                      <BookmarkBorderIcon style={bookmarkIconStyle}/> Bookmark me
+                    </span>
+                  }
                   <span className="phone">
                     <PhoneIcon/> {phone}
                   </span>
@@ -145,7 +264,7 @@ class ResourcePage extends React.Component {
                   </span>
                 </div>
               </Col>
-              <Col xs={12} sm={12} md={6} lg={6}>
+              <Col xs sm md lg>
                 <h1 className="title">{name}</h1>
                 {website && <a href={website} target="_blank" rel="noopener noreferrer">{website}</a>}
               </Col>

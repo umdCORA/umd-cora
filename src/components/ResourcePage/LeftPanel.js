@@ -33,8 +33,17 @@ class LeftPanel extends React.Component {
 
     return (
       <div className="LeftPanel">
-        <div className="map-header">
-          <h2 style={{fontWeight: 'bold'}}>Location</h2>
+        <h2 style={{fontWeight: 'bold', marginBottom: '0px'}}>Location</h2>
+        <div className="address" style={{display: 'flex'}}>
+          <span className="address-blurb" style={{flexGrow: 1, alignSelf: 'center'}}>{formatAddressString(address, city, state, zipcode)}</span>
+          <Button
+            className="shadow-none"
+            href={`https://www.google.com/maps/dir/?api=1&destination=${targetLat},${targetLong}`}
+            target="_blank"
+            style={{backgroundColor: '#8D9DF9', borderColor: '#8D9DF9', marginBottom: '0.5rem'}}
+          >
+            Directions
+          </Button>
         </div>
         <Map
           google={this.props.google}
@@ -46,17 +55,6 @@ class LeftPanel extends React.Component {
         >
           <Marker />
         </Map>
-        <div className="address">
-          <span className="address-blurb">{formatAddressString(address, city, state, zipcode)}</span>
-          <Button
-            className="shadow-none"
-            href={`https://www.google.com/maps/dir/?api=1&destination=${targetLat},${targetLong}`}
-            target="_blank"
-            style={{backgroundColor: '#8D9DF9', borderColor: '#8D9DF9', float: 'right'}}
-          >
-            Directions
-          </Button>
-        </div>
       </div>
     );
   }

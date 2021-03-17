@@ -41,6 +41,10 @@
   margin-left: auto;
 }
 
+.bookmark:hover {
+  cursor: pointer;
+}
+
 .print:hover {
   cursor: pointer;
 }
