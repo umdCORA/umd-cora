@@ -384,12 +384,12 @@ router.get("/data/users/getbookmarks", (req, res, next) => {
     },
     (err, doc) => {
       if (err) res.status(500).send(err.message);
-      else
-        res.send(
-          doc.forEach((val) => {
-            val.pruneTags();
-          })
-        );
+      else{
+        doc.forEach(val=>{
+          val.pruneTags()
+        })
+        res.send(doc)
+      }
     }
   );
 });
