@@ -16,5 +16,9 @@ module.exports = {
     "Outpatient Rehabilitation", "Gender-Specific Treatment", "Intervention Specialists",
     "Recovery Residences", "Mental Health Resources", "Counseling/Therapy", "Support Groups",
     "Payment", "Sliding Scale", "Free", "Paid", "Harm Reduction", "Overdose Response", "Needle Exchange Programs", 
-    "Vaccine and Prophylaxis Clinics", "Pregnancy Support", "Free Transportation"]
+    "Vaccine and Prophylaxis Clinics", "Pregnancy Support", "Free Transportation"],
+
+    NODEMAILER_USER: process.env.NODEMAILER_USER || null,
+    NODEMAILER_PASSWORD: process.env.NODEMAILER_PASSWORD || null,
+    NODEMAILER_SERVICE: process.env.NODEMAILER_SERVICE || null
 }
