@@ -376,7 +376,6 @@ router.post("/data/users/bookmark", (req, res, next) => {
  */
 router.get("/data/users/getbookmarks", (req, res, next) => {
   var arr = req.query.bookmarks.split(",");
-  console.log(arr);
   ResourceDB.find(
     {
       _id: {
