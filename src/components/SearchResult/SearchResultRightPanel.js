@@ -18,8 +18,42 @@ class SearchResultRightPanel extends React.Component {
 
   componentDidMount = () => {
     const username = localStorage.getItem('username');
+    this.fetchBookmarksFromUsername(username);
     this.setState({ username }); 
 
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'bookmarks') {
+        if (event.newValue) {
+          this.setState({ bookmarks: new Set(event.newValue.split(',')) });
+        } else {
+          this.setState({ bookmarks: new Set() });
+        }
+      } else if (event.key === 'username') {
+        this.setState({ username: event.newValue }); 
+        this.fetchBookmarksFromUsername(event.newValue);
+      } else if (event.key === 'logout') {
+        this.setState({ username: null, bookmarks: new Set() });
+      }
+    });
+  }
+
+  componentDidUpdate = () => {
+    const {
+      username,
+    } = this.state;
+    const storageUsername = localStorage.getItem('username');
+
+    // user logged out on results page
+    if (username && !storageUsername) {
+      this.setState({ username: null, bookmarks: new Set() });
+    // user logged in on results page
+    } else if (!username && storageUsername) {
+      this.setState({ username: storageUsername });
+      this.fetchBookmarksFromUsername(storageUsername);
+    }
+  }
+
+  fetchBookmarksFromUsername = username => {
     if (username) {
       fetch("/api/v1/data/users/getUser", {
         method: "POST",
@@ -39,33 +73,6 @@ class SearchResultRightPanel extends React.Component {
 
           this.setState({ bookmarks: new Set(bookmarked) });
         })
-    }
-
-    window.addEventListener('storage', (event) => {
-      if (event.key === 'bookmarks') {
-        if (event.newValue) {
-          this.setState({ bookmarks: new Set(event.newValue.split(',')) });
-        } else {
-          this.setState({ bookmarks: new Set() });
-        }
-      } else if (event.key === 'logout' && event.newValue) {
-        this.setState({ username: '' });
-      }
-    });
-  }
-
-  componentDidUpdate = () => {
-    const {
-      username,
-    } = this.state;
-    const storageUsername = localStorage.getItem('username');
-
-    // user logged out on results page
-    if (username && !storageUsername) {
-      this.setState({ username: null });
-    // user logged in on results page
-    } else if (!username && storageUsername) {
-      this.setState({ username: storageUsername });
     }
   }
 
