@@ -16,6 +16,7 @@
     "bootstrap": "^4.5.2",
     "concurrently": "^5.3.0",
     "emailjs-com": "^2.6.4",
+    "express-fileupload": "^1.2.1",
     "geolib": "^3.3.1",
     "google-maps-react": "^2.0.6",
     "react": "^16.13.1",

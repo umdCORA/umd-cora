@@ -1,91 +1,103 @@
 var router = require("express").Router();
 
-const transporter = require("../config/mailaccount");
-const test_transporter = require("../config/testmailaccount");
-const properties = require("../config/properties");
-const nodemailer = require("nodemailer");
 const UserDB = require("../dao/UserDAO");
 const NewsletterDB = require("../dao/NewsletterDAO");
-const agenda = require("../config/scheduler").agenda
+const agenda = require("../config/scheduler").agenda;
+const upload = require("../config/multerupload");
 
-router.post("/test", async (req, res) => {
-  let from = req.body.from || properties.NODEMAILER_USER;
-  let to = req.body.to || [properties.NODEMAILER_USER];
-  let subject = req.body.subject || "TEST SUBJECT";
-  let text = req.body.text || "TEST TEXT";
-  let html = req.body.html || "<p>TEST HTML</p>";
 
-  let message = {
-    from: from,
-    to: to,
-    subject: subject,
-    text: text,
-    html: html,
-  };
+/**
+ * Parameters:
+ * ?[key]=[value]&[key]=[value]&...
+ * interval: When email should be sent
+ *
+ *
+ * form-data:
+ * [key] = [value]
+ * html = 'text/html' file
+ * attachments = 'image/*******' file(s)
+ * content = 'text/plain' file
+ * subject = 'text/plain' file
+ */
+router.post("/hi", (req, res)=>{
+  console.log("sent")
+  res.send("hi")
+})
 
-  let trans = await test_transporter();
-  let info = await trans.sendMail(message);
-  info.url = nodemailer.getTestMessageUrl(info);
-  res.send(info);
-});
-
-router.post("/massMail", async (req, res) => {
-  let from = properties.NODEMAILER_USER;
-  let to = await UserDB.findMailList();
-  let subject = req.body.subject || "TEST SUBJECT";
-  let text = req.body.text || "TEST TEXT";
-  let html = req.body.html || "<p>TEST HTML</p>";
-
-  let message = {
-    from: from,
-    to: to,
-    subject: subject,
-    text: text,
-    html: html,
-  };
-
-  transporter.sendMail(message, (err, info) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.send(info);
-    }
-  });
-});
+router.post(
+  "/schedule",
+  upload.fields([{ name: "html", maxCount: 1 }, { name: "attachments" }, {name: "demo"}]),
+  (req, res) => {
+    console.log(req.body)
+    res.send("hi")
+  }
+);
 
 /*
 Body:
 {
-    "text": "Plaintext message for email body",
+    "content": "Plaintext message for email body",
     "from": "Someone@email.com",
-    "subject": "Subject header"
+    "subject": "Subject header",
+    "html": "html message as string"
+    "to": "This tag can be ommitted if you want to only send to those who are registered
+    as newsletter recipients. Specifying this tag as a "
 }
 */
-router.post("/schedulePlaintext", async (req, res) =>{
-    let {interval, text, from, subject, html} = req.body;
 
-    let entry = new NewsletterDB({
-        content: text,
-        content_type: 'plaintext',
-        subject: subject
-    })
-    entry.save({})
-    let builder = {
-        text: text,
-        from: from,
-        subject: subject,
-        id: id,
-        html: null
-    }
+router.post("/schedulePlain", (req, res) => {
+  let { interval, content, from, subject, html, to } = req.body;
 
-    await agenda.schedule(interval, "send mass email", builder)
+  let builder = {
+    content: content,
+    from: from,
+    subject: subject,
+    html: html,
+    to: to,
+  };
 
-    res.send("scheduled for: " + interval)
-})
+  let entry = new NewsletterDB({
+    content: content,
+    content_type: "html",
+    subject: subject,
+  });
+
+  entry
+    .save({})
+    .then(
+      (doc) => {
+        builder.id = doc._id;
+        return agenda.schedule(interval, "send mass email", builder);
+      },
+      (reason) => {
+        return Promise.reject(reason);
+      }
+    )
+    .then(
+      () => {
+        res.send("scheduled for: " + interval);
+      },
+      (reason) => {
+        res.status(500).send(reason.message);
+      }
+    );
+});
 
 router.get("/recipients", async (req, res) => {
   let list = await UserDB.findMailList();
   res.send(list);
+});
+
+router.delete("/purgeJobs", (req, res) => {
+  agenda.purge();
+  agenda.cancel({ nextRunAt: null }).then(
+    (doc) => {
+      res.send("Removed " + doc + " instance(s)");
+    },
+    (reason) => {
+      res.status(500).send(reason.message);
+    }
+  );
 });
 
 module.exports = router;

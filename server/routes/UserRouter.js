@@ -45,7 +45,7 @@ router.post("/data/users/register", (req, res, next) => {
         email: email,
         hash: hashedPassword,
         salt: Properties.BCRYPT_SALT_ROUNDS,
-        newsletter: newsletter
+        newsletter: newsletter,
       });
       return newUser.save({});
     })
@@ -367,12 +367,12 @@ router.get("/data/users/getbookmarks", (req, res, next) => {
     },
     (err, doc) => {
       if (err) res.status(500).send(err.message);
-      else
-        res.send(
-          doc.forEach((val) => {
-            val.pruneTags();
-          })
-        );
+      else {
+        doc.forEach((val) => {
+          val.pruneTags();
+        });
+        res.send(doc);
+      }
     }
   );
 });
@@ -436,4 +436,4 @@ router.delete("/data/users", (req, res) => {
 });
 */
 
-module.exports = router
+module.exports = router;

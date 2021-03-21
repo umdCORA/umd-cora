@@ -1,35 +1,38 @@
 const Agenda = require("agenda");
 const properties = require("./properties");
 const transporter = require("./mailaccount");
-const UserDB = require("../dao/UserDAO")
-const test_transporter = require("./testmailaccount")
+const UserDB = require("../dao/UserDAO");
+const NewsletterDB = require("../dao/NewsletterDAO")
 
 const agenda = new Agenda({
-  db: { address: properties.DB, collection: "jobCollection", options:{useUnifiedTopology: true} },
-  processEvery: "10 minutes",
+  db: {
+    address: properties.DB,
+    collection: "jobCollection",
+    options: { useUnifiedTopology: true },
+  },
+  processEvery: properties.SCHEDULE_REFRESH,
 });
 
 agenda.define("send mass email", async (job) => {
-  const { text, from, subject, html } = job.attrs.data;
-  const to = await UserDB.findMailList();
-  let transport = await test_transporter()
-  await transport.sendMail({
-    text: text,
-    from: from,
-    to: to,
-    subject: subject,
-    html: html,
-  }, (err, info)=>{
-      if(err){
-          console.log(err)
-      }else{
-          console.log(info)
-      }
-  });
-});
+  const { content, from, subject, html, to } = job.attrs.data;
+  let transport = transporter
 
-agenda.define("test echo", async (job) =>{
-    console.log("ECHO")
+  await transport.sendMail(
+    {
+      text: content,
+      from: from,
+      to: to || await UserDB.findMailList(),
+      subject: subject,
+      html: html,
+    },
+    (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(info);
+      }
+    }
+  );
 });
 
 module.exports = {

@@ -20,5 +20,7 @@ module.exports = {
 
     NODEMAILER_USER: process.env.NODEMAILER_USER || null,
     NODEMAILER_PASSWORD: process.env.NODEMAILER_PASSWORD || null,
-    NODEMAILER_SERVICE: process.env.NODEMAILER_SERVICE || null
+    NODEMAILER_SERVICE: process.env.NODEMAILER_SERVICE || null,
+
+    SCHEDULE_REFRESH: "5 minutes"
 }
