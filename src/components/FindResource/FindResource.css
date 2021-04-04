@@ -1,6 +1,8 @@
 .btn-default, .btn-default:hover, .btn-default:active, .btn-default:active:focus,
 .btn-default:visited, .btn-default:focus {
-  color: #dcdcdc;     background-color: #232323;        outline: none;
+  color: #dcdcdc;
+  background-color: #232323;
+  outline: none;
 }
 
 .top-container {
@@ -23,7 +25,7 @@
 #narrow-search-button {
   background-color: #F9F8F8;
   border: #F9F8F8;
-  color: #A6A6A6;
+  color: #808080;
   font-weight: bold;
   margin-bottom: 2px;
 }

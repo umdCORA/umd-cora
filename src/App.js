@@ -32,6 +32,7 @@ class App extends React.Component {
       showCreateAccountModal: false,
       showResetPasswordModal: false,
       username: '',
+      email: '',
       loginErrorMsg: '',
       createAccountErrorMsg: '',
       resetPasswordErrorMsg: '',
@@ -44,28 +45,28 @@ class App extends React.Component {
     // persistent login based on https://stackoverflow.com/questions/47928055/multiple-tabs-same-session-clear-the-session-when-all-tabs-are-gone
     window.addEventListener('beforeunload', () => {
       if (!localStorage.getItem('persist-sign-in')) {
-        localStorage.removeItem('username');
+        localStorage.removeItem('email');
       }
     });
 
-    const username = localStorage.getItem('username');
-    const sessionUsername = sessionStorage.getItem('username');
-    if (!username) {
-      if (sessionUsername) {
-        localStorage.setItem('username', sessionUsername);
-        this.setState({username: sessionUsername});
+    const email = localStorage.getItem('email');
+    const sessionEmail = sessionStorage.getItem('email');
+    if (!email) {
+      if (sessionEmail) {
+        localStorage.setItem('email', sessionEmail);
+        this.setState({email: sessionEmail});
       }
     } else {
-      sessionStorage.setItem('username', username);
-      this.setState({ username });
+      sessionStorage.setItem('email', email);
+      this.setState({ email });
     }
 
     window.addEventListener('storage', (event) => {
-      if (event.key === 'username' && event.newValue) {
-        sessionStorage.setItem('username', event.newValue);
-        this.setState({ username: event.newValue });
+      if (event.key === 'email' && event.newValue) {
+        sessionStorage.setItem('email', event.newValue);
+        this.setState({ email: event.newValue });
       } else if (event.key === 'logout' && event.newValue) {
-        this.setState({ username: '' });
+        this.setState({ email: '' });
         sessionStorage.clear();
         localStorage.clear();
       }
@@ -77,37 +78,55 @@ class App extends React.Component {
     window.removeEventListener('storage');
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevState.email !== this.state.email && this.state.email) {
+      fetch("/api/v1/data/users/getUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "email": this.state.email,
+        }),
+        redirect: "follow"
+      })
+        .then(res => res.json())
+        .then(data => this.setState({ username: data.username }))
+        .catch(error => console.log('error', error));
+    }
+  }
+
   handleSignIn = (event) => {
     event.preventDefault();
-    const username = event.target.elements.formBasicUsername.value;
+    const email = event.target.elements.formBasicEmail.value;
     const password = event.target.elements.formBasicPassword.value;
     const persistSignIn = event.target.elements.formBasicCheck.checked;
 
-    if(username && password) {
+    if(email && password) {
       fetch("/api/v1/data/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "username": username,
+          "email": email,
           "password": password,
         }),
         redirect: "follow"
       })
         .then(res => {
           if (res.status === 200) {
-            localStorage.setItem('username', username);
+            localStorage.setItem('email', email);
+            sessionStorage.setItem('email', email);
             if (persistSignIn) {
               localStorage.setItem('persist-sign-in', true);
             }
             localStorage.removeItem('logout');
-            sessionStorage.setItem('username', username);
 
             this.setState({
               showSignInModal: false,
               showResetPasswordModal: false,
-              username,
+              email,
               loginErrorMsg: '',
             });
           } else if (res.status === 403) {
@@ -142,8 +161,8 @@ class App extends React.Component {
           <Modal.Title>Welcome Back!</Modal.Title>
           <Form onSubmit={this.handleSignIn}>
             { loginErrorMsg && <Form.Label style={{color: "red"}}>{loginErrorMsg}</Form.Label> }
-            <Form.Group controlId="formBasicUsername">
-              <Form.Label>Username</Form.Label>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 type="text"
                 required
@@ -285,14 +304,14 @@ class App extends React.Component {
 
   handleResetPasswordSubmission = (event) => {
     event.preventDefault();
-    const username = event.target.elements.formBasicUsername.value;
+    const email = event.target.elements.formBasicEmail.value;
     fetch("/api/v1/data/users/generateUUID", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        "username": username,
+        "email": email,
       }),
       redirect: "follow"
     })
@@ -300,8 +319,8 @@ class App extends React.Component {
         if (res.status === 200) {
           return res.text();
         } else if (res.status === 404) {
-          this.setState({ resetPasswordErrorMsg: 'Username not found. Please try again.' });
-          throw new Error('Username not found');
+          this.setState({ resetPasswordErrorMsg: 'Email not found. Please try again.' });
+          throw new Error('Email not found');
         } else {
           this.setState({ resetPasswordErrorMsg: 'Something unexpected happened. Please try again.' });
           throw new Error('Something unexpected happened');
@@ -309,7 +328,7 @@ class App extends React.Component {
       })
       .then(data => {
         const templateParams = {
-          username,
+          email,
           url: `${window.location.origin}/reset-password`,
           uuid: data,
         }
@@ -339,8 +358,8 @@ class App extends React.Component {
           <Modal.Title>Reset Password</Modal.Title>
           <Form onSubmit={this.handleResetPasswordSubmission}>
             { resetPasswordErrorMsg && <Form.Label style={{color: "red"}}>{resetPasswordErrorMsg}</Form.Label> }
-            <Form.Group controlId="formBasicUsername">
-              <Form.Label>Username</Form.Label>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email</Form.Label>
               <Form.Control type="text" required/>
             </Form.Group>
             <Button variant="primary" type="submit" style={{marginLeft: 0, marginTop: 0}}>Send Request</Button>
@@ -359,7 +378,7 @@ class App extends React.Component {
 
     this.setState({
       showSignOutModal: true,
-      username: '',
+      email: '',
     });
   }
 
@@ -396,12 +415,13 @@ class App extends React.Component {
 
   render(){
     const {
+      email,
       username,
     } = this.state;
 
     // resource-page should have pill on Find Resource tab
     const activeKey = window.location.pathname.includes('resource-page') ? '/' : window.location.pathname;
-    const usernameInStorage = localStorage.getItem('username') || sessionStorage.getItem('username');
+    const emailInStorage = localStorage.getItem('email') || sessionStorage.getItem('email');
 
     return (
       <Router>
@@ -419,15 +439,15 @@ class App extends React.Component {
                 <Nav.Link href="/how-to-use-corabase">How to Use CORAbase</Nav.Link>
                 <Nav.Link href="/join-a-research-study">Join a Research Study</Nav.Link>
                 <Nav.Link href="/about-us">About Us</Nav.Link>
-                {username && <Nav.Link href={`/account`}>My Account</Nav.Link>}
+                {email && <Nav.Link href={`/account`}>My Account</Nav.Link>}
               </Nav>
-              {!username &&
+              {!email &&
                 <div className="signed-out-content">
                   <Button variant="outline-dark" onClick={() => this.setState({showSignInModal: true})}>Sign In</Button>
                   <Button variant="outline-dark" onClick={() => this.setState({showCreateAccountModal: true})}>Create Account</Button>
                 </div>
               }
-              {username &&
+              {email &&
                 <div className="signed-in-content">
                   <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text style={{verticalAlign: 'middle'}}>Signed in as: <span className="bold-username">{username}</span></Navbar.Text>
@@ -443,9 +463,9 @@ class App extends React.Component {
               <Route path="/how-to-use-corabase" component={HowToUseCORABase}/>
               <Route path="/join-a-research-study" component={ResearchStudy}/>
               <Route path="/about-us" component={AboutUs}/>
-              <Route path="/reset-password" component={ResetPasswordPage}/>
               <Route path="/resource-page/:uuid" component={ResourcePage}/>
-              <Route path="/account" render={() => usernameInStorage ? <ProfilePage/> : <Redirect to="/"/>}/>
+              <Route path="/account" render={() => emailInStorage ? <ProfilePage/> : <Redirect to="/"/>}/>
+              <Route path="/reset-password" render={() => emailInStorage ? <Redirect to ="/"/> : <ResetPasswordPage/>}/>
               <Route path="*" render={() => <Redirect to="/"/>}/>
             </Switch>
           </div>

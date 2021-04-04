@@ -20,18 +20,20 @@ class ResetPasswordPage extends React.Component {
 
   handleResetPassword = (event) => {
     event.preventDefault();
-    const username = event.target.elements.formBasicUsername.value;
+    // allows event to persist in the async fetch call
+    event.persist();
+    const email = event.target.elements.formBasicEmail.value;
     const token = event.target.elements.formBasicToken.value;
     const password = event.target.elements.formBasicPassword.value;
     const passwordConfirmation = event.target.elements.formBasicPasswordConfirmation.value;
-    if (username && token && password && passwordConfirmation && password === passwordConfirmation) {
+    if (email && token && password && passwordConfirmation && password === passwordConfirmation) {
       fetch("/api/v1/data/users/resetPassword", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "username": username,
+          "email": email,
           "resetToken": token,
           "newPassword": password,
         }),
@@ -43,10 +45,13 @@ class ResetPasswordPage extends React.Component {
               resetPasswordSucceeded: true,
               resetPasswordErrorMsg: '',
             });
+
+            // resets form
+            event.target.reset();
           } else if (res.status === 404) {
             this.setState({
               resetPasswordSucceeded: false,
-              resetPasswordErrorMsg: 'Either the username you entered doesn\'t exist or the token you entered is incorrect. Please choose a different username or enter a different token.'
+              resetPasswordErrorMsg: 'Either the email you entered doesn\'t exist or the token you entered is incorrect. Please choose a different email or enter a different token.'
             });
           } else {
             this.setState({
@@ -78,8 +83,8 @@ class ResetPasswordPage extends React.Component {
           <Form onSubmit={this.handleResetPassword} ref={this.formRef}>
             {resetPasswordSucceeded && <Form.Label style={{color: '#7283e1'}}>Password Reset Succeeded!</Form.Label>}
             {resetPasswordErrorMsg && <Form.Label style={{color: 'red'}}>{resetPasswordErrorMsg}</Form.Label>}
-            <Form.Group controlId="formBasicUsername">
-              <Form.Label>Username</Form.Label>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 type="text"
                 required

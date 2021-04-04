@@ -11,15 +11,15 @@ class SearchResultRightPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: null,
+      email: null,
       bookmarks: new Set(),
     };
   }
 
   componentDidMount = () => {
-    const username = localStorage.getItem('username');
-    this.fetchBookmarksFromUsername(username);
-    this.setState({ username }); 
+    const email = localStorage.getItem('email');
+    this.fetchBookmarksFromEmail(email);
+    this.setState({ email }); 
 
     window.addEventListener('storage', (event) => {
       if (event.key === 'bookmarks') {
@@ -28,40 +28,40 @@ class SearchResultRightPanel extends React.Component {
         } else {
           this.setState({ bookmarks: new Set() });
         }
-      } else if (event.key === 'username') {
-        this.setState({ username: event.newValue }); 
-        this.fetchBookmarksFromUsername(event.newValue);
+      } else if (event.key === 'email') {
+        this.setState({ email: event.newValue }); 
+        this.fetchBookmarksFromEmail(event.newValue);
       } else if (event.key === 'logout') {
-        this.setState({ username: null, bookmarks: new Set() });
+        this.setState({ email: null, bookmarks: new Set() });
       }
     });
   }
 
   componentDidUpdate = () => {
     const {
-      username,
+      email,
     } = this.state;
-    const storageUsername = localStorage.getItem('username');
+    const storageEmail = localStorage.getItem('email');
 
     // user logged out on results page
-    if (username && !storageUsername) {
-      this.setState({ username: null, bookmarks: new Set() });
+    if (email && !storageEmail) {
+      this.setState({ email: null, bookmarks: new Set() });
     // user logged in on results page
-    } else if (!username && storageUsername) {
-      this.setState({ username: storageUsername });
-      this.fetchBookmarksFromUsername(storageUsername);
+    } else if (!email && storageEmail) {
+      this.setState({ email: storageEmail });
+      this.fetchBookmarksFromEmail(storageEmail);
     }
   }
 
-  fetchBookmarksFromUsername = username => {
-    if (username) {
+  fetchBookmarksFromEmail = email => {
+    if (email) {
       fetch("/api/v1/data/users/getUser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "username": username,
+          "email": email,
         }),
         redirect: "follow"
       })
@@ -93,10 +93,9 @@ class SearchResultRightPanel extends React.Component {
     } = location;
     const {
       phone,
-      email
     } = contact
     const {
-      username,
+      email,
       bookmarks,
     } = this.state;
 
@@ -118,7 +117,7 @@ class SearchResultRightPanel extends React.Component {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "username": username,
+          "email": email,
           "postID": _id,
         }),
         redirect: "follow"
@@ -142,7 +141,7 @@ class SearchResultRightPanel extends React.Component {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "username": username,
+          "email": email,
           "postID": _id,
         }),
         redirect: "follow"
@@ -169,7 +168,7 @@ class SearchResultRightPanel extends React.Component {
           <Card.Text>
             Address: {formatAddressString(address, city, state, zipcode)}
             <br/>
-            Email: {email}
+            Email: {contact.email}
             <br/>
             Phone: {phone}
           </Card.Text>
@@ -179,13 +178,13 @@ class SearchResultRightPanel extends React.Component {
           <Card.Text>
               <a href={`/resource-page/${_id}`} target="_blank" rel="noopener noreferrer">Click here for more information</a>
           </Card.Text>
-          {username && bookmarks.has(_id) &&
+          {email && bookmarks.has(_id) &&
             <BookmarkIcon
               style={bookmarkIconStyle}
               onClick={() => removeBookmark()}
            />
           }
-          {username && !bookmarks.has(_id) &&
+          {email && !bookmarks.has(_id) &&
             <BookmarkBorderIcon
               style={bookmarkIconStyle}
               onClick={() => addBookmark()}

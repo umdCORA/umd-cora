@@ -6,3 +6,7 @@
 .narrow-search-modal .modal-dialog .modal-content .modal-body form {
   padding: 0px;
 }
+
+.narrow-search-modal .modal-dialog .modal-content .modal-body .narrow-search-card {
+  box-shadow: none;
+}

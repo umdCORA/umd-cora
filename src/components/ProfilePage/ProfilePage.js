@@ -42,7 +42,7 @@ class BookmarkCard extends React.Component {
   handleRemoveBookmark = () => {
     const {
       uuid,
-      username,
+      email,
       fetchUserInfo,
     } = this.props; 
 
@@ -52,7 +52,7 @@ class BookmarkCard extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        "username": username,
+        "email": email,
         "postID": uuid,
       }),
       redirect: "follow"
@@ -123,15 +123,15 @@ class ProfilePage extends React.Component {
   }
 
   fetchUserInfo = () => {
-    const username = localStorage.getItem('username') ? localStorage.getItem('username') : sessionStorage.getItem('username');
-    if (username) {
+    const email = localStorage.getItem('email') ? localStorage.getItem('email') : sessionStorage.getItem('email');
+    if (email) {
       fetch("/api/v1/data/users/getUser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "username": username,
+          "email": email,
         }),
         redirect: "follow"
       })
@@ -142,8 +142,8 @@ class ProfilePage extends React.Component {
 
           this.fetchBookmarks(data.meta.bookmarked);
           this.setState({ 
-            username,
-            email: data.email,
+            username: data.username,
+            email: email,
             profilePageErrorMsg: ''
           });
         })
@@ -191,7 +191,7 @@ class ProfilePage extends React.Component {
             <h4 className="bookmark-content-title">My Bookmarks</h4>
             {profilePageErrorMsg && <div style={{color: 'red'}}>{profilePageErrorMsg}</div>}
             {bookmarks.length === 0 && <div>No bookmarks to display. You can bookmark resources on the Find a Resource results page.</div>}
-            {bookmarks.map(bookmark => <BookmarkCard location={bookmark.location} name={bookmark.name} description={bookmark.description} username={username} key={bookmark._id} uuid={bookmark._id} fetchUserInfo={this.fetchUserInfo}/>)}
+            {bookmarks.map(bookmark => <BookmarkCard location={bookmark.location} name={bookmark.name} description={bookmark.description} email={email} key={bookmark._id} uuid={bookmark._id} fetchUserInfo={this.fetchUserInfo}/>)}
           </Col>
         </Row>
       </Container>
