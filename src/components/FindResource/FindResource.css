@@ -101,3 +101,6 @@
   overflow: auto;
 }
 
+.small-text {
+  font-size: small;
+}
