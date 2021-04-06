@@ -9,12 +9,14 @@ const properties = require("./config/properties");
 const clientRouter = require("./routes/clientrouter.js");
 const crudRouter = require("./routes/crud");
 const scheduler = require("./config/scheduler")
+const cors = require("cors")
 
 app.use(express.static(path.join(__dirname, '../build')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('combined'));
 app.use(actuator());
+app.use(cors())
 
 app.use(properties.database_ENDPOINT, crudRouter);
 app.use(properties.client_ENDPOINT, clientRouter);
@@ -24,10 +26,10 @@ app.get('/sendEmail', (req, res)=>{
   res.sendFile(path.join(__dirname+'/templates/sample.html'))
 })
 
-/*app.get('/*', function(req, res){
+app.get('/*', function(req, res){
   res.sendFile(path.join(__dirname, "../build/index.html"));
 });
-*/
+
 db();
 scheduler.start();
 

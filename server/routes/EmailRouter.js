@@ -4,32 +4,44 @@ const UserDB = require("../dao/UserDAO");
 const NewsletterDB = require("../dao/NewsletterDAO");
 const agenda = require("../config/scheduler").agenda;
 const upload = require("../config/multerupload");
-
-
+const path = require("path")
 /**
  * Parameters:
  * ?[key]=[value]&[key]=[value]&...
- * interval: When email should be sent
  *
  *
  * form-data:
- * [key] = [value]
+ * interval: 'text'
  * html = 'text/html' file
  * attachments = 'image/*******' file(s)
  * content = 'text/plain' file
- * subject = 'text/plain' file
+ * subject = 'text'
  */
-router.post("/hi", (req, res)=>{
-  console.log("sent")
-  res.send("hi")
-})
 
 router.post(
   "/schedule",
-  upload.fields([{ name: "html", maxCount: 1 }, { name: "attachments" }, {name: "demo"}]),
+  upload.fields([
+    { name: "html", maxCount: 1 },
+    { name: "interval" },
+    { name: "attachments" },
+    { name: "content", maxCount: 1 },
+    { name: "subject"}
+  ]),
   (req, res) => {
-    console.log(req.body)
-    res.send("hi")
+    let {interval, subject} = req.body
+    let attachments = req.files['attachments']
+    let html = req.files['html']
+    let content = req.files['content']
+    let builder = {
+      from: "",
+      content: content?content[0].path:"",
+      html: html?html[0].path:"",
+      attachments: attachments?attachments.map(elm=>elm.path):[],
+      subject: subject,
+      interval: interval
+    }
+    console.log(builder)
+    res.send("hi");
   }
 );
 

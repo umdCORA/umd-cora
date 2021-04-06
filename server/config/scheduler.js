@@ -14,7 +14,7 @@ const agenda = new Agenda({
 });
 
 agenda.define("send mass email", async (job) => {
-  const { content, from, subject, html, to } = job.attrs.data;
+  const { content, from, subject, html, to, attachments } = job.attrs.data;
   let transport = transporter
 
   await transport.sendMail(
@@ -24,6 +24,7 @@ agenda.define("send mass email", async (job) => {
       to: to || await UserDB.findMailList(),
       subject: subject,
       html: html,
+      attachments: attachments
     },
     (err, info) => {
       if (err) {
