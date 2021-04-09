@@ -127,7 +127,7 @@ class FindResource extends React.Component {
             </Row>
             <Row style={{'marginTop': '1rem'}}>
               <Col xs xl={6}>Free Transportation Available:</Col>
-              <Col>
+              <Col xs="auto">
                 <Form>
                   <Form.Group style={{'marginBottom': '0.5rem'}} controlId="transportationForm">
                     <Form.Check
