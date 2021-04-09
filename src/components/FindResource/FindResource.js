@@ -258,12 +258,12 @@ class FindResource extends React.Component {
           <Card className="container" id="card-home-blurb-container">
             <Card.Body>
               <div className="card-main-text">
-                Welcome to CORAbase, a confidential and anonymous source of information and resources for persons seeking opioid-related resources in the United States or U.S. Territories. We are the nation’s most comprehensive database of resources for opioid-use/addiction treatment, prevention, overdose response, and <b>resources in rural areas.</b>
+                Welcome to MHRD, a confidential and anonymous source of information and resources for persons seeking opioid-related resources in the United States or U.S. Territories. We are the nation’s most comprehensive database of resources for opioid-use/addiction treatment, prevention, overdose response, and <b>resources in rural areas.</b>
               </div>
               <div className="card-note-text">
-                PLEASE NOTE: Your personal information and the search criteria you enter into the Locator is secure and anonymous. CORA does not collect or maintain any information you provide.
+                PLEASE NOTE: Your personal information and the search criteria you enter into the Locator is secure and anonymous. MHRD does not collect or maintain any information you provide.
               </div>
-                <Nav.Link href="/how-to-use-corabase" style={{padding: '0px', paddingBottom: '0.5rem'}}><Button id="learn-cora-button"><b>Learn More About Corabase</b></Button></Nav.Link>
+                <Nav.Link href="/how-to-use-mhrd" style={{padding: '0px', paddingBottom: '0.5rem'}}><Button id="learn-mhrd-button"><b>Learn More About MHRD</b></Button></Nav.Link>
                 <div className="small-text">
                   If you are looking for a professional counselor or therapist, check out <a href='psychologytoday.com/'>psychologytoday.com</a>. They provide a database of certified mental health specialists near you.
                 </div>

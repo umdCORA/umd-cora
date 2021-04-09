@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from "react-router-dom";
-import './HowToUseCORABase.css';
+import './HowToUseMHRD.css';
 import { Button, ButtonGroup, Card, Container, Form, Row, Col } from 'react-bootstrap';
 
-function HowToUseCORABase() {
+function HowToUseMHRD() {
     const [state, setState] = useState({
       yPosition: 25,
-      title: "How to Use CORAbase",
+      title: "How to Use MHRD",
       windoWidth: window.innerWidth,
     });
     const [width, setWidth] = React.useState(window.innerWidth);
@@ -30,7 +30,7 @@ function HowToUseCORABase() {
     const handleFAQDropdownChange = event => setState({title: event.target.value})
 
     var cardContents;
-    if(state.title === "How to Use CORAbase"){
+    if(state.title === "How to Use MHRD"){
       cardContents = (
         <>
         <div className="cardContents">
@@ -308,7 +308,7 @@ function HowToUseCORABase() {
               <li>
                 We understand that we may have missed resources while making the database.
                 If you know of any resources in any of the categories,
-                please suggest the resource by emailing us at cora.umd@gmail.com.
+                please suggest the resource by emailing us at <a href="mailto:cora.umd@gmail.com">cora.umd@gmail.com</a>.
                 We will audit the submitted resources before adding them to the database.
               </li>
             </ul>
@@ -339,9 +339,9 @@ function HowToUseCORABase() {
         <>
         <div className="cardContents">
           <p>
-            CORA is actively engaged in opioid-related research
+            MHRD is actively engaged in opioid-related research
             that public services can use to improve their services.
-            Data from CORA’s research is published and made publically available.
+            Data from MHRD’s research is published and made publically available.
             Participants of our studies are compensated or have a chance at being compensated.
             If you would like to contribute to the public good and be compensated for it,
             please consider taking 10 minutes to participate in a research study.
@@ -350,11 +350,11 @@ function HowToUseCORABase() {
         <Button href="/join-a-research-study" className="mt-auto p-2 resources-button">Learn More</Button>
         </>
       );
-    }else if(state.title === "What is CORA?"){
+    }else if(state.title === "What is MHRD?"){
       cardContents = (
         <div className="cardContents">
           <p>
-            CORA is a student-run nonprofit that aims to reduce disparities in opioid knowledge and resources.
+            MHRD is a student-run nonprofit that aims to reduce disparities in opioid knowledge and resources.
             We were founded at the University of Maryland, College Park and now have chapters across the nation.
             If you’d like to learn more, visit our website
             at <a href="https://coraumd.wixsite.com/cora">https://coraumd.wixsite.com/cora</a>
@@ -377,7 +377,7 @@ function HowToUseCORABase() {
               <div className="line faqButtons">
                 <span style={styles} className="circle"/>
                 <ButtonGroup vertical>
-                  <Button className="titleButtons" onClick={() => setState({yPosition: 25, title: "How to Use CORAbase"})}>How to Use CORAbase</Button>
+                  <Button className="titleButtons" onClick={() => setState({yPosition: 25, title: "How to Use MHRD"})}>How to Use MHRD</Button>
 
                   <Button id="advanced-search" className="titleButtons" onClick={() => setState({yPosition: 80, title: "Advanced Search"})}>Advanced Search</Button>
                   <Button className="subButtons" onClick={() => setState({yPosition: 115, title: "Recovery"})}>Recovery</Button>
@@ -390,7 +390,7 @@ function HowToUseCORABase() {
 
                   <Button id="print-resources" className="titleButtons" onClick={() => setState({yPosition: 370, title: "Printing Resources"})}>Printing Resources</Button>
                   <Button id="research-studies" className="titleButtons" onClick={() => setState({yPosition: 425, title: "Join a Research Study"})}>Join a Research Study</Button>
-                  <Button id="what-is-cora" className="titleButtons" onClick={() => setState({yPosition: 480, title: "What is CORA?"})}>What is CORA?</Button>
+                  <Button id="what-is-mhrd" className="titleButtons" onClick={() => setState({yPosition: 480, title: "What is MHRD?"})}>What is MHRD?</Button>
                 </ButtonGroup>
               </div>
             </Col>
@@ -400,7 +400,7 @@ function HowToUseCORABase() {
               <Form>
                 <Form.Group controlId="exampleForm.SelectCustom">
                   <Form.Control as="select" value={state.title} onChange={handleFAQDropdownChange} custom>
-                    <option>How to Use CORAbase</option>
+                    <option>How to Use MHRD</option>
                     <option>Advanced Search</option>
                     <option>Recovery</option>
                     <option>Mental Health Resources</option>
@@ -410,7 +410,7 @@ function HowToUseCORABase() {
                     <option>What is My Account?</option>
                     <option>Printing Resources</option>
                     <option>Join a Research Study</option>
-                    <option>What is CORA?</option>
+                    <option>What is MHRD?</option>
                   </Form.Control>
                 </Form.Group>
               </Form>
@@ -427,4 +427,4 @@ function HowToUseCORABase() {
     )
 }
 
-export default withRouter(HowToUseCORABase);
+export default withRouter(HowToUseMHRD);
