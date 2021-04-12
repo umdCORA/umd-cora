@@ -54,19 +54,19 @@ function handleQueryChange(onQueryChange, queryInput = null) {
   }
 }
 
-async function handleSearch(onSearch) {
+async function handleSearch(narrowSearchOptions, onSearch) {
   const addressObject = autoComplete.getPlace();
   if (addressObject) {
     const query = addressObject.formatted_address;
     if (query && addressObject.geometry) {
-      onSearch(query, addressObject.geometry.location.lat(), addressObject.geometry.location.lng(), true);
+      onSearch(narrowSearchOptions, query, addressObject.geometry.location.lat(), addressObject.geometry.location.lng(), true);
       return;
     }
   }
-  onSearch(null, null, null, false);
+  onSearch(narrowSearchOptions, null, null, null, false);
 }
 
-function AutocompleteSearchBox({query, onQueryChange, onSearch}) {
+function AutocompleteSearchBox({query, narrowSearchOptions, onQueryChange, onSearch}) {
   const autoCompleteRef = useRef(null);
 
   useEffect(() => {
@@ -85,7 +85,7 @@ function AutocompleteSearchBox({query, onQueryChange, onSearch}) {
         type="text"
         value={query}
       />
-      <Button onClick={() => handleSearch(onSearch)}><SearchIcon></SearchIcon></Button>
+      <Button onClick={() => handleSearch(narrowSearchOptions, onSearch)}><SearchIcon></SearchIcon></Button>
     </div>
   );
 }

@@ -11,23 +11,57 @@ class SearchResultRightPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: null,
+      email: null,
       bookmarks: new Set(),
     };
   }
 
   componentDidMount = () => {
-    const username = localStorage.getItem('username');
+    const email = localStorage.getItem('email');
+    this.fetchBookmarksFromEmail(email);
+    this.setState({ email }); 
 
-    if (username) {
-      this.setState({ username }); 
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'bookmarks') {
+        if (event.newValue) {
+          this.setState({ bookmarks: new Set(event.newValue.split(',')) });
+        } else {
+          this.setState({ bookmarks: new Set() });
+        }
+      } else if (event.key === 'email') {
+        this.setState({ email: event.newValue }); 
+        this.fetchBookmarksFromEmail(event.newValue);
+      } else if (event.key === 'logout') {
+        this.setState({ email: null, bookmarks: new Set() });
+      }
+    });
+  }
+
+  componentDidUpdate = () => {
+    const {
+      email,
+    } = this.state;
+    const storageEmail = localStorage.getItem('email');
+
+    // user logged out on results page
+    if (email && !storageEmail) {
+      this.setState({ email: null, bookmarks: new Set() });
+    // user logged in on results page
+    } else if (!email && storageEmail) {
+      this.setState({ email: storageEmail });
+      this.fetchBookmarksFromEmail(storageEmail);
+    }
+  }
+
+  fetchBookmarksFromEmail = email => {
+    if (email) {
       fetch("/api/v1/data/users/getUser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "username": username,
+          "email": email,
         }),
         redirect: "follow"
       })
@@ -39,21 +73,6 @@ class SearchResultRightPanel extends React.Component {
 
           this.setState({ bookmarks: new Set(bookmarked) });
         })
-    }
-  }
-
-  componentDidUpdate = () => {
-    const {
-      username,
-    } = this.state;
-    const storageUsername = localStorage.getItem('username');
-
-    // user logged out on results page
-    if (username && !storageUsername) {
-      this.setState({ username: null });
-    // user logged in on results page
-    } else if (!username && storageUsername) {
-      this.setState({ username: storageUsername });
     }
   }
 
@@ -74,10 +93,9 @@ class SearchResultRightPanel extends React.Component {
     } = location;
     const {
       phone,
-      email
     } = contact
     const {
-      username,
+      email,
       bookmarks,
     } = this.state;
 
@@ -99,7 +117,7 @@ class SearchResultRightPanel extends React.Component {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "username": username,
+          "email": email,
           "postID": _id,
         }),
         redirect: "follow"
@@ -109,6 +127,8 @@ class SearchResultRightPanel extends React.Component {
             // assigning a new set and adding the id to there so we don't modify react state directly
             const newBookmarks = new Set(bookmarks);
             newBookmarks.add(_id);
+            // store bookmarks in localStorage to manage bookmarks on multiple instances of the app
+            localStorage.setItem('bookmarks', Array.from(newBookmarks));
             this.setState({ bookmarks: newBookmarks });
           }
         })
@@ -121,7 +141,7 @@ class SearchResultRightPanel extends React.Component {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "username": username,
+          "email": email,
           "postID": _id,
         }),
         redirect: "follow"
@@ -131,6 +151,8 @@ class SearchResultRightPanel extends React.Component {
             // assigning a new set and adding the id to there so we don't modify react state directly
             const newBookmarks = new Set(bookmarks);
             newBookmarks.delete(_id);
+            // store bookmarks in localStorage to manage bookmarks on multiple instances of the app
+            localStorage.setItem('bookmarks', Array.from(newBookmarks));
             this.setState({ bookmarks: newBookmarks });
           }
         })
@@ -146,7 +168,7 @@ class SearchResultRightPanel extends React.Component {
           <Card.Text>
             Address: {formatAddressString(address, city, state, zipcode)}
             <br/>
-            Email: {email}
+            Email: {contact.email}
             <br/>
             Phone: {phone}
           </Card.Text>
@@ -156,13 +178,13 @@ class SearchResultRightPanel extends React.Component {
           <Card.Text>
               <a href={`/resource-page/${_id}`} target="_blank" rel="noopener noreferrer">Click here for more information</a>
           </Card.Text>
-          {username && bookmarks.has(_id) &&
+          {email && bookmarks.has(_id) &&
             <BookmarkIcon
               style={bookmarkIconStyle}
               onClick={() => removeBookmark()}
            />
           }
-          {username && !bookmarks.has(_id) &&
+          {email && !bookmarks.has(_id) &&
             <BookmarkBorderIcon
               style={bookmarkIconStyle}
               onClick={() => addBookmark()}

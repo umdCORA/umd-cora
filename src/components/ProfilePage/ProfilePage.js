@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -42,7 +42,7 @@ class BookmarkCard extends React.Component {
   handleRemoveBookmark = () => {
     const {
       uuid,
-      username,
+      email,
       fetchUserInfo,
     } = this.props; 
 
@@ -52,7 +52,7 @@ class BookmarkCard extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        "username": username,
+        "email": email,
         "postID": uuid,
       }),
       redirect: "follow"
@@ -102,30 +102,50 @@ class ProfilePage extends React.Component {
       email: '',
       bookmarks: [],
       profilePageErrorMsg: '',
+      shouldRedirect: false,
     };
   }
 
   componentDidMount = () => {
     this.fetchUserInfo();
+
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'bookmarks') {
+        if (event.newValue) {
+          this.fetchBookmarks(event.newValue.split(','));
+        } else {
+          this.setState({ bookmarks: [] });
+        }
+      } else if (event.key === 'logout' && event.newValue) {
+        this.setState({ shouldRedirect: true });
+      }
+    });
   }
 
   fetchUserInfo = () => {
-    const username = localStorage.getItem('username') ? localStorage.getItem('username') : sessionStorage.getItem('username');
-    if (username) {
+    const email = localStorage.getItem('email') ? localStorage.getItem('email') : sessionStorage.getItem('email');
+    if (email) {
       fetch("/api/v1/data/users/getUser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "username": username,
+          "email": email,
         }),
         redirect: "follow"
       })
         .then(res => res.json())
         .then(data =>{
+          // store bookmarks in localStorage to manage bookmarks on multiple instances of the app
+          localStorage.setItem('bookmarks', data.meta.bookmarked);
+
           this.fetchBookmarks(data.meta.bookmarked);
-          this.setState({username, email: data.email, profilePageErrorMsg: ''})
+          this.setState({ 
+            username: data.username,
+            email: email,
+            profilePageErrorMsg: ''
+          });
         })
         .catch(() => this.setState({profilePageErrorMsg: 'Something unexpected happened. Please reload the page.'}));
     }
@@ -148,8 +168,12 @@ class ProfilePage extends React.Component {
       email,
       bookmarks,
       profilePageErrorMsg,
+      shouldRedirect,
     } = this.state;
 
+    if (shouldRedirect) {
+      return <Redirect to="/"/>
+    }
     return (
       <Container fluid className="ProfilePage">
         <Row className="user-info-row">
@@ -167,7 +191,7 @@ class ProfilePage extends React.Component {
             <h4 className="bookmark-content-title">My Bookmarks</h4>
             {profilePageErrorMsg && <div style={{color: 'red'}}>{profilePageErrorMsg}</div>}
             {bookmarks.length === 0 && <div>No bookmarks to display. You can bookmark resources on the Find a Resource results page.</div>}
-            {bookmarks.map(bookmark => <BookmarkCard location={bookmark.location} name={bookmark.name} description={bookmark.description} username={username} key={bookmark._id} uuid={bookmark._id} fetchUserInfo={this.fetchUserInfo}/>)}
+            {bookmarks.map(bookmark => <BookmarkCard location={bookmark.location} name={bookmark.name} description={bookmark.description} email={email} key={bookmark._id} uuid={bookmark._id} fetchUserInfo={this.fetchUserInfo}/>)}
           </Col>
         </Row>
       </Container>

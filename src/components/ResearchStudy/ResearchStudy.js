@@ -58,7 +58,7 @@ function ResearchStudy() {
             <Container className="research_container">
               <Row>
                 <div className="research_title">
-                  CORA conducts opioid-related research that public services can use to improve their services. Data from CORA’s research is published and made publically available. Participants of our studies are compensated or have a chance at being compensated.
+                  MHRD conducts opioid-related research that public services can use to improve their services. Data from MHRD’s research is published and made publically available. Participants of our studies are compensated or have a chance at being compensated.
                 </div>
               </Row>
               

@@ -1,0 +1,12 @@
+/* NOTE: most of the styling for this component is in ../FindResource/FindResource.css */
+.narrow-search-modal .modal-dialog .modal-content {
+  background-color: #8D9DF9
+}
+
+.narrow-search-modal .modal-dialog .modal-content .modal-body form {
+  padding: 0px;
+}
+
+.narrow-search-modal .modal-dialog .modal-content .modal-body .narrow-search-card {
+  box-shadow: none;
+}
