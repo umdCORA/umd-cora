@@ -15,11 +15,11 @@ import { Navbar, Image } from 'react-bootstrap';
 import FindResource from './components/FindResource/FindResource';
 import AboutUs from './components/AboutUs/AboutUs';
 import ResearchStudy from './components/ResearchStudy/ResearchStudy';
-import HowToUseCORABase from './components/HowToUseCORABase/HowToUseCORABase';
+import HowToUseMHRD from './components/HowToUseMHRD/HowToUseMHRD';
 import ResourcePage from'./components/ResourcePage/ResourcePage';
 import ResetPasswordPage from './components/ResetPasswordPage/ResetPasswordPage';
 import ProfilePage from './components/ProfilePage/ProfilePage';
-import cora_logo from './assets/cora_logo.png'
+import mhrd_logo from './assets/mhrd_logo.png'
 
 import './App.css';
 
@@ -293,7 +293,7 @@ class App extends React.Component {
               />
             </Form.Group>
             {/*TODO add newsletter fxnality*/}
-            {/*<Form.Check label="Sign up for our newsletter to receive updates from CORA" />*/}
+            {/*<Form.Check label="Sign up for our newsletter to receive updates from MHRD" />*/}
             <Button variant="primary" type="submit">Sign Up!</Button>
             <Form.Text className="fake-link" onClick={() => this.setState({showCreateAccountModal:false, showSignInModal: true})}>I already have an account</Form.Text>
           </Form>
@@ -431,12 +431,12 @@ class App extends React.Component {
           {this.renderSignOutModal()}
           {this.renderCreateAccountModal()}
           <Navbar id="main-navbar" expand="lg">
-            <Navbar.Brand href="/"><Image id="cora_logo" src={cora_logo}></Image></Navbar.Brand>
+            <Navbar.Brand href="/"><Image id="mhrd_logo" src={mhrd_logo}></Image></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav variant="pills" defaultActiveKey="/" activeKey={activeKey} className="mr-auto">
                 <Nav.Link href="/">Find a Resource</Nav.Link>
-                <Nav.Link href="/how-to-use-corabase">How to Use CORAbase</Nav.Link>
+                <Nav.Link href="/how-to-use-mhrd">How to Use MHRD</Nav.Link>
                 <Nav.Link href="/join-a-research-study">Join a Research Study</Nav.Link>
                 <Nav.Link href="/about-us">About Us</Nav.Link>
                 {email && <Nav.Link href={`/account`}>My Account</Nav.Link>}
@@ -460,7 +460,7 @@ class App extends React.Component {
           <div id="body-wrapper">
             <Switch>
               <Route exact path="/" component={FindResource}/>
-              <Route path="/how-to-use-corabase" component={HowToUseCORABase}/>
+              <Route path="/how-to-use-mhrd" component={HowToUseMHRD}/>
               <Route path="/join-a-research-study" component={ResearchStudy}/>
               <Route path="/about-us" component={AboutUs}/>
               <Route path="/resource-page/:uuid" component={ResourcePage}/>
@@ -470,9 +470,9 @@ class App extends React.Component {
             </Switch>
           </div>
           <Navbar id="footer" className="mr-auto">
-            <Navbar.Brand><Image id="cora_logo" src={cora_logo}></Image></Navbar.Brand>
+            <Navbar.Brand><Image id="mhrd_logo" src={mhrd_logo}></Image></Navbar.Brand>
             <Navbar className="ml-auto flex-column">
-              <Nav.Link href="https://coraumd.wixsite.com/cora/faq-for-partners">CORA FAQ |</Nav.Link>
+              <Nav.Link href="https://coraumd.wixsite.com/cora/faq-for-partners">MHRD FAQ |</Nav.Link>
               <Nav.Link href="https://coraumd.wixsite.com/cora/contact">Contact |</Nav.Link>
               <Nav.Link href="https://coraumd.wixsite.com/cora/community-partners">Joining Us</Nav.Link>
             </Navbar>

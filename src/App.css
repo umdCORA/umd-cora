@@ -4,7 +4,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: Raleway;
+  font-family: Raleway, Helvetica;
 }
 
 .App-logo {
@@ -68,7 +68,7 @@
   align-self: start;
 }
 
-#cora_logo {
+#mhrd_logo {
   height: 45px;
   padding-right: 10px;
 }
