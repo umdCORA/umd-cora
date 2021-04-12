@@ -1,9 +1,10 @@
 const Agenda = require("agenda");
 const properties = require("./properties");
-const transporter = require("./mailaccount");
+const transporter = require("./testmailaccount");
 const UserDB = require("../dao/UserDAO");
 const NewsletterDB = require("../dao/NewsletterDAO")
-
+const nodemailer = require("nodemailer")
+const fs = require("fs")
 const agenda = new Agenda({
   db: {
     address: properties.DB,
@@ -15,7 +16,7 @@ const agenda = new Agenda({
 
 agenda.define("send mass email", async (job) => {
   const { content, from, subject, html, to, attachments } = job.attrs.data;
-  let transport = transporter
+  let transport = await transporter()
 
   await transport.sendMail(
     {
@@ -23,7 +24,7 @@ agenda.define("send mass email", async (job) => {
       from: from,
       to: to || await UserDB.findMailList(),
       subject: subject,
-      html: html,
+      html: fs.createReadStream(html),
       attachments: attachments
     },
     (err, info) => {
@@ -31,6 +32,7 @@ agenda.define("send mass email", async (job) => {
         console.log(err);
       } else {
         console.log(info);
+        console.log(nodemailer.getTestMessageUrl(info))
       }
     }
   );

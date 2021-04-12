@@ -3,10 +3,10 @@ const accepted_mimes = ['text/plain', 'text/html', 'image/jpeg', 'image/png', 'i
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb){
-        cb(null, './newsletter_docs')
+        cb(null, './newsletter_docs/')
     },
     filename: function (req, file, cb){
-        cb(null, Date.now() + " - " + file.originalname)
+        cb(null, file.originalname)
     }
 })
 

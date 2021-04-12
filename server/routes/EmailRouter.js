@@ -32,16 +32,25 @@ router.post(
     let attachments = req.files['attachments']
     let html = req.files['html']
     let content = req.files['content']
+
+    let attachment_builder = attachments.map(elm=>{
+      return {
+        path: elm.path,
+      }
+    })
     let builder = {
+      to: [],
       from: "",
       content: content?content[0].path:"",
       html: html?html[0].path:"",
-      attachments: attachments?attachments.map(elm=>elm.path):[],
+      attachments: attachment_builder,
       subject: subject,
       interval: interval
     }
+    console.log(attachment_builder)
     console.log(builder)
-    res.send("hi");
+    agenda.schedule(interval, "send mass email", builder)
+    res.send();
   }
 );
 
