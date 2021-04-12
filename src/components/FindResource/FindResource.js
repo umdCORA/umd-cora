@@ -228,7 +228,7 @@ class FindResource extends React.Component {
           <Container fluid className="top-container">
             <Row className="justify-content-md-center">
               <Col xs={12} sm={12} md={6} lg={6}>
-                <h3 className="home-main-text">Millions of Americans Have an Opioid-Use Disorder and Even More Misuse Them. <br/> Help is available.</h3>
+                <h3 className="home-main-text">Harm reduction is a public health strategy that reduces the harms associated with drug use and ineffective drug policies. Search for harm reduction resources here!</h3>
               </Col>
             </Row>
             <Row className="justify-content-md-center">
@@ -258,7 +258,7 @@ class FindResource extends React.Component {
           <Card className="container" id="card-home-blurb-container">
             <Card.Body>
               <div className="card-main-text">
-                Welcome to MHRD, a confidential and anonymous source of information and resources for persons seeking opioid-related resources in the United States or U.S. Territories. We are the nation’s most comprehensive database of resources for opioid-use/addiction treatment, prevention, overdose response, and <b>resources in rural areas.</b>
+            Welcome to the Maryland Harm Reduction Database, a confidential and anonymous source of information and resources for persons seeking opioid-related resources in Maryland. We are the state&apos;s most comprehensive database of resources for opioid-use/addiction treatment, prevention, overdose response, and resources. Any questions can be directed to <a href="mailto:MDharmreduction@gmail.com">MDharmreduction@gmail.com</a>.
               </div>
               <div className="card-note-text">
                 PLEASE NOTE: Your personal information and the search criteria you enter into the Locator is secure and anonymous. MHRD does not collect or maintain any information you provide.

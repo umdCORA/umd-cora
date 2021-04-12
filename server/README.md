@@ -1,5 +1,5 @@
-#  UMD-CORA-EXPRESS
-Expressjs backend for use with UMD-CORA. Integration of MongoDB for CRUD operations alongside serving static content. Created by Jason L.
+#  MDHR-EXPRESS
+Expressjs backend for use with MDHR. Integration of MongoDB for CRUD operations alongside serving static content. Created by Jason L.
 ## API
 All routing goes through `/api/v1`.
 HTTP requests dictate user actions as per standard on the endpoints `api/v1/data/resources` or `api/v1/data/users`.

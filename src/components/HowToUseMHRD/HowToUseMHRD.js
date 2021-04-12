@@ -308,7 +308,7 @@ function HowToUseMHRD() {
               <li>
                 We understand that we may have missed resources while making the database.
                 If you know of any resources in any of the categories,
-                please suggest the resource by emailing us at <a href="mailto:cora.umd@gmail.com">cora.umd@gmail.com</a>.
+                please suggest the resource by emailing us at <a href="mailto:MDharmreduction@gmail.com">MDharmreduction@gmail.com</a>.
                 We will audit the submitted resources before adding them to the database.
               </li>
             </ul>
