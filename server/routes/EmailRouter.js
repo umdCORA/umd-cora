@@ -64,7 +64,7 @@ Body:
     "to": "This tag can be ommitted if you want to only send to those who are registered
     as newsletter recipients. Specifying this tag as a "
 }
-*/
+
 
 router.post("/schedulePlain", (req, res) => {
   let { interval, content, from, subject, html, to } = req.body;
@@ -102,7 +102,7 @@ router.post("/schedulePlain", (req, res) => {
         res.status(500).send(reason.message);
       }
     );
-});
+}); */
 
 router.get("/recipients", async (req, res) => {
   let list = await UserDB.findMailList();

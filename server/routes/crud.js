@@ -18,4 +18,6 @@ router.all("/*", (req, res, next) => {
 router.use("/data/resources", ResourceRouter)
 router.use("/", UserRouter)
 /* router.use("/email", EmailRouter)*/
+
+
 module.exports = router;
