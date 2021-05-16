@@ -293,7 +293,7 @@ class App extends React.Component {
               />
             </Form.Group>
             {/*TODO add newsletter fxnality*/}
-            {/*<Form.Check label="Sign up for our newsletter to receive updates from MHRD" />*/}
+            {<Form.Check label="Sign up for our newsletter to receive updates from MHRD" />}
             <Button variant="primary" type="submit">Sign Up!</Button>
             <Form.Text className="fake-link" onClick={() => this.setState({showCreateAccountModal:false, showSignInModal: true})}>I already have an account</Form.Text>
           </Form>
