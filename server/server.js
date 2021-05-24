@@ -21,11 +21,6 @@ app.use(cors())
 app.use(properties.database_ENDPOINT, crudRouter);
 app.use(properties.client_ENDPOINT, clientRouter);
 
-
-/* app.get('/sendEmail', (req, res)=>{
-  res.sendFile(path.join(__dirname+'/templates/sample.html'))
-}) */
-
 app.get('/*', function(req, res){
   res.sendFile(path.join(__dirname, "../build/index.html"));
 });
