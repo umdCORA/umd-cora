@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Email Submission</h2>
+
+<form action="/api/v1/email/schedule" method = "post" enctype="multipart/form-data">
+  
+  <label for="interval">Interval:</label><br>
+  <input type="text" id="interval" name="interval" value=""><br>
+
+  <label for="html">Html:</label><br>
+  <input type="file" id="html" name="html" accept = "text/html" value=""><br>
+
+  <label for="attachments">Attachments:</label><br>
+  <input type="file" id="attachments" name="attachments" value="" multiple=true><br>
+
+  <label for="content">Content:</label><br>
+  <input type="file" id="content" name="content" value=""><br>
+
+  <label for="subject">Subject:</label><br>
+  <input type="text" id="subject" name="subject" value=""><br>
+  <br>
+  <input type="submit" value="Submit"><br><br>
+  <p3 id="user list">
+
+  </p3>
+</form> 
+
+</body>
+<script>
+  const Http = new XMLHttpRequest();
+  const url = '/api/v1/email/recipients';
+  function updateList() {
+    var ul = document.getElementById("user list")
+    Http.open("GET", url)
+    Http.send();
+    Http.res
+    Http.onreadystatechange=(e)=>{
+      ul.innerHTML = "Sent to: " + Http.responseText
+    }
+  }
+  updateList()
+</script>
+</html>

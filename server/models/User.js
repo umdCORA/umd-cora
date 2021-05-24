@@ -46,6 +46,11 @@ var UserSchema = new Schema(
       type: String,
       required: false,
       default: null
+    },
+
+    newsletter: {
+      type: Boolean,
+      default: false
     }
   },
   {
