@@ -17,7 +17,7 @@ const path = require("path")
  * content = 'text/plain' file
  * subject = 'text'
  */
-
+/*
 router.post(
   "/schedule",
   upload.fields([
@@ -54,7 +54,7 @@ router.post(
   }
 );
 
-/*
+
 Body:
 {
     "content": "Plaintext message for email body",
@@ -102,7 +102,7 @@ router.post("/schedulePlain", (req, res) => {
         res.status(500).send(reason.message);
       }
     );
-}); */
+});
 
 router.get("/recipients", async (req, res) => {
   let list = await UserDB.findMailList();
@@ -119,6 +119,6 @@ router.delete("/purgeJobs", (req, res) => {
       res.status(500).send(reason.message);
     }
   );
-});
+});*/
 
 module.exports = router;

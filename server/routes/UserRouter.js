@@ -31,11 +31,12 @@ const uuid = require("uuid");
  * keep track of salt rounds. This means changing salt rounds mid deployment will retain
  * functionality.
  */
+
 router.post("/data/users/register", (req, res, next) => {
   var user = req.body.username.toLowerCase();
   var pswd = req.body.password;
   var email = req.body.email.toLowerCase();
-
+  var newsletter = req.body.newsletter || false;
   bcrypt
     .hash(pswd, Properties.BCRYPT_SALT_ROUNDS)
     .then(function (hashedPassword) {
@@ -44,6 +45,7 @@ router.post("/data/users/register", (req, res, next) => {
         email: email,
         hash: hashedPassword,
         salt: Properties.BCRYPT_SALT_ROUNDS,
+        newsletter: newsletter
       });
       return newUser.save({});
     })
@@ -88,7 +90,7 @@ router.post("/data/users/login", (req, res, next) => {
     .then(function (correctPsw) {
       if (!correctPsw) {
         res.status(403).send("User and password do not match");
-      }else{
+      } else {
         res.send("Successful login");
       }
     })
@@ -364,11 +366,11 @@ router.get("/data/users/getbookmarks", (req, res, next) => {
     },
     (err, doc) => {
       if (err) res.status(500).send(err.message);
-      else{
-        doc.forEach(val=>{
-          val.pruneTags()
-        })
-        res.send(doc)
+      else {
+        doc.forEach((val) => {
+          val.pruneTags();
+        });
+        res.send(doc);
       }
     }
   );
@@ -388,48 +390,46 @@ router.post("/data/users/unbookmark", (req, res, next) => {
     res.send();
   });
 });
-/*
-router.get("/data/users/:id", (req, res) => {
-  var id = req.params.id;
-  UserDB.findById(id, (err, doc) => {
-    errorFun(err, res);
-    res.write(doc);
-  });
+
+router.post("/data/users/joinEmail", (req, res, next) => {
+  var email = req.body.email.toLowerCase();
+  UserDB.findOneAndUpdate(
+    { email: email },
+    {
+      newsletter: true,
+    }
+  ).then(
+    () => {
+      res.send("Joined");
+    },
+    () => {
+      res.status(404);
+    }
+  );
 });
 
-router.put("/data/users/:id", (req, res) => {
-  var id = req.params.id;
-  UserDB.findByIdAndUpdate(id, (err, doc) => {
-    errorFun(err, res);
-    res.send(doc);
-  });
+router.post("/data/users/leaveEmail", (req, res, next) => {
+  var email = req.body.email.toLowerCase();
+  UserDB.findOneAndUpdate(
+    { email: email },
+    {
+      newsletter: false,
+    }
+  ).then(
+    () => {
+      res.send("Left");
+    },
+    () => {
+      res.status(404);
+    }
+  );
 });
 
-router.get("/data/users", (req, res) => {
-  UserDB.find(req.query, (err, doc) => {
-    errorFun(err, res);
-    res.send(doc);
-  });
-});
-
-router.post("/data/users", (req, res) => {
-  var user = new UserDB({
-    username: req.body.username,
-    email: req.body.email,
-  });
-
-  user.save({}, (err, doc) => {
-    errorFun(err, res);
-    res.send(doc);
-  });
-});
-
-router.delete("/data/users", (req, res) => {
-  UserDB.deleteMany(req.query, (err, doc) => {
-    errorFun(err, res);
-    res.send(doc);
-  });
-});
-*/
-
+router.get("/data/users/listEmail", (req, res, next) => {
+  UserDB.find({newsletter: true}).then((val)=>{
+    res.send(val)
+  }, ()=>{
+    res.status(404).send();
+  })
+})
 module.exports = router;
