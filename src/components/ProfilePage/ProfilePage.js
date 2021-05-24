@@ -103,6 +103,7 @@ class ProfilePage extends React.Component {
       bookmarks: [],
       profilePageErrorMsg: '',
       shouldRedirect: false,
+      userIsSignedUpForNewsletter: false,
     };
   }
 
@@ -144,6 +145,7 @@ class ProfilePage extends React.Component {
           this.setState({ 
             username: data.username,
             email: email,
+            userIsSignedUpForNewsletter: data.newsletter,
             profilePageErrorMsg: ''
           });
         })
@@ -162,6 +164,53 @@ class ProfilePage extends React.Component {
     }
   }
 
+  handleNewsletterButton = () => {
+    const {
+      email,
+      userIsSignedUpForNewsletter,
+    } = this.state;
+
+    const reqBody = JSON.stringify({
+      'email': email,
+    });
+
+    // unsubscribe user from newsletter
+    if (userIsSignedUpForNewsletter) {
+      fetch("/api/v1/data/users/leaveEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: reqBody,
+        redirect: "follow"
+      })
+        .then(res => {
+          if (res.status !== 200) {
+            this.setState({profilePageErrorMsg: 'Something unexpected happened. Please reload the page.'});
+          } else {
+            this.setState({ userIsSignedUpForNewsletter: false });
+          }
+        });
+    // subscribe user to newsletter
+    } else {
+      fetch("/api/v1/data/users/joinEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: reqBody,
+        redirect: "follow"
+      })
+        .then(res => {
+          if (res.status !== 200) {
+            this.setState({profilePageErrorMsg: 'Something unexpected happened. Please reload the page.'});
+          } else {
+            this.setState({ userIsSignedUpForNewsletter: true });
+          }
+        });
+    }
+  }
+
   render() {
     const {
       username,
@@ -169,11 +218,13 @@ class ProfilePage extends React.Component {
       bookmarks,
       profilePageErrorMsg,
       shouldRedirect,
+      userIsSignedUpForNewsletter,
     } = this.state;
 
     if (shouldRedirect) {
       return <Redirect to="/"/>
     }
+    const newsletterButtonText = userIsSignedUpForNewsletter ? 'Unsubscribe to our newsletter' : 'Subscribe to our newsletter';
     return (
       <Container fluid className="ProfilePage">
         <Row className="user-info-row">
@@ -182,6 +233,8 @@ class ProfilePage extends React.Component {
               <Card.Body>
                 <h1 className="user-info-title"> Welcome, {username} </h1>
                 <span className="email-text">{email}</span>
+                <br/>
+                <Button className="newsletter-button" onClick={() => this.handleNewsletterButton()}>{newsletterButtonText}</Button>
               </Card.Body>
             </Card>
           </Col>

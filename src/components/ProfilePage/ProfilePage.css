@@ -22,6 +22,16 @@
   font-size: 25px;
 }
 
+.card-body .newsletter-button, .card-body .newsletter-button:hover {
+  margin-top: 10px;
+  color: #ffffff;
+  font-weight: bold;
+  background-color: #8d9df9;
+  border-radius: 15px;
+  border: none;
+  display: block;
+}
+
 .ProfilePage .bookmark-content-row .bookmark-content-title {
   font-weight: bold;
   padding-top: 2em;

@@ -206,6 +206,7 @@ class App extends React.Component {
     const email = event.target.elements.formBasicEmail.value;
     const password = event.target.elements.formBasicPassword.value;
     const passwordConfirmation = event.target.elements.formBasicPasswordConfirmation.value;
+    const newsletter = event.target.elements.formBasicNewsletter.checked;
 
     if (username && email && password && password === passwordConfirmation) {
       fetch("/api/v1/data/users/register", {
@@ -217,6 +218,7 @@ class App extends React.Component {
           "username": username,
           "email": email,
           "password": password,
+          "newsletter": newsletter,
         }),
         redirect: "follow"
       })
@@ -292,8 +294,9 @@ class App extends React.Component {
                 required
               />
             </Form.Group>
-            {/*TODO add newsletter fxnality*/}
-            <Form.Check label="Sign up for our newsletter to receive updates from MHRD" />
+            <Form.Group controlId="formBasicNewsletter">
+              <Form.Check label="Sign up for our newsletter to receive updates from MHRD" />
+            </Form.Group>
             <Button variant="primary" type="submit">Sign Up!</Button>
             <Form.Text className="fake-link" onClick={() => this.setState({showCreateAccountModal:false, showSignInModal: true})}>I already have an account</Form.Text>
           </Form>
