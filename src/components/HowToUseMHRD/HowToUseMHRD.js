@@ -238,22 +238,17 @@ function HowToUseMHRD() {
                   <li>Overdose Response Trainer</li>
                 </ul>
               </ul>
-            <li>Needle Exchange Programs</li>
+            <li>Syringe Services Programs</li>
               <ul>
                 <li>
-                  Needle exchange programs&mdash;which are also known as syringe services programs
-                  or needle-syringe programs&mdash;provide new and sterile syringes to drug users.
+                  Syringe services programs provide new and sterile syringes to drug users.
                   This is to reduce transmission of blood-borne diseases such as HIV and Hepatitis C.
                 </li>
-                <ul>
-                  <li>Needle Injection Sites</li>
-                  <li>Needle-Transmitted Diseases</li>
-                </ul>
               </ul>
             <li>Vaccine and Prophylaxis Clinics</li>
               <ul>
                 <li>
-                  These clinics are essential to reducing the spread of diseases such as HIV spread by needle sharing.
+                  These clinics are essential to reducing the spread of diseases such as HIV spread by syringes.
                   For example, HIV prophylaxis can be used to prevent the transmission of HIV and save lives.
                   For resources on vaccines and prophylaxis, use this tag.
                 </li>

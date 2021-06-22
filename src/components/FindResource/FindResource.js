@@ -97,7 +97,7 @@ class FindResource extends React.Component {
 
     const harmReductionOptions = [
       { value: 'Overdose Response', label: 'Overdose Response' },
-      { value: 'Needle Exchange Programs', label: 'Needle Exchange Programs' },
+      { value: 'Syringe Services Program', label: 'Syringe Services Program' },
       { value: 'Vaccine and Prophylaxis Clinics', label: 'Vaccine and Prophylaxis Clinics' },
       { value: 'Pregnancy Support', label: 'Pregnancy Support' },
     ]
